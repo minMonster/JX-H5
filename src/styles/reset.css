@@ -1,0 +1,75 @@
+@charset "UTF-8";
+/*************************************************
+文件名：浏览器重置文件
+使用范围：整站
+描述：针对浏览器默认样式进行样式重置，因为涉及面影
+响面较广，修改后需要及时知会团队所有成员
+**************************************************/
+
+html, body, p, ol, ul, li, dl, dt, dd,
+blockquote, figure, fieldset, legend, textarea,
+pre, iframe, hr, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  word-wrap: break-word;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* 重置页面文字属性 */
+a {
+  text-decoration: none;
+}
+
+/* 重置链接a标签 */
+a:active, a:hover, a:visited, a:link {
+  text-decoration: none;
+  color: #6595F4;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+button, input, select, textarea {
+  margin: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  white-space: normal;
+  word-break: break-all;
+}
+
+img, embed, iframe, object, audio, video {
+  height: auto;
+  max-width: 100%;
+}
+
+img {
+  display: inline-block;
+}
+
+iframe {
+  border: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td, th {
+  padding: 0;
+  text-align: left;
+}
+
