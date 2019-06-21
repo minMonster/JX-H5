@@ -91,7 +91,7 @@
                     .text {
                         font-size: .36rem;
                         font-family: PingFangSC-Medium;
-                        font-weight: 500;
+                        font-weight: bold;
                         color: #999999;
                         line-height: 100%;
                         &.black {
