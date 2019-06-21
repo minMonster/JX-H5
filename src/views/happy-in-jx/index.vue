@@ -52,6 +52,7 @@
 <style rel="stylesheet/less" lang="less">
 
     @import "../../styles/index.less";
+    @import "../../styles/variable";
 
     .happy-in-jx {
         .fun-list {
@@ -65,7 +66,7 @@
                 justify-content: space-between;
                 align-items: center;
                 padding: .28rem 0 .2rem;
-                border-bottom: 1px solid #F1F1F1;
+                border-bottom: .01rem solid #F1F1F1;
 
                 .pic {
                     width: 1.86rem;
@@ -81,7 +82,7 @@
 
                     .name {
                         font-size: .28rem;
-                        font-family: PingFangSC-Medium;
+                        font-family: @FM;
                         font-weight: 600;
                         color: @T2;
                         line-height: .28rem;
@@ -90,7 +91,7 @@
 
                     .desc {
                         font-size: .24rem;
-                        font-family: PingFangSC-Regular;
+                        font-family: @FR;
                         font-weight: 400;
                         color: @T3;
                         line-height: .32rem;
@@ -105,7 +106,7 @@
 
                     .date {
                         font-size: .2rem;
-                        font-family: PingFangSC-Regular;
+                        font-family: @FR;
                         font-weight: 400;
                         color: @T4;
                         line-height: .2rem;

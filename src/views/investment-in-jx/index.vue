@@ -62,6 +62,7 @@
 <style rel="stylesheet/less" lang="less">
 
     @import "../../styles/index.less";
+    @import "../../styles/variable";
 
     .investment-in-jx {
         width: 100vw;
@@ -96,7 +97,7 @@
 
                 .title {
                     font-size: .36rem;
-                    font-family: PingFangSC-Medium;
+                    font-family: @FM;
                     font-weight: 600;
                     color: @T3;
                     line-height: 100%;
@@ -121,7 +122,7 @@
 
                     .info {
                         font-size: .28rem;
-                        font-family: PingFangSC-Medium;
+                        font-family: @FM;
                         font-weight: 600;
                         color: @T2;
                         line-height: .42rem;
@@ -137,7 +138,7 @@
 
                     .feedback {
                         font-size: .2rem;
-                        font-family: PingFangSC-Regular;
+                        font-family: @FR;
                         font-weight: 400;
                         color: @T4;
                         line-height: .2rem;
@@ -156,7 +157,7 @@
 
             .check-more {
                 font-size: .24rem;
-                font-family: PingFangSC-Regular;
+                font-family: @FR;
                 font-weight: 400;
                 color: @T4;
                 line-height: .24rem;

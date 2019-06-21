@@ -52,6 +52,7 @@
 <style rel="stylesheet/less" lang="less">
 
     @import "../../styles/index.less";
+    @import "../../styles/variable";
 
     .walk-into-jx {
         .banner {
@@ -90,8 +91,8 @@
 
                     .text {
                         font-size: .36rem;
-                        font-family: PingFangSC-Medium;
-                        font-weight: 500;
+                        font-family: @FM;
+                        font-weight: 600;
                         color: @T3;
                         line-height: 100%;
                         &.black {
@@ -108,7 +109,7 @@
 
                 .info {
                     font-size: .28rem;
-                    font-family:PingFangSC-Regular;
+                    font-family: @FR;
                     font-weight: 400;
                     color: @T1;
                     line-height: .42rem;
@@ -125,8 +126,8 @@
 
                     .tag {
                         font-size: .36rem;
-                        font-family: PingFangSC-Medium;
-                        font-weight: 500;
+                        font-family: @FM;
+                        font-weight: 600;
                         color: @T1;
                         line-height: .5rem;
                         margin-bottom: .4rem;

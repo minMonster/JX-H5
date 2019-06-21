@@ -52,6 +52,7 @@
 <style rel="stylesheet/less" lang="less">
 
     @import "../../styles/index.less";
+    @import "../../styles/variable";
 
     .swim-in-jx {
         .spot-list {
@@ -81,7 +82,7 @@
 
                     .name {
                         font-size: .28rem;
-                        font-family: PingFangSC-Medium;
+                        font-family: @FM;
                         font-weight: 600;
                         color: @T2;
                         line-height: .44rem;
@@ -90,7 +91,7 @@
 
                     .desc {
                         font-size: .24rem;
-                        font-family: PingFangSC-Regular;
+                        font-family: @FR;
                         font-weight: 400;
                         color: @T2;
                         line-height: .36rem;
@@ -105,7 +106,7 @@
 
                     .check-more {
                         font-size: .2rem;
-                        font-family: PingFangSC-Regular;
+                        font-family: @FR;
                         font-weight: 400;
                         color: @T4;
                         line-height: .2rem;
