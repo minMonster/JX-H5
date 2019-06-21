@@ -77,7 +77,7 @@
                         font-size: .28rem;
                         font-family: PingFangSC-Medium;
                         font-weight: 600;
-                        color: #353535;
+                        color: @T2;
                         line-height: .44rem;
                         margin-bottom: .14rem;
                     }
@@ -86,7 +86,7 @@
                         font-size: .24rem;
                         font-family: PingFangSC-Regular;
                         font-weight: 400;
-                        color: #353535;
+                        color: @T2;
                         line-height: .36rem;
                         overflow: hidden;
                         display: -webkit-box;
@@ -101,7 +101,7 @@
                         font-size: .2rem;
                         font-family: PingFangSC-Regular;
                         font-weight: 400;
-                        color: #CBCBCB;
+                        color: @T4;
                         line-height: .2rem;
                         text-align: right;
                         margin: .4rem 0 .04rem;

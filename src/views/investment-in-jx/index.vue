@@ -98,10 +98,10 @@
                     font-size: .36rem;
                     font-family: PingFangSC-Medium;
                     font-weight: 600;
-                    color: #999999;
+                    color: @T3;
                     line-height: 100%;
                     &.black {
-                        color: #333333;
+                        color: @T1;
                     }
                 }
             }
@@ -123,7 +123,7 @@
                         font-size: .28rem;
                         font-family: PingFangSC-Medium;
                         font-weight: 600;
-                        color: #353535;
+                        color: @T2;
                         line-height: .42rem;
                         margin-bottom: .14rem;
                         text-align: justify;
@@ -139,7 +139,7 @@
                         font-size: .2rem;
                         font-family: PingFangSC-Regular;
                         font-weight: 400;
-                        color: #CBCBCB;
+                        color: @T4;
                         line-height: .2rem;
                     }
                 }
@@ -158,7 +158,7 @@
                 font-size: .24rem;
                 font-family: PingFangSC-Regular;
                 font-weight: 400;
-                color: #CBCBCB;
+                color: @T4;
                 line-height: .24rem;
                 text-align: right;
                 margin-top: .3rem;

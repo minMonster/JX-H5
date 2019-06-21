@@ -33,6 +33,7 @@
 <style rel="stylesheet/less" lang="less">
 
     @import "../../styles/index.less";
+    @import "../../styles/variable";
 
     .medical-services {
         .medical-list {
@@ -65,7 +66,7 @@
 
                 span {
                     font-size: .24rem;
-                    color: #333333;
+                    color: @T1;
                     font-weight: 600;
                 }
             }

@@ -92,10 +92,10 @@
                         font-size: .36rem;
                         font-family: PingFangSC-Medium;
                         font-weight: 500;
-                        color: #999999;
+                        color: @T3;
                         line-height: 100%;
                         &.black {
-                            color: #333333;
+                            color: @T1;
                         }
                     }
                 }
@@ -110,7 +110,7 @@
                     font-size: .28rem;
                     font-family:PingFangSC-Regular;
                     font-weight: 400;
-                    color: #333333;
+                    color: @T1;
                     line-height: .42rem;
                     text-align: justify;
                 }
@@ -127,7 +127,7 @@
                         font-size: .36rem;
                         font-family: PingFangSC-Medium;
                         font-weight: 500;
-                        color: #333333;
+                        color: @T1;
                         line-height: .5rem;
                         margin-bottom: .4rem;
                         list-style-type: disc;
