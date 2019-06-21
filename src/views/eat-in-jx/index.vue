@@ -110,7 +110,7 @@
                         color: #CBCBCB;
                         line-height: .2rem;
                         text-align: right;
-                        margin-top: .4rem;
+                        margin: .4rem 0 .04rem;
                     }
                 }
             }
