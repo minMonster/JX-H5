@@ -73,44 +73,44 @@
                     border-radius: .08rem;
                     margin-right: .3rem;
                 }
-            }
 
-            .info {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
+                .info {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
 
-                .name {
-                    font-size: .28rem;
-                    font-family: PingFangSC-Medium;
-                    font-weight: bold;
-                    color: #353535;
-                    line-height: .44rem;
-                    margin-bottom: .14rem;
-                }
+                    .name {
+                        font-size: .28rem;
+                        font-family: PingFangSC-Medium;
+                        font-weight: bold;
+                        color: #353535;
+                        line-height: .44rem;
+                        margin-bottom: .14rem;
+                    }
 
-                .desc {
-                    font-size: .24rem;
-                    font-family: PingFangSC-Regular;
-                    font-weight: 400;
-                    color: #353535;
-                    line-height: .36rem;
-                    overflow: hidden;
-                    display: -webkit-box;
-                    -webkit-box-orient: vertical;
-                    -webkit-line-clamp: 3;
-                    word-break: break-all;
-                    text-overflow: ellipsis;
-                    text-align: justify;
-                }
+                    .desc {
+                        font-size: .24rem;
+                        font-family: PingFangSC-Regular;
+                        font-weight: 400;
+                        color: #353535;
+                        line-height: .36rem;
+                        overflow: hidden;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 3;
+                        word-break: break-all;
+                        text-overflow: ellipsis;
+                        text-align: justify;
+                    }
 
-                .check-more {
-                    font-size: .2rem;
-                    font-family: PingFangSC-Regular;
-                    font-weight: 400;
-                    color: #CBCBCB;
-                    line-height: .2rem;
-                    text-align: right;
+                    .check-more {
+                        font-size: .2rem;
+                        font-family: PingFangSC-Regular;
+                        font-weight: 400;
+                        color: #CBCBCB;
+                        line-height: .2rem;
+                        text-align: right;
+                    }
                 }
             }
         }
