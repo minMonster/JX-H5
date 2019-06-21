@@ -76,7 +76,7 @@
                     .name {
                         font-size: .28rem;
                         font-family: PingFangSC-Medium;
-                        font-weight: bold;
+                        font-weight: 600;
                         color: #353535;
                         line-height: .44rem;
                         margin-bottom: .14rem;
