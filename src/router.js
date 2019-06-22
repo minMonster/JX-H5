@@ -1,10 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import { nativeRoute } from './native-route';
+import * as auth from '@/common/auth';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -95,3 +96,16 @@ export default new Router({
     }
   ]
 });
+router.beforeEach((to, from, next) => {
+  if (auth.getToken() || to.meta.auth === false) { // determine if there has token
+    next();
+  } else {
+    if (to.query.token) {
+      auth.setToken(to.query.token);
+      next();
+    } else {
+      console.log('没有token');
+    }
+  }
+});
+export default router;
