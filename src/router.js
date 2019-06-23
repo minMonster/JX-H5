@@ -88,6 +88,38 @@ const router = new Router({
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ '@/views/walk-into-jx/index')
     },
+    {
+      path: '/store',
+      name: 'index.vue',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/store/index')
+    },
+    {
+      path: '/sign-in',
+      name: 'sign-in',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when ，the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/sign-in/index')
+    },
+    {
+      path: '/agreement',
+      name: 'agreement',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/agreement/index')
+    },
+    {
+      path: '/government-services',
+      name: 'government-services',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when ，the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/government-services/index')
+    },
     // native route
     {
       path: '/native-route',
@@ -104,6 +136,7 @@ router.beforeEach((to, from, next) => {
       auth.setToken(to.query.token);
       next();
     } else {
+      next();
       console.log('没有token');
     }
   }
