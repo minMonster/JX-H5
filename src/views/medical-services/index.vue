@@ -2,23 +2,21 @@
 <template>
     <div class='medical-services'>
         <div class="medical-list">
-            <div class="card"><img src="../../assets/logo.png" alt=""><span>莒县人民医院</span></div>
-            <div class="card"><img src="../../assets/logo.png" alt=""><span>莒县人民医院</span></div>
-            <div class="card"><img src="../../assets/logo.png" alt=""><span>莒县人民医院</span></div>
-            <div class="card"><img src="../../assets/logo.png" alt=""><span>莒县人民医院</span></div>
-        </div>
-        <div class="group" v-for="group in 2" :key="group.id">
-            <div class="pat-title">
-                {{group}}健康知识
+            <div class="card" v-for="item in hospitalList"><img :src="item.photo" alt=""><span>{{item.name}}</span>
             </div>
-            <div class="card" v-for="item in 5" :key="item.id">
+        </div>
+        <div class="group" v-for="group in newsClassifyList" :key="group.id">
+            <div class="pat-title">
+                {{group.name}}
+            </div>
+            <div class="card" v-for="card in group.news" :key="card.id">
                 <div class="info">
                     <div class="dec">
-                        {{item}}体检前不能做的8件事，否则钱容易白话
+                        {{card.title}}
                     </div>
                     <div class="tag">24观看·24点赞·32评论</div>
                 </div>
-                <img src="../../assets/logo.png" alt="">
+                <img :src="card.thumbnails" alt="">
             </div>
         </div>
 
@@ -27,7 +25,54 @@
 
 <script>
   export default {
-    name: 'medical-services'
+    name: 'medical-services',
+    data: function () {
+      return {
+        'hospitalList': [
+          // {
+          //   'id': 0,
+          //   'name': 'string',
+          //   'photo': 'string'
+          // }
+        ],
+        'newsClassifyList': [
+          // {
+          //   'id': 0,
+          //   'name': 'string',
+          //   'news': [
+          //     {
+          //       'id': 0,
+          //       'title': 'string',
+          //       'thumbnails': 'string',
+          //       'briefContent': 'string',
+          //       'createDate': '2019-06-25T15:05:12.672Z'
+          //     }
+          //   ]
+          // }
+        ]
+      };
+    },
+    created () {
+      this.init();
+    },
+    methods: {
+      init () {
+        this.getHospital();
+      },
+      getHospital () {
+        // this.$api.get('/Hospital/Index').then(res => {
+        this.$api.post('/UserInfo/GetUserInfo').then(res => {
+          let data = res.data;
+          this.hospitalList = data.hospitalList;
+          this.newsClassifyList = data.newsClassifyList;
+        }).catch(e => {
+          if (e.code) {
+            this.$vux.toast.text(e.message)
+          } else {
+            this.$vux.toast.text(e)}
+        });
+      }
+    }
   };
 </script>
 <style rel="stylesheet/less" lang="less">
@@ -74,6 +119,7 @@
 
         .group {
             padding-bottom: .3rem;
+
             .pat-title {
                 padding: .24rem;
                 font-size: .36rem;

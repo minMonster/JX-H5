@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as auth from '@/common/auth';
 
 const service = axios.create({
-  baseURL: '', // 请求地址
+  baseURL: 'http://111.230.139.130:8090', // 请求地址
   timeout: 20000 // request timeout
 });
 
@@ -10,7 +10,7 @@ const service = axios.create({
 service.interceptors.request.use(config => {
   // add token
   if (auth.getToken()) {
-    config.headers['Authorization'] = 'Bearer' + auth.getToken();
+    config.headers['token'] = auth.getToken();
   }
   // todo 因为同源策略
   // config.headers['Accept'] = 'application/vnd.sd.v2+json'
@@ -19,4 +19,14 @@ service.interceptors.request.use(config => {
   Promise.reject(error);
 });
 
+service.interceptors.response.use(
+  response => {
+    // eslint-disable-next-line no-console
+    console.log(response);
+    if (response.data.code === 500000) {
+      return Promise.reject(response.data);
+    }
+    return response.data;
+  }
+);
 export default service;
