@@ -83,7 +83,7 @@ const router = new Router({
     {
       path: '/swim-in-jx',
       name: 'swim-in-jx',
-      meta: { title: '游哉莒县' },
+      meta: { title: '游在莒县' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
