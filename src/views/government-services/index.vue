@@ -13,6 +13,7 @@
 <style rel="stylesheet/less" lang="less">
 
     @import "../../styles/index.less";
+    @import "../../styles/variable";
 
     .government-services {
     }
