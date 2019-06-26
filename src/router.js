@@ -11,6 +11,7 @@ const router = new Router({
     {
       path: '/convenient-people-life',
       name: 'convenient-people-life',
+      meta: { title: '便民服务' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -19,7 +20,7 @@ const router = new Router({
     {
       path: '/eat-in-jx',
       name: 'eat-in-jx',
-      meta: {title: '吃在莒县'},
+      meta: { title: '吃在莒县' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -28,6 +29,7 @@ const router = new Router({
     {
       path: '/happy-in-jx',
       name: 'happy-in-jx',
+      meta: { title: '乐在莒县' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -36,6 +38,7 @@ const router = new Router({
     {
       path: '/investment-in-jx',
       name: 'investment-in-jx',
+      meta: { title: '投在莒县' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -44,6 +47,7 @@ const router = new Router({
     {
       path: '/jx-news',
       name: 'jx-news',
+      meat: { title: '莒县新闻' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -52,6 +56,7 @@ const router = new Router({
     {
       path: '/medical-services',
       name: 'medical-services',
+      meta: { title: '医疗服务' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -60,6 +65,7 @@ const router = new Router({
     {
       path: '/shopping-in-jx',
       name: 'shopping-in-jx',
+      meta: { title: '购在莒县' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -68,6 +74,7 @@ const router = new Router({
     {
       path: '/specials',
       name: 'specials',
+      meta: { title: '特色专题' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -76,6 +83,7 @@ const router = new Router({
     {
       path: '/swim-in-jx',
       name: 'swim-in-jx',
+      meta: { title: '游哉莒县' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -84,6 +92,7 @@ const router = new Router({
     {
       path: '/walk-into-jx',
       name: 'walk-into-jx',
+      meta: { title: '走进莒县' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -92,6 +101,7 @@ const router = new Router({
     {
       path: '/store',
       name: 'index.vue',
+      meta: { title: '商城' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -100,6 +110,7 @@ const router = new Router({
     {
       path: '/sign-in',
       name: 'sign-in',
+      meta: { title: '用户登录' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when ，the route is visited.
@@ -108,6 +119,7 @@ const router = new Router({
     {
       path: '/agreement',
       name: 'agreement',
+      meta: { title: '用户协议' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -116,6 +128,7 @@ const router = new Router({
     {
       path: '/government-services',
       name: 'government-services',
+      meta: { title: '政务' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when ，the route is visited.
