@@ -19,6 +19,7 @@ const router = new Router({
     {
       path: '/eat-in-jx',
       name: 'eat-in-jx',
+      meta: {title: '吃在莒县'},
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -129,6 +130,12 @@ const router = new Router({
   ]
 });
 router.beforeEach((to, from, next) => {
+  // add title
+  if (to.meta || to.meta.title) {
+    document.title = to.meta.title || '莒县通';
+  } else {
+    document.title = '莒县通';
+  }
   if (auth.getToken() || to.meta.auth === false) { // determine if there has token
     next();
   } else {
