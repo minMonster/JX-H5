@@ -22,7 +22,7 @@
                 </div>
             </cell>
         </group>
-        <group>
+        <group class="setting-box">
             <group-title>设定依据</group-title>
             <cell class="setting">
                 <p class="content">
@@ -164,9 +164,10 @@ export default {
                 }
             }
         }
-
-        .weui-cells:last-child {
-            padding-bottom: 0;
+        .setting-box {
+            .weui-cells {
+                padding-bottom: 0;
+            }
         }
     }
 
