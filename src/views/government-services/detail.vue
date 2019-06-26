@@ -64,6 +64,9 @@ export default {
     @import "../../styles/variable";
 
     .detail {
+        min-height: 100vh;
+        background-color: @B6;
+
         .weui-cells {
             margin-top: 0;
             padding-bottom: .3rem;
@@ -160,6 +163,10 @@ export default {
                     line-height: .4rem;
                 }
             }
+        }
+
+        .weui-cells:last-child {
+            padding-bottom: 0;
         }
     }
 
