@@ -77,7 +77,7 @@ export default {
                 justify-content: flex-start;
                 align-items: flex-start;
                 &:before {
-                    border-bottom: .02rem solid @L4;
+                    border-top: 2px solid @L4;
                     left: 1.4rem;
                     right: .24rem;
                     top: auto;
