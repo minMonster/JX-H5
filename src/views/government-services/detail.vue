@@ -147,6 +147,9 @@ export default {
 
             .setting {
                 padding: .4rem .24rem .6rem;
+                &:before {
+                    border: none;
+                }
 
                 .vux-cell-bd {
                     width: 0;
