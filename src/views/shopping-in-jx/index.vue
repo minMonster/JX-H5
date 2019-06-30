@@ -1,6 +1,15 @@
 <!-- crated：2019-06-18  author：Monster  -->
 <template>
     <div class='shopping-in-jx'>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="../../assets/store/ic_shop_product_1.png" alt=""></div>
+                <div class="swiper-slide"><img src="../../assets/happy-in-jx/fun-1.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="../../assets/eat-in-jx/food-1.jpg" alt=""></div>
+            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+        </div>
         <div class="product-list">
             <div class="product" v-for="product in products" :key="product.id">
                 <img :src="product.src" class="pic" alt="">
@@ -15,6 +24,9 @@
 </template>
 
 <script>
+  import 'swiper/dist/css/swiper.css';
+  import Swiper from 'swiper';
+
   export default {
     name: 'shopping-in-jx',
     data: function () {
@@ -39,9 +51,21 @@
             href: '#'
           }
         ]
-      }
+      };
     },
     created () {
+    },
+    mounted () {
+      new Swiper('.swiper-container', {
+        loop: true,
+        // 如果需要分页器
+        pagination: '.swiper-pagination',
+        // 如果需要前进后退按钮
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        // 如果需要滚动条
+        scrollbar: '.swiper-scrollbar',
+      });
     }
   };
 </script>
@@ -51,6 +75,16 @@
     @import "../../styles/variable";
 
     .shopping-in-jx {
+        .swiper-container {
+            width: 100vw;
+            height: 3rem;
+            .swiper-slide {
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
         .product-list {
             width: 100vw;
             padding: .24rem;
@@ -61,6 +95,7 @@
                 display: flex;
                 justify-content: space-between;
                 margin-bottom: .32rem;
+
                 &:last-child {
                     margin-bottom: 0;
                 }
