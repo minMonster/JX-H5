@@ -29,26 +29,26 @@
     data: function () {
       return {
         'hospitalList': [
-          // {
-          //   'id': 0,
-          //   'name': 'string',
-          //   'photo': 'string'
-          // }
+          {
+            'id': 0,
+            'name': 'string',
+            'photo': require('../../assets/store/ic_shop_product_1.png')
+          }
         ],
         'newsClassifyList': [
-          // {
-          //   'id': 0,
-          //   'name': 'string',
-          //   'news': [
-          //     {
-          //       'id': 0,
-          //       'title': 'string',
-          //       'thumbnails': 'string',
-          //       'briefContent': 'string',
-          //       'createDate': '2019-06-25T15:05:12.672Z'
-          //     }
-          //   ]
-          // }
+          {
+            'id': 0,
+            'name': 'string',
+            'news': [
+              {
+                'id': 0,
+                'title': 'string',
+                'thumbnails': 'string',
+                'briefContent': 'string',
+                'createDate': '2019-06-25T15:05:12.672Z'
+              }
+            ]
+          }
         ]
       };
     },
@@ -57,11 +57,11 @@
     },
     methods: {
       init () {
-        this.getHospital();
+        // this.getHospital();
       },
       getHospital () {
-        // this.$api.get('/Hospital/Index').then(res => {
-        this.$api.post('/UserInfo/GetUserInfo').then(res => {
+        this.$api.get('/Hospital/Index').then(res => {
+        // this.$api.post('/UserInfo/GetUserInfo').then(res => {
           let data = res.data;
           this.hospitalList = data.hospitalList;
           this.newsClassifyList = data.newsClassifyList;

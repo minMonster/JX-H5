@@ -9,6 +9,7 @@ import '@/styles/reset.css';
 import '@/styles/global.less';
 import '@/styles/index.less';
 import '@/common/rem';
+import 'swiper/dist/css/swiper.css';
 
 Vue.config.productionTip = false;
 Object.defineProperty(Vue.prototype, '$api', {value: api});
