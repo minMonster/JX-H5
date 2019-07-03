@@ -17,14 +17,14 @@
     data: function () {
       return {
         tabs: [
-          { imgSrc: require('../../assets/convenient-people-life/logo_1_jiazheng.png'), name: '家政服务' },
-          { imgSrc: require('../../assets/convenient-people-life/logo_2_jiaoyi.png'), name: '交易市场' },
-          { imgSrc: require('../../assets/convenient-people-life/logo_3_zhaopin.png'), name: '求职招聘' },
-          { imgSrc: require('../../assets/convenient-people-life/logo_4_fangwuzulin.png'), name: '房屋租赁' },
-          { imgSrc: require('../../assets/convenient-people-life/logo_5_weizhang.png'), name: '违章查询' },
-          { imgSrc: require('../../assets/convenient-people-life/logo_6_keyun.png'), name: '客运查询' },
-          { imgSrc: require('../../assets/convenient-people-life/logo_7_zhongkao.png'), name: '中考查询' },
-          { imgSrc: require('../../assets/convenient-people-life/logo_8_chongming.png'), name: '重名查询' }
+          { name: '家政服务', imgSrc: require('../../assets/convenient-people-life/logo_1_jiazheng.png') },
+          { name: '交易市场', imgSrc: require('../../assets/convenient-people-life/logo_2_jiaoyi.png') },
+          { name: '求职招聘', imgSrc: require('../../assets/convenient-people-life/logo_3_zhaopin.png') },
+          { name: '房屋租赁', imgSrc: require('../../assets/convenient-people-life/logo_4_fangwuzulin.png') },
+          { name: '违章查询', imgSrc: require('../../assets/convenient-people-life/logo_5_weizhang.png') },
+          { name: '客运查询', imgSrc: require('../../assets/convenient-people-life/logo_6_keyun.png') },
+          { name: '中考查询', imgSrc: require('../../assets/convenient-people-life/logo_7_zhongkao.png') },
+          { name: '重名查询', imgSrc: require('../../assets/convenient-people-life/logo_8_chongming.png') }
         ]
       }
     }
