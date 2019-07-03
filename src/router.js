@@ -27,6 +27,15 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ '@/views/domestic-services/index')
     },
     {
+      path: '/on-site-repair',
+      name: 'on-site-repair',
+      meta: { title: '上门维修' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/on-site-repair/index')
+    },
+    {
       path: '/eat-in-jx',
       name: 'eat-in-jx',
       meta: { title: '吃在莒县' },
