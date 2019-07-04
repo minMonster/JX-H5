@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="recommend-container">
-            <div class="recommend" v-for="(item, index) in lists" :key="index">
+            <div class="recommend" v-for="(item, index) in lists" :key="index" @click="$router.push({ path: item.path })">
                 <img :src="item.imgSrc" alt="" class="pic">
                 <div class="content">
                     <p class="title">{{item.title}}</p>
@@ -29,25 +29,29 @@
             imgSrc: require('../../assets/on-site-repair/unlock.png'),
             title: '华叶防盗门开锁',
             desc: '快速上门，110备案安全认证快速上门，110备案安全认证',
-            distance: '3.5km'
+            distance: '3.5km',
+            path: '/domestic-services-detail'
           },
           {
             imgSrc: require('../../assets/on-site-repair/unlock.png'),
             title: '华叶防盗门开锁',
             desc: '快速上门，110备案安全认证快速上门，110备案安全认证',
-            distance: '3.5km'
+            distance: '3.5km',
+            path: '/domestic-services-detail'
           },
           {
             imgSrc: require('../../assets/on-site-repair/unlock.png'),
             title: '华叶防盗门开锁',
             desc: '快速上门，110备案安全认证快速上门，110备案安全认证',
-            distance: '3.5km'
+            distance: '3.5km',
+            path: '/domestic-services-detail'
           },
           {
             imgSrc: require('../../assets/on-site-repair/unlock.png'),
             title: '华叶防盗门开锁',
             desc: '快速上门，110备案安全认证快速上门，110备案安全认证',
-            distance: '3.5km'
+            distance: '3.5km',
+            path: '/domestic-services-detail'
           }
         ]
       }

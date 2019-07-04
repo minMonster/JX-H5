@@ -2,7 +2,7 @@
 <template>
     <div class='domestic-services'>
         <div class="tab-container">
-            <div class="tab" v-for="(tab, index) in tabs" :key="index">
+            <div class="tab" v-for="(tab, index) in tabs" :key="index" @click="$router.push({ path: tab.path })">
                 <img :src="tab.imgSrc" alt="" class="logo">
                 <p class="name">{{tab.name}}</p>
             </div>
@@ -26,10 +26,10 @@
     data: function () {
       return {
         tabs: [
-          { name: '上门维修', imgSrc: require('../../assets/domestic-services/logo_1_jiazheng_shangmen.png') },
-          { name: '家电清洗', imgSrc: require('../../assets/domestic-services/logo_2_jiazheng_jiadian.png') },
-          { name: '保姆月嫂', imgSrc: require('../../assets/domestic-services/logo_3_jiazheng_baomu.png') },
-          { name: '家庭保洁', imgSrc: require('../../assets/domestic-services/logo_4_jiazheng_baojie.png') }
+          { name: '上门维修', imgSrc: require('../../assets/domestic-services/logo_1_jiazheng_shangmen.png'), path:'/on-site-repair' },
+          { name: '家电清洗', imgSrc: require('../../assets/domestic-services/logo_2_jiazheng_jiadian.png'), path:'' },
+          { name: '保姆月嫂', imgSrc: require('../../assets/domestic-services/logo_3_jiazheng_baomu.png'), path:'' },
+          { name: '家庭保洁', imgSrc: require('../../assets/domestic-services/logo_4_jiazheng_baojie.png'), path:'' }
         ],
         lists: [
           {
