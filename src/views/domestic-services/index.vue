@@ -125,7 +125,7 @@
                         font-family: @FR;
                         font-weight: 400;
                         color: @T2;
-                        line-height: .28rem;
+                        line-height: .35rem;
                         word-break: break-all;
                         overflow: hidden;
                         text-overflow: ellipsis;

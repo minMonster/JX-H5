@@ -4,9 +4,9 @@
         <group>
             <cell v-for="(tab, index) in tabs"
                   :key="index"
-                  :title="tab.name"
+                  :title="tab.title"
                   is-link
-                  :link="{path: '/government-services/detail'}">
+                  :link="{path: '/government-services/detail', query: {id: tab.id}}">
                 <div class="circle" slot="icon"></div>
             </cell>
         </group>
@@ -15,7 +15,7 @@
 
 <script>
   import { Group, Cell } from 'vux';
-
+  import Api from '@/api'
   export default {
     name: 'government-services',
     components: {
@@ -35,6 +35,7 @@
       };
     },
     created () {
+      console.log(this.$route.query, 'queryasdasdas');
       this.getList()
     },
     methods: {
@@ -44,27 +45,15 @@
         });
       },
       getOfficeWorkList (query) {
-        return this.$api.get('/Office/WorkList', {
+        return this.$api.get('/OfficeWork/WorkList', {
           params: query
         });
       },
-      getOfficeDetail (query) {
-        return this.$api.get('/Office/Detail', {
-          params: query
-        })
-      },
-      async getList () {
-        let officeId = null;
-        let officeWorkId = null;
-        await this.getOfficeIndex().then(res => {
-          console.log(res, 'getOfficeIndex')
-          officeId = res.data[0].id
-        })
-        await this.getOfficeWorkList({officeId}).then(res => {
+
+      getList () {
+        this.getOfficeWorkList({officeId: this.$route.query.id, pageSize: 100, pageIndex: 1}).then(res => {
           console.log(res,  'getOfficeWorkList')
-        })
-        await this.getOfficeDetail({officeWorkId}).then(res => {
-          console.log(res,  'getOfficeDetail')
+          this.tabs = res.data.list;
         })
       }
     }

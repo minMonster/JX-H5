@@ -1,8 +1,8 @@
 <template>
     <div class="detail">
         <group>
-            <group-title>项目概述</group-title>
-            <cell :title="info.title" v-for="(info, index) in infoList" :key="index">{{info.content}}</cell>
+            <group-title>{{titleData}}</group-title>
+            <cell :title="info.name" v-for="(info, index) in workInfo" :key="index">{{info.value}}</cell>
             <cell title="受理时间">
                 <div class="time-box">
                     <div class="summer">
@@ -30,6 +30,10 @@
                 </p>
             </cell>
         </group>
+        <group v-if="attachFiles">
+            <group-title>相关下载（点击下载）</group-title>
+            <cell :title="info.name" v-for="(info, index) in attachFiles" :key="index" @click.native="downloadFile(info.value)">{{info.value}}</cell>
+        </group>
     </div>
 </template>
 
@@ -45,16 +49,36 @@ export default {
   },
   data: function () {
     return {
-      infoList: [
-        { title: '业务名称', content: '医患纠纷人民调解服务' },
-        { title: '实施主体', content: '莒县司法局' },
-        { title: '法定结办时限', content: '1个工作日' },
-        { title: '是否收费', content: '不收费' },
-        { title: '办理形式', content: '仅窗口办理' },
-        { title: '咨询电话', content: '0633-6226336' },
-        { title: '受理地点', content: '莒县社会矛盾调处中心' },
+      titleData: '',
+      attachFiles: [
+      ],
+      workInfo: [
+        { name: '业务名称', value: '医患纠纷人民调解服务' },
+        { name: '实施主体', value: '莒县司法局' },
+        { name: '法定结办时限', value: '1个工作日' },
+        { name: '是否收费', value: '不收费' },
+        { name: '办理形式', value: '仅窗口办理' },
+        { name: '咨询电话', value: '0633-6226336' },
+        { name: '受理地点', value: '莒县社会矛盾调处中心' },
       ]
     }
+  },
+  created () {
+    this.getOfficeDetail().then(res => {
+      this.workInfo = res.data.workInfo;
+      this.attachFiles = res.data.attachFiles;
+      this.titleData = res.data.title;
+    })
+  },
+  methods: {
+    downloadFile (url) {
+      window.open(url)
+    },
+    getOfficeDetail (query) {
+      return this.$api.get('/OfficeWork/WorkDetail?officeWorkId=' + this.$route.query.id, {
+        params: query
+      })
+    },
   }
 }
 </script>
@@ -157,7 +181,7 @@ export default {
                 .vux-cell-bd {
                     width: 0;
                 }
-                
+
                 .content {
                     text-align: justify;
                     line-height: .4rem;
