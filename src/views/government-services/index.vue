@@ -25,12 +25,12 @@
     data: function () {
       return {
         tabs: [
-          {name: '立户和分户登记', path: ''},
-          {name: '户口迁入登记', path: ''},
-          {name: '变更更正户口登记项目', path: ''},
-          {name: '出生登记', path: ''},
-          {name: '死亡人员户口注销', path: ''},
-          {name: '亲属关系证明', path: ''}
+          // {name: '立户和分户登记', path: ''},
+          // {name: '户口迁入登记', path: ''},
+          // {name: '变更更正户口登记项目', path: ''},
+          // {name: '出生登记', path: ''},
+          // {name: '死亡人员户口注销', path: ''},
+          // {name: '亲属关系证明', path: ''}
         ]
       };
     },

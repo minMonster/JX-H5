@@ -3,33 +3,33 @@
         <group>
             <group-title>{{titleData}}</group-title>
             <cell :title="info.name" v-for="(info, index) in workInfo" :key="index">{{info.value}}</cell>
-            <cell title="受理时间">
-                <div class="time-box">
-                    <div class="summer">
-                        <div class="season">夏季</div>
-                        <div class="time">
-                            <p>上午8:30-12:00</p>
-                            <p>下午1:30-5:00</p>
-                        </div>
-                    </div>
-                    <div class="winter">
-                        <div class="season">冬季</div>
-                        <div class="time">
-                            <p>上午8:30-12:00</p>
-                            <p>下午1:30-5:00</p>
-                        </div>
-                    </div>
-                </div>
-            </cell>
+<!--            <cell title="受理时间">-->
+<!--                <div class="time-box">-->
+<!--                    <div class="summer">-->
+<!--                        <div class="season">夏季</div>-->
+<!--                        <div class="time">-->
+<!--                            <p>上午8:30-12:00</p>-->
+<!--                            <p>下午1:30-5:00</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="winter">-->
+<!--                        <div class="season">冬季</div>-->
+<!--                        <div class="time">-->
+<!--                            <p>上午8:30-12:00</p>-->
+<!--                            <p>下午1:30-5:00</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </cell>-->
         </group>
-        <group class="setting-box">
-            <group-title>设定依据</group-title>
-            <cell class="setting">
-                <p class="content">
-                    纠纷不收费，可通过吸纳社会捐赠、公益赞助等符合国家法律法规规定的渠道筹措工作经费，保障调解工作顺利启动、健康运行.....医患纠纷人民调解委员会要采取说服、教育、疏道筹措工作经费，保障调解工作顺利启动、健康运行.....医患纠纷人民调解委员会要采取说服、教育、疏
-                </p>
-            </cell>
-        </group>
+<!--        <group class="setting-box">-->
+<!--            <group-title>设定依据</group-title>-->
+<!--            <cell class="setting">-->
+<!--                <p class="content">-->
+<!--                    纠纷不收费，可通过吸纳社会捐赠、公益赞助等符合国家法律法规规定的渠道筹措工作经费，保障调解工作顺利启动、健康运行.....医患纠纷人民调解委员会要采取说服、教育、疏道筹措工作经费，保障调解工作顺利启动、健康运行.....医患纠纷人民调解委员会要采取说服、教育、疏-->
+<!--                </p>-->
+<!--            </cell>-->
+<!--        </group>-->
         <group v-if="attachFiles">
             <group-title>相关下载（点击下载）</group-title>
             <cell :title="info.name" v-for="(info, index) in attachFiles" :key="index" @click.native="downloadFile(info.value)">{{info.value}}</cell>
@@ -53,13 +53,13 @@ export default {
       attachFiles: [
       ],
       workInfo: [
-        { name: '业务名称', value: '医患纠纷人民调解服务' },
-        { name: '实施主体', value: '莒县司法局' },
-        { name: '法定结办时限', value: '1个工作日' },
-        { name: '是否收费', value: '不收费' },
-        { name: '办理形式', value: '仅窗口办理' },
-        { name: '咨询电话', value: '0633-6226336' },
-        { name: '受理地点', value: '莒县社会矛盾调处中心' },
+        // { name: '业务名称', value: '医患纠纷人民调解服务' },
+        // { name: '实施主体', value: '莒县司法局' },
+        // { name: '法定结办时限', value: '1个工作日' },
+        // { name: '是否收费', value: '不收费' },
+        // { name: '办理形式', value: '仅窗口办理' },
+        // { name: '咨询电话', value: '0633-6226336' },
+        // { name: '受理地点', value: '莒县社会矛盾调处中心' },
       ]
     }
   },
@@ -122,6 +122,8 @@ export default {
                     .vux-label {
                         font-size: .28rem;
                         font-family: @FR;
+                        min-width: 1.7rem;
+                        max-width: 1.7rem;
                         font-weight: 400;
                         color: @T3;
                     }
@@ -132,6 +134,8 @@ export default {
                     font-family: @FM;
                     font-weight: 600;
                     color: @T1;
+                    flex: 1;
+                    text-align: left !important;
                 }
             }
 
