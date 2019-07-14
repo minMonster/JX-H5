@@ -199,12 +199,21 @@ const router = new Router({
     },
     {
       path: '/government-services/detail',
-      name: 'detail',
+      name: 'government-services-detail',
       meta: { title: '政务' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when ，the route is visited.
       component: () => import(/* webpackChunkName: "about" */ '@/views/government-services/detail')
+    },
+    {
+      path: '/property-notice',
+      name: 'property-notice',
+      meta: { title: '物业通知' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when ，the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/property-notice')
     },
     // native route
     {
