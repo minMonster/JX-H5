@@ -45,7 +45,7 @@
     },
     created () {
       this.$api.get('/HouseManage/AllBindRoomQuery').then(res => {
-        if (!res.data || res.data.length) {
+        if (!res.data || res.data.length === 0) {
           this.$vux.alert.show({
             title: '您的账号没有房屋地址',
             content: '点击确定将返回家页面',

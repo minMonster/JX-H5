@@ -12,6 +12,7 @@
 
 <script>
   import { Group, PopupPicker, XButton } from 'vux';
+  import {setupWebViewJavascriptBridge} from '@/common/jsbridge'
 
   export default {
     name: 'pay-payment',
@@ -27,7 +28,21 @@
       };
     },
     created () {
+      // this.$api.get('/HouseManage/AppNoticeQuery?pageSize=10&&offset=1&phone=18553536221')
       this.$api.get('/HouseManage/AllBindRoomQuery').then(res => {
+        if (!res.data || res.data.length === 0) {
+          this.$vux.alert.show({
+            title: '您的账号没有房屋地址',
+            content: '点击确定将返回家页面',
+            onShow () {
+            },
+            onHide () {
+              setupWebViewJavascriptBridge((bridge) => {
+                bridge.callHandler('finish');
+              });
+            }
+          });
+        }
         let arr = res.data.map(i => {
           return {
             name: i.roomNum,
