@@ -10,7 +10,7 @@
         <div class="separator"></div>
         <div class="recommend-container">
             <div class="recommend" v-for="(item, index) in lists" :key="index">
-                <img :src="item.imgSrc" alt="" class="pic">
+                <img :src="'http://122.14.208.91:8090' + item.imgSrc" alt="" class="pic">
                 <div class="content">
                     <p class="title">{{item.title}}</p>
                     <p class="desc">{{item.desc}}</p>

@@ -1,13 +1,13 @@
 <!-- crated：2019-06-18  author：Monster  -->
 <template>
-    <div class='eat-in-jx'>
+    <div class='list-template'>
         <div class="food-list">
-            <div class="food" v-for="food in foods" :key="food.id">
-                <img :src="food.src" class="pic" alt="">
+            <div class="food" @click="$router.push({path: '/article-details', query: {id: food.id}})" v-for="food in foods" :key="food.id">
+                <img :src="food.thumbnails" class="pic" alt="">
                 <div class="info">
-                    <p class="name">{{food.name}}</p>
-                    <div class="desc">{{food.desc}}</div>
-                    <a :href="food.href" class="check-more">查看更多></a>
+                    <p class="name">{{food.title}}</p>
+                    <div class="desc">{{food.briefContent}}</div>
+<!--                    <a :href="food.href" class="check-more">查看更多></a>-->
                 </div>
             </div>
         </div>
@@ -16,40 +16,41 @@
 
 <script>
   export default {
-    name: 'eat-in-jx',
+    name: 'list-template',
     data: function () {
       return {
         foods: [
-          {
-            src: require('../../assets/eat-in-jx/food-1.jpg'),
-            name: '莒县全羊',
-            desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯',
-            href: '#'
-          },
-          {
-            src: require('../../assets/eat-in-jx/food-1.jpg'),
-            name: '莒县全羊',
-            desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...',
-            href: '#'
-          },
-          {
-            src: require('../../assets/eat-in-jx/food-1.jpg'),
-            name: '莒县全羊',
-            desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...',
-            href: '#'
-          },
-          {
-            src: require('../../assets/eat-in-jx/food-1.jpg'),
-            name: '莒县全羊',
-            desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...',
-            href: '#'
-          }
+          // {
+          //   src: require('../../assets/eat-in-jx/food-1.jpg'),
+          //   name: '莒县全羊',
+          //   desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯',
+          //   href: '#'
+          // },
+          // {
+          //   src: require('../../assets/eat-in-jx/food-1.jpg'),
+          //   name: '莒县全羊',
+          //   desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...',
+          //   href: '#'
+          // },
+          // {
+          //   src: require('../../assets/eat-in-jx/food-1.jpg'),
+          //   name: '莒县全羊',
+          //   desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...',
+          //   href: '#'
+          // },
+          // {
+          //   src: require('../../assets/eat-in-jx/food-1.jpg'),
+          //   name: '莒县全羊',
+          //   desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...',
+          //   href: '#'
+          // }
         ]
       }
     },
     created () {
-      this.$api.get('/Columns/Index?columnID=3').then(res => {
-        console.log(res)
+      this.$api.get('/Columns/Index?columnID=' + this.$route.params.id).then(res => {
+        this.foods = res.data.newsList;
+        document.title = res.data.model.name || '莒e通';
       })
     }
   };
@@ -59,7 +60,7 @@
     @import "../../styles/index.less";
     @import "../../styles/variable";
 
-    .eat-in-jx {
+    .list-template {
         .food-list {
             width: 100vw;
             padding: .24rem;
@@ -81,9 +82,10 @@
                 }
 
                 .info {
+                    flex: 1;
                     display: flex;
                     flex-direction: column;
-                    justify-content: space-between;
+                    /*justify-content: space-between;*/
 
                     .name {
                         font-size: .28rem;

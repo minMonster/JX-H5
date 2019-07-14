@@ -9,6 +9,33 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
+      path: '/',
+      name: 'home',
+      meta: { title: 'home' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/home')
+    },
+    {
+      path: '/article-details',
+      name: 'article-details',
+      meta: { title: '文章详情' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/article-details/index')
+    },
+    {
+      path: '/list-template/:id',
+      name: 'list-template',
+      meta: { title: '列表模版' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/list-template/index')
+    },
+    {
       path: '/convenient-people-life',
       name: 'convenient-people-life',
       meta: { title: '便民服务' },
@@ -42,7 +69,7 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ '@/views/domestic-services-detail/index')
+      component: () => import(/* webpackChunkName: "about" */ '@/views/domestic-services/detail')
     },
     {
       path: '/eat-in-jx',
@@ -88,6 +115,15 @@ const router = new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ '@/views/medical-services/index')
+    },
+    {
+      path: '/medical-services-detail',
+      name: 'medical-services-detail',
+      meta: { title: '医疗服务' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/medical-services/detaile')
     },
     {
       path: '/shopping-in-jx',
@@ -172,6 +208,7 @@ const router = new Router({
     },
     // native route
     {
+      meta: { title: '政务' },
       path: '/native-route',
       name: 'native-route',
       redirect: nativeRoute

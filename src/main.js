@@ -6,8 +6,8 @@ import { ToastPlugin } from 'vux';
 
 /* Style */
 import '@/styles/reset.css';
-import '@/styles/global.less';
 import '@/styles/index.less';
+import '@/styles/global.less';
 import '@/common/rem';
 import 'swiper/dist/css/swiper.css';
 

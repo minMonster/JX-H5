@@ -46,6 +46,15 @@
           }
         ]
       }
+    },
+    created () {
+      this.$api.get('/News/List', {
+        params: {
+          classifyId: 2,
+          pageSize: 100,
+          pageIndex: 1
+        }
+      })
     }
   };
 </script>

@@ -5,18 +5,18 @@
             <div class="header">
                 <div class="title">
                     <div class="bg"></div>
-                    <div class="text">{{variety.title}}</div>
+                    <div class="text">{{variety.name}}</div>
                 </div>
-                <a :href="variety.href" class="check-more">查看更多></a>
+<!--                <a :href="variety.href" class="check-more">查看更多></a>-->
             </div>
             <div class="news-list">
-                <div class="news" v-for="news in variety.hotNews" :key="news.id">
+                <div class="news" @click="$router.push({path: '/article-details', query: {id: newsItem.id}})" v-for="newsItem in variety.news" :key="newsItem.id">
                     <div class="content">
-                        <p class="info">{{news.info}}</p>
-                        <p class="feedback">{{news.watch}}观看·{{news.thumpUp}}点赞·{{news.comment}}评论</p>
+                        <p class="info">{{newsItem.title}}</p>
+<!--                        <p class="feedback">{{newsItem.watch}}观看·{{news.thumpUp}}点赞·{{news.comment}}评论</p>-->
                     </div>
-                    <div class="img-display" v-if="news.imgSrc">
-                        <img :src="news.imgSrc" alt="" class="pic">
+                    <div class="img-display" v-if="newsItem.thumbnails">
+                        <img :src="newsItem.thumbnails" alt="" class="pic">
                     </div>
                 </div>
             </div>
@@ -113,6 +113,12 @@
           }
         ]
       }
+    },
+    created () {
+      this.$api.get('/Columns/Index?columnID=' + 7).then(res => {
+        this.varieties = res.data.classifyList;
+        document.title = res.data.model.name || '莒e通';
+      })
     }
   };
 </script>

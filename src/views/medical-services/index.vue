@@ -2,8 +2,7 @@
 <template>
     <div class='medical-services'>
         <div class="medical-list">
-            <div class="card" v-for="item in hospitalList"><img :src="item.photo" alt=""><span>{{item.name}}</span>
-            </div>
+            <div class="card" @click="toDetail(item.id)" v-for="item in hospitalList" :key="item.id"><img :src="item.photo" alt=""><span>{{item.name}}</span></div>
         </div>
         <div class="group" v-for="group in newsClassifyList" :key="group.id">
             <div class="pat-title">
@@ -14,9 +13,9 @@
                     <div class="dec">
                         {{card.title}}
                     </div>
-                    <div class="tag">24观看·24点赞·32评论</div>
+<!--                    <div class="tag">24观看·24点赞·32评论</div>-->
                 </div>
-                <img :src="card.thumbnails" alt="">
+                <img :src="'http://122.14.208.91:8090' + card.thumbnails" alt="">
             </div>
         </div>
 
@@ -57,7 +56,10 @@
     },
     methods: {
       init () {
-        // this.getHospital();
+        this.getHospital();
+      },
+      toDetail (id) {
+        this.$router.push({path: 'medical-services-detail', query: {id}})
       },
       getHospital () {
         this.$api.get('/Hospital/Index').then(res => {

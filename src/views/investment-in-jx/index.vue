@@ -2,27 +2,26 @@
 <template>
     <div class='investment-in-jx'>
         <div class="tab-list">
-            <div class="tab" @click="current=0">
-                <div class="selected" :class="{'show-border': current==0}"></div>
-                <p class="title" :class="{'black': current==0}">招商工作</p>
-            </div>
-            <div class="tab" @click="current=1">
-                <div class="selected" :class="{'show-border': current==1}"></div>
-                <p class="title" :class="{'black': current==1}">公告公示</p>
+            <div class="tab" @click="current=index" v-for="(item, index) in works" :key="item.id">
+                <div class="selected" :class="{'show-border': current==index}"></div>
+                <p class="title" :class="{'black': current==index}">{{item.name}}</p>
             </div>
         </div>
-        <div class="bussiness" v-if="current==0">
-            <div class="work" v-for="work in works" :key="work.id">
-                <div class="content">
-                    <p class="info">{{work.info}}</p>
-                    <p class="feedback">{{work.watch}}观看·{{work.thumpUp}}点赞·{{work.comment}}评论</p>
+        <template v-for="(item, index) in works">
+            <div class="bussiness" v-if="current==index" :key="item.id">
+                <div class="work" @click="$router.push({path: '/article-details', query: {id: work.id}})" v-for="work in item.news" :key="work.id">
+                    <div class="content">
+                        <p class="info">{{work.title}}</p>
+<!--                        <p class="feedback">{{work.watch}}观看·{{work.thumpUp}}点赞·{{work.comment}}评论</p>-->
+                    </div>
+                    <div class="img-display">
+                        <img :src="work.thumbnails" alt="" class="pic">
+                    </div>
                 </div>
-                <div class="img-display" v-if="work.imgSrc">
-                    <img :src="work.imgSrc" alt="" class="pic">
-                </div>
+<!--                <div class="check-more">查看更多></div>-->
             </div>
-            <div class="check-more">查看更多></div>
-        </div>
+        </template>
+
     </div>
 </template>
 
@@ -56,6 +55,12 @@
           }
         ]
       }
+    },
+    created () {
+      this.$api.get('/Columns/Index?columnID=' + 5).then(res => {
+        this.works = res.data.classifyList;
+        document.title = res.data.model.name || '莒e通';
+      })
     }
   };
 </script>
@@ -110,16 +115,16 @@
 
         .bussiness {
             .work {
-                padding: .28rem 0;
+                padding: .28rem .15rem;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-
+                box-shadow:0px .04rem .12rem 0px rgba(134,142,161,0.2);
+                border-radius: .05rem;
                 .content {
                     display: flex;
                     flex-direction: column;
-                    justify-content: center;
-
+                    height: 1.48rem;
                     .info {
                         font-size: .28rem;
                         font-family: @FM;
@@ -150,6 +155,7 @@
 
                     .pic {
                         width: 1.86rem;
+                        height: 1.28rem;
                         border-radius: .06rem;
                     }
                 }

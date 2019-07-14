@@ -15,9 +15,9 @@
             <x-button class="book" @click.native="show=true">立即预约</x-button>
         </div>
         <confirm
-        v-model="show"
-        confirm-text="呼叫"
-        @on-confirm="call"
+                v-model="show"
+                confirm-text="呼叫"
+                @on-confirm="call"
         >
             <img src="../../assets/domestic-services-detail/tel_logo.png" alt="" class="tel-logo">
             <span class="tel">15209099866</span>
@@ -26,29 +26,29 @@
 </template>
 
 <script>
-import { XButton, Confirm } from 'vux'
-export default {
-name: 'domestic-services-detail',
-components: {
-  XButton,
-  Confirm
-},
-data: function () {
-  return {
-    show: false,
-    detail: {
-      name: '防盗门开锁',
-      desc: '快速上门，110备案安全认证…',
-      company: '快开开开锁公司',
-      businessHours: '09:00-17:00'
+  import { XButton, Confirm } from 'vux'
+  export default {
+    name: 'domestic-services-detail',
+    components: {
+      XButton,
+      Confirm
+    },
+    data: function () {
+      return {
+        show: false,
+        detail: {
+          name: '防盗门开锁',
+          desc: '快速上门，110备案安全认证…',
+          company: '快开开开锁公司',
+          businessHours: '09:00-17:00'
+        }
+      }
+    },
+    methods: {
+      call() {
+      }
     }
-  }
-},
-methods: {
-  call() {
-  }
-}
-};
+  };
 </script>
 <style rel="stylesheet/less" lang="less">
 

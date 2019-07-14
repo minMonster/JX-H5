@@ -18,7 +18,7 @@
         </div>
         <div class="product-container">
             <div class="product" v-for="product in products" :key="product.id">
-                <img :src="product.imgSrc" alt="" class="product-img">
+                <img :src="'http://122.14.208.91:8090' + product.imgSrc" alt="" class="product-img">
                 <div class="desc">
                     <span class="product-name">{{product.name}}</span>
                     <span class="product-price">￥{{product.price}}</span>

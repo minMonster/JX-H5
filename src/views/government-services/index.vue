@@ -15,7 +15,6 @@
 
 <script>
   import { Group, Cell } from 'vux';
-  import Api from '@/api'
   export default {
     name: 'government-services',
     components: {
@@ -53,7 +52,8 @@
       getList () {
         this.getOfficeWorkList({officeId: this.$route.query.id, pageSize: 100, pageIndex: 1}).then(res => {
           console.log(res,  'getOfficeWorkList')
-          this.tabs = res.data.list;
+          this.tabs = res.data.workList.list;
+          document.title = res.data.officeName || '政务';
         })
       }
     }

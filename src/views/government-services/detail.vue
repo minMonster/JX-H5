@@ -1,5 +1,5 @@
 <template>
-    <div class="detail">
+    <div class="government-services-detail">
         <group>
             <group-title>{{titleData}}</group-title>
             <cell :title="info.name" v-for="(info, index) in workInfo" :key="index">{{info.value}}</cell>
@@ -30,19 +30,22 @@
 <!--                </p>-->
 <!--            </cell>-->
 <!--        </group>-->
-        <group v-if="attachFiles">
-            <group-title>相关下载（点击下载）</group-title>
-            <cell :title="info.name" v-for="(info, index) in attachFiles" :key="index" @click.native="downloadFile(info.value)">{{info.value}}</cell>
+        <group v-if="attachFiles && attachFiles.length > 0">
+            <group-title style="margin-bottom: .3rem;">相关下载（点击下载）</group-title>
+            <x-button class="download" type="primary" v-for="(info, index) in attachFiles" :key="index" @click.native="downloadFile(info.value)">{{info.name}}</x-button>
+<!--            <cell class="download" :title="info.name" v-for="(info, index) in attachFiles" is-link :key="index" @click.native="downloadFile(info.value)"></cell>-->
         </group>
     </div>
 </template>
 
 <script>
 import { Group, Cell, GroupTitle } from 'vux'
+import XButton from 'vux/src/components/x-button/index';
 
 export default {
-  name: "detail",
+  name: "government-services-detail",
   components: {
+    XButton,
     Group,
     Cell,
     GroupTitle
@@ -59,7 +62,7 @@ export default {
         // { name: '是否收费', value: '不收费' },
         // { name: '办理形式', value: '仅窗口办理' },
         // { name: '咨询电话', value: '0633-6226336' },
-        // { name: '受理地点', value: '莒县社会矛盾调处中心' },
+        // { name: '受理地点', value: '莒县社会矛盾调处中心' }
       ]
     }
   },
@@ -68,6 +71,7 @@ export default {
       this.workInfo = res.data.workInfo;
       this.attachFiles = res.data.attachFiles;
       this.titleData = res.data.title;
+      document.title = res.data.officeName || '政务';
     })
   },
   methods: {
@@ -87,7 +91,7 @@ export default {
     @import "../../styles/index.less";
     @import "../../styles/variable";
 
-    .detail {
+    .government-services-detail {
         min-height: 100vh;
         background-color: @B6;
 
@@ -99,13 +103,12 @@ export default {
             }
 
             .weui-cell {
-                min-height: 1.08rem;
-                padding: .4rem .24rem;
+                padding: .3rem .24rem;
                 justify-content: flex-start;
                 align-items: flex-start;
                 &:before {
                     border-top: 2px solid @L4;
-                    left: 1.4rem;
+                    left: 2rem;
                     right: .24rem;
                     top: auto;
                     bottom: 0;
@@ -116,19 +119,17 @@ export default {
                 }
 
                 .vux-cell-bd {
-                    width: 2.2rem;
                     flex: 0 1 auto;
 
                     .vux-label {
                         font-size: .28rem;
                         font-family: @FR;
-                        min-width: 1.7rem;
-                        max-width: 1.7rem;
+                        min-width: 1.6rem;
+                        max-width: 1.6rem;
                         font-weight: 400;
                         color: @T3;
                     }
                 }
-
                 .weui-cell__ft {
                     font-size: .28rem;
                     font-family: @FM;
@@ -138,7 +139,13 @@ export default {
                     text-align: left !important;
                 }
             }
-
+            .download {
+                margin-left: .2rem;
+                margin-right: .2rem;
+                width: 7.1rem;
+                font-size: .28rem;
+                height: .7rem;
+            }
             .time-box {
                 display: flex;
                 flex-direction: column;

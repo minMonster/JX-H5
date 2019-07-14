@@ -9,18 +9,17 @@ let staticRoute = {
   'medicalServices': 'medical-services', // 医疗服务
   'walkIntoJx': 'walk-into-jx', // 走进JX
   'convenientPeopleLife': 'convenient-people-life', // 便民服务
-  'swimInJx': 'swim-in-jx', // 游在JX
-  'shoppingInJx': 'shopping-in-jx', // 购在JX
-  'eatInJx': 'eat-in-jx', // 吃在JX
+  'swimInJx': 'list-template/2', // 游在JX
+  'shoppingInJx': 'list-template/4', // 购在JX
+  'eatInJx': 'list-template/3', // 吃在JX
   'investmentInJx': 'investment-in-jx', // 投在莒县
-  'happyInJx': 'happy-in-jx', // 乐在莒县
+  'happyInJx': 'list-template/6', // 乐在莒县
   'jxNews': 'jx-news', // 莒县新闻
-  'specials': 'specials', // 特色专题
+  'specials': 'list-template/8', // 特色专题
   'store': 'store', // 商城
   'signIn': 'sign-in', // 签到
   'agreement': 'agreement', // 协议
-  'governmentServices': 'government-services' // 政务服务 payload: {id: 1}
-
+  'governmentServices': 'government-services', // 政务服务 payload: {id: 1}
 };
 
 // 动态路由，retern routeName
