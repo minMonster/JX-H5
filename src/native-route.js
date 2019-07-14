@@ -20,9 +20,9 @@ let staticRoute = {
   'signIn': 'sign-in', // 签到
   'agreement': 'agreement', // 协议
   'governmentServices': 'government-services', // 政务服务 payload: {id: 1}
-  'payPayment': 'pay-payment', // 缴费付款
+  'pay-payment': 'pay-payment', // 缴费付款
   'complaintsSuggestions': 'complaints-suggestions', // 投诉建议
-  'warrantyMaintenance': 'warranty-maintenance', // 缴费付款
+  'warrantyMaintenance': 'warranty-maintenance', // 保修建议
   'propertyNotice': 'property-notice', // 物业通知
 };
 

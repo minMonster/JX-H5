@@ -10,7 +10,11 @@ import '@/styles/index.less';
 import '@/styles/global.less';
 import '@/common/rem';
 import 'swiper/dist/css/swiper.css';
+import { LoadingPlugin } from 'vux';
+import { AlertPlugin } from 'vux';
 
+Vue.use(AlertPlugin);
+Vue.use(LoadingPlugin);
 Vue.config.productionTip = false;
 Object.defineProperty(Vue.prototype, '$api', {value: api});
 Vue.use(ToastPlugin);

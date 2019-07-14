@@ -18,6 +18,24 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ '@/views/home')
     },
     {
+      path: '/complaints-suggestions',
+      name: 'complaints-suggestions',
+      meta: { title: '投诉建议' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/complaints-suggestions/index')
+    },
+    {
+      path: '/warranty-maintenance',
+      name: 'warranty-maintenance',
+      meta: { title: '报修维护' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/warranty-maintenance/index')
+    },
+    {
       path: '/article-details',
       name: 'article-details',
       meta: { title: '文章详情' },
@@ -25,6 +43,24 @@ const router = new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ '@/views/article-details/index')
+    },
+    {
+      path: '/pay-payment',
+      name: 'pay-payment',
+      meta: { title: '缴费付款' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/pay-payment/index')
+    },
+    {
+      path: '/pay-payment-list',
+      name: 'pay-payment-list',
+      meta: { title: '费用列表' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/pay-payment/list')
     },
     {
       path: '/list-template/:id',
