@@ -28,7 +28,6 @@
       };
     },
     created () {
-      // this.$api.get('/HouseManage/AppNoticeQuery?pageSize=10&&offset=1&phone=18553536221')
       this.$api.get('/HouseManage/AllBindRoomQuery').then(res => {
         if (!res.data || res.data.length === 0) {
           this.$vux.alert.show({

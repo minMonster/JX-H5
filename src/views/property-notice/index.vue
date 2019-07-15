@@ -1,13 +1,13 @@
 <template>
     <div class="property-notice">
-        <div class="notice-container" v-for="(item, index) in noticeList" :key="index">
+        <div class="notice-container" @click="toDetail(item)" v-for="(item, index) in noticeList" :key="index">
             <img :src="iconSrc" class="stateIcon" />
             <div class="notice">
                 <div class="title-box">
                     <span class="title">{{item.title}}</span>
-                    <span class="area-name">({{item.areaName}})</span>
+<!--                    <span class="area-name">({{item.areaName}})</span>-->
                 </div>
-                <p class="content">{{item.content}}</p>
+                <p class="content">{{item.briefcontent}}</p>
                 <p class="time">{{item.time}}</p>
             </div>
         </div>
@@ -15,6 +15,8 @@
 </template>
 
 <script>
+  import * as auth from '@/common/auth';
+
   export default {
     name: "property-notice",
     data: function () {
@@ -45,7 +47,16 @@
       }
     },
     created () {
-      this.noticeList = this.fakeData
+      this.$api.get('/HouseManage/allNoticeQuery?pageSize=10&&offset=0').then(res => {
+        this.noticeList = res.data;
+      })
+       // = this.fakeData
+    },
+    methods: {
+      toDetail (item) {
+        sessionStorage.setItem('propertyNotice', JSON.stringify(item));
+        this.$router.push({path: 'property-notice-detail', query: {id: item.sid}})
+      }
     }
   }
 </script>

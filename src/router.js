@@ -65,7 +65,7 @@ const router = new Router({
     {
       path: '/list-template/:id',
       name: 'list-template',
-      meta: { title: '列表模版' },
+      meta: { title: '' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -250,6 +250,24 @@ const router = new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when ，the route is visited.
       component: () => import(/* webpackChunkName: "about" */ '@/views/property-notice')
+    },
+    {
+      path: '/property-notice-detail',
+      name: 'property-notice-detail',
+      meta: { title: '通知公告详情' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when ，the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/property-notice/detail')
+    },
+    {
+      path: '/service-record',
+      name: 'service-record',
+      meta: { title: '服务记录' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when ，the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/service-record/index')
     },
     // native route
     {
