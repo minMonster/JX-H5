@@ -115,13 +115,19 @@
                     border-bottom: .02rem solid @B7;
                     padding: .2rem .6rem .2rem 0;
 
-                    .title {
+                    .title, .desc {
                         font-size: .32rem;
                         font-family: @FM;
                         font-weight: 600;
                         color: @T1;
                         line-height: .32rem;
                         margin-bottom: .3rem;
+                        word-break: break-all;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 1;
+                        -webkit-box-orient: vertical;
                     }
 
                     .desc {
@@ -131,12 +137,6 @@
                         color: @T2;
                         line-height: .28rem;
                         margin-bottom: .38rem;
-                        word-break: break-all;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 1;
-                        -webkit-box-orient: vertical;
                     }
 
                     .distance {

@@ -89,8 +89,14 @@
                 font-family: @FM;
                 font-weight: 600;
                 color: @T1;
-                line-height: .28rem;
+                line-height: .36rem;
                 margin-bottom: .24rem;
+                word-break: break-all;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
             }
 
             .desc {
@@ -98,7 +104,7 @@
                 font-family: @FR;
                 font-weight: 400;
                 color: @T2;
-                line-height: .28rem;
+                line-height: .42rem;
             }
         }
 
@@ -115,8 +121,14 @@
                 font-family: PingFangSC-Semibold;
                 font-weight: 600;
                 color: @T1;
-                line-height: .28rem;
+                line-height: .32rem;
                 margin-bottom: .42rem;
+                word-break: break-all;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
             }
 
             .business-hours {

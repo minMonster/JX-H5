@@ -10,7 +10,9 @@
         <div class="separator"></div>
         <div class="recommend-container">
             <div class="recommend" v-for="(item, index) in lists" :key="index">
-                <img :src="item.pic" alt="" class="pic">
+                <div class="pic">
+                    <img :src="item.pic" alt="" class="thumb">
+                </div>
                 <div class="content">
                     <p class="title">{{item.title}}</p>
                     <p class="desc">{{item.content}}</p>
@@ -59,7 +61,7 @@
     },
     methods: {
       getHouseService () {
-        this.$api.get('/HouseService/Index?ClassifyCount=100&ServiceCount=100').then(res => {
+        this.$api.get('/HouseService/Index?ClassifyCount=4&ServiceCount=100').then(res => {
           this.tabs = res.data.classifyList
           this.lists = res.data.serviceList
           document.title = res.data.name
@@ -93,6 +95,7 @@
 
                 .logo {
                     width: 100%;
+                    height: 1.4rem;
                     margin-bottom: .2rem;
                 }
 
@@ -123,11 +126,17 @@
 
                 .pic {
                     width: 2.4rem;
-                    border-radius: .06rem;
                     margin-right: .26rem;
+
+                    .thumb {
+                        width: 100%;
+                        height: 1.62rem;
+                        border-radius: .06rem;
+                    }
                 }
 
                 .content {
+                    flex: 1;
                     border-bottom: .02rem solid @B7;
                     padding: .2rem .52rem .46rem 0;
 
@@ -138,6 +147,12 @@
                         color: @T1;
                         line-height: .32rem;
                         margin-bottom: .34rem;
+                        word-break: break-all;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 1;
+                        -webkit-box-orient: vertical;
                     }
 
                     .desc {
