@@ -1,16 +1,16 @@
 <!-- crated：2019-06-23  author：Monster  -->
 <template>
     <div class='domestic-services-detail'>
-        <img src="../../assets/domestic-services-detail/banner.png" alt="" class="banner">
+        <img :src="detail.pic" alt="" class="banner">
         <div class="service">
-            <p class="name">{{detail.name}}</p>
-            <p class="desc">{{detail.desc}}</p>
+            <p class="name">{{detail.title}}</p>
+            <p class="desc">{{detail.content}}</p>
         </div>
         <div class="detail">
             <div class="content">
-                <p class="company">{{detail.company}}</p>
+                <p class="company">{{detail.label}}</p>
                 <p class="business-hours time">营业时间：</p>
-                <p class="business-hours">{{detail.businessHours}}</p>
+                <p class="business-hours">{{detail.serviceTime}}</p>
             </div>
             <x-button class="book" @click.native="show=true">立即预约</x-button>
         </div>
@@ -20,7 +20,7 @@
                 @on-confirm="call"
         >
             <img src="../../assets/domestic-services-detail/tel_logo.png" alt="" class="tel-logo">
-            <span class="tel">15209099866</span>
+            <span class="tel">{{detail.phone}}</span>
         </confirm>
     </div>
 </template>
@@ -36,17 +36,33 @@
     data: function () {
       return {
         show: false,
-        detail: {
-          name: '防盗门开锁',
-          desc: '快速上门，110备案安全认证…',
-          company: '快开开开锁公司',
-          businessHours: '09:00-17:00'
-        }
+        // detail: {
+        //   name: '防盗门开锁',
+        //   desc: '快速上门，110备案安全认证…',
+        //   company: '快开开开锁公司',
+        //   businessHours: '09:00-17:00'
+        // },
+        detail: {}
       }
     },
     methods: {
       call() {
+      },
+      getHouseServiceDetail () {
+        this.$api.get('/HouseService/Detail?id=6').then(res => {
+          this.detail = res.data
+          document.title = res.data.name
+        }).catch(e => {
+          if (e.code) {
+            this.$vux.toast(e.message)
+          } else {
+            this.$vux.toast(e)
+          }
+        })
       }
+    },
+    created () {
+      this.getHouseServiceDetail()
     }
   };
 </script>
