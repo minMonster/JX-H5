@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="info-list">
-                <div class="jx-intro" v-if="currentSelected==0" v-html="classifyList[0].news[0].briefContent">
+                <div class="jx-intro" v-if="currentSelected==0" v-html="briefContent">
                 </div>
                 <template v-for="(item, index) in classifyList">
                     <div class="jx-history" v-if="(currentSelected===index) && index !== 0" :key="item.id">
@@ -30,12 +30,16 @@
     data: function () {
       return {
         currentSelected: 0,
-        classifyList: []
+        classifyList: [],
+        briefContent: '' //莒县概况
       };
     },
     created () {
       this.$api.get('/Columns/Index?columnID=1').then(res => {
         this.classifyList = res.data.classifyList;
+        this.$api.get('/News/' + this.classifyList[0].news[0].id).then(data => {
+          this.briefContent = data.data.content;
+        })
       });
     }
   };

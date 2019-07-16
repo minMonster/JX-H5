@@ -1,8 +1,9 @@
 <!-- crated：2019-07-13  author：Monster  -->
 <template>
     <div class='article-details' >
-        <img class="banner" :src="HospitalDetail.thumbnails" alt="">
+        <img class="banner" v-if="HospitalDetail.thumbnails" :src="HospitalDetail.thumbnails" alt="">
         <div class="title" v-html="HospitalDetail.title"></div>
+        <div class="time">{{HospitalDetail.createDate}}</div>
         <p class="html-block" v-html="HospitalDetail.content"></p>
 <!--        <div class="buttons">-->
 <!--            <div class="phone" @click="callPhone(HospitalDetail.phone)"><img src="../../assets/medical-services/phone-icon.png" alt="">电话联系</div>-->
@@ -36,7 +37,7 @@
       getHospital () {
         this.$api.get('/News/' + this.$route.query.id).then(res => {
           this.HospitalDetail = res.data;
-          document.title = res.data.title;
+          document.title = '文章详情';
         }).catch(e => {
           if (e.code) {
             this.$vux.toast.text(e.message);
@@ -58,6 +59,7 @@
         img.banner {
             display: block;
             width: 100%;
+            height: 4rem;
         }
         p.html-block {
             padding-top: .2rem;
@@ -68,20 +70,17 @@
         }
         div.title {
             display: inline-block;
-            margin: .2rem 0;
+            margin: .16rem 0;
+            color: #353535;
+            line-height: .56rem;
+            font-size: .4rem;
             position: relative;
             font-weight: 600;
-            font-size: .34rem;
-            &:before {
-                content: ' ';
-                position: absolute;
-                bottom: -.1rem;
-                background: linear-gradient(180deg, rgba(255, 247, 179, 1) 0%, rgba(255, 222, 144, 1) 100%);
-                z-index: -1;
-                width: 1rem;
-                height: .24rem;
-            }
-
+        }
+        .time {
+            color: #CBCBCB;
+            font-size: .2rem;
+            padding-bottom: .3rem;
         }
         .buttons {
             position: fixed;
