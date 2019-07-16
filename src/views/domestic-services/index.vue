@@ -2,18 +2,18 @@
 <template>
     <div class='domestic-services'>
         <div class="tab-container">
-            <div class="tab" v-for="(tab, index) in tabs" :key="index" @click="$router.push({ path: tab.path })">
-                <img :src="tab.imgSrc" alt="" class="logo">
+            <div class="tab" v-for="(tab, index) in tabs" :key="index" @click="$router.push({ path: '/on-site-repair' })">
+                <img :src="tab.pic" alt="" class="logo">
                 <p class="name">{{tab.name}}</p>
             </div>
         </div>
         <div class="separator"></div>
         <div class="recommend-container">
             <div class="recommend" v-for="(item, index) in lists" :key="index">
-                <img :src="'http://122.14.208.91:8090' + item.imgSrc" alt="" class="pic">
+                <img :src="item.pic" alt="" class="pic">
                 <div class="content">
                     <p class="title">{{item.title}}</p>
-                    <p class="desc">{{item.desc}}</p>
+                    <p class="desc">{{item.content}}</p>
                 </div>
             </div>
         </div>
@@ -25,35 +25,55 @@
     name: 'domestic-services',
     data: function () {
       return {
-        tabs: [
-          { name: '上门维修', imgSrc: require('../../assets/domestic-services/logo_1_jiazheng_shangmen.png'), path:'/on-site-repair' },
-          { name: '家电清洗', imgSrc: require('../../assets/domestic-services/logo_2_jiazheng_jiadian.png'), path:'' },
-          { name: '保姆月嫂', imgSrc: require('../../assets/domestic-services/logo_3_jiazheng_baomu.png'), path:'' },
-          { name: '家庭保洁', imgSrc: require('../../assets/domestic-services/logo_4_jiazheng_baojie.png'), path:'' }
-        ],
-        lists: [
-          {
-            imgSrc: require('../../assets/domestic-services/unlock.png'),
-            title: '华叶防盗门开锁',
-            desc: '快速上门，110备案安全认证快速上门，110备案安全认证'
-          },
-          {
-            imgSrc: require('../../assets/domestic-services/unlock.png'),
-            title: '华叶防盗门开锁',
-            desc: '快速上门，110备案安全认证快速上门，110备案安全认证'
-          },
-          {
-            imgSrc: require('../../assets/domestic-services/unlock.png'),
-            title: '华叶防盗门开锁',
-            desc: '快速上门，110备案安全认证快速上门，110备案安全认证'
-          },
-          {
-            imgSrc: require('../../assets/domestic-services/unlock.png'),
-            title: '华叶防盗门开锁',
-            desc: '快速上门，110备案安全认证快速上门，110备案安全认证'
-          }
-        ]
+        // tabs: [
+        //   { name: '上门维修', imgSrc: require('../../assets/domestic-services/logo_1_jiazheng_shangmen.png'), path:'/on-site-repair' },
+        //   { name: '家电清洗', imgSrc: require('../../assets/domestic-services/logo_2_jiazheng_jiadian.png'), path:'' },
+        //   { name: '保姆月嫂', imgSrc: require('../../assets/domestic-services/logo_3_jiazheng_baomu.png'), path:'' },
+        //   { name: '家庭保洁', imgSrc: require('../../assets/domestic-services/logo_4_jiazheng_baojie.png'), path:'' }
+        // ],
+        tabs: [],
+        // lists: [
+        //   {
+        //     imgSrc: require('../../assets/domestic-services/unlock.png'),
+        //     title: '华叶防盗门开锁',
+        //     desc: '快速上门，110备案安全认证快速上门，110备案安全认证'
+        //   },
+        //   {
+        //     imgSrc: require('../../assets/domestic-services/unlock.png'),
+        //     title: '华叶防盗门开锁',
+        //     desc: '快速上门，110备案安全认证快速上门，110备案安全认证'
+        //   },
+        //   {
+        //     imgSrc: require('../../assets/domestic-services/unlock.png'),
+        //     title: '华叶防盗门开锁',
+        //     desc: '快速上门，110备案安全认证快速上门，110备案安全认证'
+        //   },
+        //   {
+        //     imgSrc: require('../../assets/domestic-services/unlock.png'),
+        //     title: '华叶防盗门开锁',
+        //     desc: '快速上门，110备案安全认证快速上门，110备案安全认证'
+        //   }
+        // ],
+        lists: [],
       }
+    },
+    methods: {
+      getHouseService () {
+        this.$api.get('/HouseService/Index?ClassifyCount=100&ServiceCount=100').then(res => {
+          this.tabs = res.data.classifyList
+          this.lists = res.data.serviceList
+          document.title = res.data.name
+        }).catch(e => {
+          if (e.code) {
+            this.$vux.toast(e.message)
+          } else {
+            this.$vux.toast(e)
+          }
+        })
+      }
+    },
+    created () {
+      this.getHouseService()
     }
   };
 </script>
