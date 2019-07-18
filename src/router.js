@@ -269,6 +269,15 @@ const router = new Router({
       // which is lazy-loaded when ，the route is visited.
       component: () => import(/* webpackChunkName: "about" */ '@/views/service-record/index')
     },
+    {
+      path: '/immediate-pay',
+      name: 'immediate-pay',
+      meta: { title: '支付' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when ，the route is visited.
+      component: () => import(/* webpackChunkName: "about" */ '@/views/immediate-pay/index')
+    },
     // native route
     {
       meta: { title: '政务' },
