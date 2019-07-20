@@ -190,7 +190,9 @@
             height: .84rem;
             background: linear-gradient(178deg,rgba(74,180,254,1) 0%,rgba(27,141,246,1) 64%,rgba(6,123,248,1) 100%);
             border-radius: .06rem;
-            box-shadow: none;
+            &.weui-btn_default {
+              box-shadow: none;
+            }
         }
 
         .pay-btn {
