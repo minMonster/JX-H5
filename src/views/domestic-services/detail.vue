@@ -99,6 +99,8 @@
         }
         .title {
             color: #333333;
+            font-family: @FM;
+            font-weight: 600;
             padding-left: .1rem;
             font-size: .32rem;
             padding-bottom: .4rem;
@@ -106,14 +108,18 @@
         .info {
             display: flex;
             padding-bottom: .24rem;
+            padding-left: .1rem;
             font-size: .28rem;
             color: #353535;
             .label {
+                font-family: @FR;
                 width: 1.52rem;
                 color: rgba(53,53,53,1);
             }
             .dec {
                 flex: 1;
+                font-family: @FM;
+                font-weight: 600;
             }
         }
         .weui-dialog {
