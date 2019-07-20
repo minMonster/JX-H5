@@ -1,6 +1,6 @@
 <!-- crated：2019-07-14  author：Monster  -->
 <template>
-    <div class='warranty-maintenance'>
+    <div class='warranty-maintenance' v-if="!loading">
         <group>
             <popup-picker :title="'房屋地址'" :data="list1" v-model="value1" :placeholder="'选择'"
                           @on-change="pickerChange"></popup-picker>
@@ -18,135 +18,149 @@
 </template>
 
 <script>
-  import { Group, PopupPicker, XButton } from 'vux';
-  import SleepXInput from '@/components/input/sleep-x-input.vue';
-  import SleepXTextarea from '@/components/input/sleep-x-textarea.vue';
-  import { setupWebViewJavascriptBridge } from '@/common/jsbridge';
+import { Group, PopupPicker, XButton } from 'vux'
+import SleepXInput from '@/components/input/sleep-x-input.vue'
+import SleepXTextarea from '@/components/input/sleep-x-textarea.vue'
+import { setupWebViewJavascriptBridge } from '@/common/jsbridge'
 
-  export default {
-    name: 'complaints-suggestions',
-    components: {
-      SleepXInput, SleepXTextarea,
-      Group, PopupPicker, XButton
-    },
-    data: function () {
-      return {
-        titleInfo: '',
-        value1: [],
-        value2: [],
-        list1: [[]],
-        list2: [[]],
-        loading: true,
-        roomId: '',
-        baoXiuId: '',
-        describeDetail: '',
-        companyId: ''
-      };
-    },
-    created () {
-      this.$api.get('/HouseManage/AllBindRoomQuery').then(res => {
-        if (!res.data || res.data.length === 0) {
-          this.$vux.alert.show({
-            title: '您的账号没有房屋地址',
-            content: '点击确定将返回家页面',
-            onShow () {
-            },
-            onHide () {
-              setupWebViewJavascriptBridge((bridge) => {
-                bridge.callHandler('finish');
-              });
-            }
-          });
-        }
-        let arr = res.data.map(i => {
-          return {
-            name: i.roomNum,
-            value: i.roomNum,
-            id: i.roomId,
-            companyId: i.companyId
-          };
-        });
-        this.list1 = [arr];
-        this.loading = false;
-      });
-      this.$api.get('/HouseManage/AppCprType?type=baoxiu').then(res => {
-        let arr = res.data.map(i => {
-          return {
-            name: i.classfy,
-            value: i.classfy,
-            id: i.id
-          };
-        });
-        this.list2 = [arr];
-      });
-    },
-    methods: {
-      onNext () {
-        if (this.roomId === '') {
-          this.$vux.toast.text('请选择房屋地址');
-          return;
-        }
-        if (this.baoXiuId === '') {
-          this.$vux.toast.text('请选择报修类型');
-          return;
-        }
-        if (this.titleInfo === '') {
-          this.$vux.toast.text('请填写标题');
-          return;
-        }
-        if (this.describeDetail === '') {
-          this.$vux.toast.text('请填写报修详情');
-          return;
-        }
-        this.$vux.loading.show();
-        this.$api.get('/HouseManage/AppCprAdd', {
-          params: {
-            companyId: this.companyId,
-            title: this.titleInfo,
-            roomId: this.roomId,
-            typeId: this.baoXiuId,
-            description: this.describeDetail,
-            tsbxlx: 'baoxiu',
-            opater: ''
-          }
-        }).then(() => {
-          this.$vux.loading.hide();
-          this.$vux.toast.text('提交成功');
-          this.$vux.alert.show({
-            title: '提交成功',
-            content: '点击确定将返回家页面',
-            onShow () {
-            },
-            onHide () {
-              setupWebViewJavascriptBridge((bridge) => {
-                bridge.callHandler('finish');
-              });
-            }
-          });
-        }).catch(() => {
-          this.$vux.loading.hide();
-          this.$vux.toast.text('提交失败');
-        });
-      },
-      pickerChange () {
-        let arr = this.list1[0];
-        arr.forEach(i => {
-          if (i.name === this.value1[0]) {
-            this.roomId = i.id;
-            this.companyId = i.companyId;
-          }
-        });
-      },
-      pickerChange2 () {
-        let arr = this.list2[0];
-        arr.forEach(i => {
-          if (i.name === this.value2[0]) {
-            this.baoXiuId = i.id;
-          }
-        });
-      }
+export default {
+  name: 'complaints-suggestions',
+  components: {
+    SleepXInput,
+    SleepXTextarea,
+    Group,
+    PopupPicker,
+    XButton
+  },
+  data: function () {
+    return {
+      titleInfo: '',
+      value1: [],
+      value2: [],
+      list1: [[]],
+      list2: [[]],
+      loading: true,
+      roomId: '',
+      baoXiuId: '',
+      describeDetail: '',
+      companyId: ''
     }
-  };
+  },
+  created () {
+    this.$api.get('/HouseManage/AllBindRoomQuery').then(res => {
+      if (!res.data || res.data.length === 0) {
+        this.$vux.alert.show({
+          title: '您的账号没有房屋地址',
+          content: '点击确定将返回家页面',
+          onShow () {
+          },
+          onHide () {
+            setupWebViewJavascriptBridge((bridge) => {
+              bridge.callHandler('finish')
+            })
+          }
+        })
+      }
+      let arr = res.data.map(i => {
+        return {
+          name: i.roomNum,
+          value: i.roomNum,
+          id: i.roomId,
+          companyId: i.companyId
+        }
+      })
+      this.list1 = [arr]
+      this.loading = false
+    })
+    this.$api.get('/HouseManage/AppCprType?type=baoxiu').then(res => {
+      let arr = res.data.map(i => {
+        return {
+          name: i.classfy,
+          value: i.classfy,
+          id: i.id
+        }
+      })
+      this.list2 = [arr]
+    })
+  },
+  methods: {
+    encodeUnicode (str) {
+      let res = []
+      for (let i = 0; i < str.length; i++) {
+        res[i] = ('00' + str.charCodeAt(i).toString(16)).slice(-4)
+      }
+      return 'bancu' + res.join('bancu')
+    },
+
+    // 解码
+    decodeUnicode (str) {
+      str = str.replace(/banc/g, '%')
+      return unescape(str)
+    },
+    onNext () {
+      if (this.roomId === '') {
+        this.$vux.toast.text('请选择房屋地址')
+        return
+      }
+      if (this.baoXiuId === '') {
+        this.$vux.toast.text('请选择报修类型')
+        return
+      }
+      if (this.titleInfo === '') {
+        this.$vux.toast.text('请填写标题')
+        return
+      }
+      if (this.describeDetail === '') {
+        this.$vux.toast.text('请填写报修详情')
+        return
+      }
+      this.$vux.loading.show()
+      this.$api.post('/HouseManage/AppCprQuery', {
+        companyId: this.companyId,
+        title: this.titleInfo,
+        roomId: this.roomId,
+        typeId: this.baoXiuId,
+        description: this.describeDetail,
+        tsbxlx: 'baoxiu',
+        opater: ''
+      }).then(() => {
+        this.$vux.loading.hide()
+        this.$vux.toast.text('提交成功')
+        this.$vux.alert.show({
+          title: '提交成功',
+          content: '点击确定将返回家页面',
+          onShow () {
+          },
+          onHide () {
+            setupWebViewJavascriptBridge((bridge) => {
+              bridge.callHandler('finish')
+            })
+          }
+        })
+      }).catch(() => {
+        this.$vux.loading.hide()
+        this.$vux.toast.text('提交失败')
+      })
+    },
+    pickerChange () {
+      let arr = this.list1[0]
+      arr.forEach(i => {
+        if (i.name === this.value1[0]) {
+          this.roomId = i.id
+          this.companyId = i.companyId
+        }
+      })
+    },
+    pickerChange2 () {
+      let arr = this.list2[0]
+      arr.forEach(i => {
+        if (i.name === this.value2[0]) {
+          this.baoXiuId = i.id
+        }
+      })
+    }
+  }
+}
 </script>
 <style rel="stylesheet/less" lang="less">
 

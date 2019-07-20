@@ -3,9 +3,9 @@
     <div class='store'>
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="../../assets/store/ic_shop_product_1.png" alt=""></div>
-                <div class="swiper-slide"><img src="../../assets/happy-in-jx/fun-1.jpg" alt=""></div>
-                <div class="swiper-slide"><img src="../../assets/eat-in-jx/food-1.jpg" alt=""></div>
+                <div class="swiper-slide"><img src="../../assets/shopping-in-jx/product.png" alt=""></div>
+<!--                <div class="swiper-slide"><img src="../../assets/happy-in-jx/fun-1.jpg" alt=""></div>-->
+<!--                <div class="swiper-slide"><img src="../../assets/eat-in-jx/food-1.jpg" alt=""></div>-->
             </div>
             <!-- 如果需要分页器 -->
             <div class="swiper-pagination"></div>
@@ -18,7 +18,7 @@
         </div>
         <div class="product-container">
             <div class="product" v-for="product in products" :key="product.id">
-                <img :src="'http://122.14.208.91:8090' + product.imgSrc" alt="" class="product-img">
+                <img :src="product.imgSrc" alt="" class="product-img">
                 <div class="desc">
                     <span class="product-name">{{product.name}}</span>
                     <span class="product-price">￥{{product.price}}</span>

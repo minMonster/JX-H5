@@ -2,14 +2,15 @@
 <template>
     <div class='service-record'>
         <div class="notice-container" v-for="(item, index) in fakeData" :key="index">
-            <img :src="iconSrc" class="stateIcon" />
+<!--            <img :src="iconSrc" class="stateIcon" />-->
             <div class="notice">
                 <div class="title-box">
-                    <span class="title">{{item.title}}</span>
+                    <span class="title">{{item.title?item.titel:'标题'}}{{item.classfy?'('+item.classfy+')':''}}</span>
                     <!--                    <span class="area-name">({{item.areaName}})</span>-->
                 </div>
-                <p class="content">{{item.content}}</p>
-                <p class="time">{{item.time}}</p>
+                <p class="content">{{item.description}}</p>
+                <p class="time">{{item.createTime}}</p>
+                <div class="type">{{item.currentState}}</div>
             </div>
         </div>
     </div>
@@ -43,8 +44,16 @@
         ]
       };
     },
+    methods: {
+      decodeUnicode (str) {
+        str = str.replace(/banc/g, '%');
+        return unescape(str);
+      },
+    },
     created () {
-      this.$api.get('/HouseManage/allCprQuery?pageSize=10&offset=0')
+      this.$api.get('/HouseManage/allCprQuery?pageSize=100&offset=0').then(res => {
+        this.fakeData = res.data;
+      })
     }
   };
 </script>
@@ -65,8 +74,15 @@
             }
 
             .notice {
+                position: relative;
                 flex: 1;
-
+                .type {
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    color: #F05A23;
+                    font-size: .24rem;
+                }
                 .title-box {
                     vertical-align: baseline;
                     margin-bottom: .12rem;
@@ -101,7 +117,7 @@
                 font-family: @FR;
                 color: @T4;
                 line-height: .24rem;
-                text-align: right;
+                text-align: left;
                 margin-top: .18rem;
             }
         }

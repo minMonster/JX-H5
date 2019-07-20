@@ -1,19 +1,29 @@
 <!-- crated：2019-06-23  author：Monster  -->
 <template>
     <div class='domestic-services-detail'>
-        <img :src="detail.pic" alt="" class="banner">
-        <div class="service">
-            <p class="name">{{detail.title}}</p>
-            <p class="desc">{{detail.content}}</p>
+        <img :src="detail.pic" v-if="detail.pic" alt="" class="banner">
+        <p class="title">{{detail.title}}</p>
+        <div class="info" v-if="detail.contect">
+            <span class="label">联系人</span>
+            <span class="dec">{{detail.contect}}</span>
         </div>
-        <div class="detail">
-            <div class="content">
-                <p class="company">{{detail.label}}</p>
-                <p class="business-hours time">营业时间：</p>
-                <p class="business-hours">{{detail.serviceTime}}</p>
-            </div>
-            <x-button class="book" @click.native="show=true">立即预约</x-button>
+        <div class="info" v-if="detail.phone">
+            <span class="label">联系电话</span>
+            <span class="dec">{{detail.phone}}</span>
         </div>
+        <div class="info" v-if="detail.serviceTime">
+            <span class="label">服务时间</span>
+            <span class="dec">{{detail.serviceTime}}</span>
+        </div>
+        <div class="info" v-if="detail.serviceScope">
+            <span class="label">服务项目</span>
+            <span class="dec">{{detail.serviceScope}}</span>
+        </div>
+        <div class="info" v-if="detail.serviceScope">
+            <span class="label">服务范围</span>
+            <span class="dec">{{detail.serviceScope}}</span>
+        </div>
+        <x-button class="book" @click.native="show=true">立即预约</x-button>
         <confirm
                 v-model="show"
                 confirm-text="呼叫"
@@ -26,7 +36,9 @@
 </template>
 
 <script>
-  import { XButton, Confirm } from 'vux'
+  import { setupWebViewJavascriptBridge } from '@/common/jsbridge';
+  import { XButton, Confirm } from 'vux';
+
   export default {
     name: 'domestic-services-detail',
     components: {
@@ -43,26 +55,28 @@
         //   businessHours: '09:00-17:00'
         // },
         detail: {}
-      }
+      };
     },
     methods: {
-      call() {
+      call () {
+        setupWebViewJavascriptBridge((bridge) => {
+          bridge.callHandler('callPhone', {phone: this.detail.phone});
+        });
       },
       getHouseServiceDetail () {
-        this.$api.get('/HouseService/Detail?id=6').then(res => {
-          this.detail = res.data
-          document.title = res.data.name
+        this.$api.get('/HouseService/Detail?id=' + this.$route.query.id).then(res => {
+          this.detail = res.data;
         }).catch(e => {
           if (e.code) {
-            this.$vux.toast(e.message)
+            this.$vux.toast(e.message);
           } else {
-            this.$vux.toast(e)
+            this.$vux.toast(e);
           }
-        })
+        });
       }
     },
     created () {
-      this.getHouseServiceDetail()
+      this.getHouseServiceDetail();
     }
   };
 </script>
@@ -75,90 +89,33 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
+        padding: 0 .24rem;
+        padding-bottom: 1.24rem;
 
         .banner {
-            width: 100%;
+            margin: .18rem 0;
+            display: block;
+            height: 4.73rem;
         }
-
-        .service {
-            padding: .34rem .24rem .3rem;
-            border-bottom: .02rem solid @L4;
-
-            .name {
-                font-size: .36rem;
-                font-family: @FM;
-                font-weight: 600;
-                color: @T1;
-                line-height: .36rem;
-                margin-bottom: .24rem;
-                word-break: break-all;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 1;
-                -webkit-box-orient: vertical;
-            }
-
-            .desc {
-                font-size: .28rem;
-                font-family: @FR;
-                font-weight: 400;
-                color: @T2;
-                line-height: .42rem;
-            }
+        .title {
+            color: #333333;
+            padding-left: .1rem;
+            font-size: .32rem;
+            padding-bottom: .4rem;
         }
-
-        .detail {
-            height: 100%;
-            padding: .44rem .24rem .46rem;
+        .info {
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            flex: 1;
-
-            .company {
-                font-size: .32rem;
-                font-family: PingFangSC-Semibold;
-                font-weight: 600;
-                color: @T1;
-                line-height: .32rem;
-                margin-bottom: .42rem;
-                word-break: break-all;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 1;
-                -webkit-box-orient: vertical;
+            padding-bottom: .24rem;
+            font-size: .28rem;
+            color: #353535;
+            .label {
+                width: 1.52rem;
+                color: rgba(53,53,53,1);
             }
-
-            .business-hours {
-                font-size: .24rem;
-                font-family: @FR;
-                font-weight: 400;
-                color: #666666;
-                line-height: .24rem;
-                &.time {
-                    margin-bottom: .12rem;
-                }
-            }
-
-            .book {
-                height: .84rem;
-                font-size: .32rem;
-                font-family: @FM;
-                font-weight: 600;
-                color: @B2;
-                line-height: .32rem;
-                background-color: @C3;
-                border-radius: .06rem;
-                box-shadow: none;
-                &:active {
-                    background-color: @C4 !important;
-                    color: @B2 !important;
-                }
+            .dec {
+                flex: 1;
             }
         }
-
         .weui-dialog {
             max-width: 7rem;
             width: 100%;
@@ -169,6 +126,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+
             &:first-child {
                 padding: .44rem .2rem .36rem;
             }
@@ -192,6 +150,7 @@
             font-family: @FM;
             font-weight: 600;
             color: #1B8DF6;
+
             &:after {
                 left: .3rem;
                 right: .3rem;
@@ -208,5 +167,25 @@
             bottom: .3rem;
             border-left: .02rem solid @B7;
         }
+        .weui-btn.book {
+            position: fixed;
+            bottom: .24rem;
+            width: 7rem;
+            height: .84rem;
+            font-size: .32rem;
+            font-family: @FM;
+            font-weight: 600;
+            color: @B2;
+            line-height: .32rem;
+            background-color: @C3;
+            border-radius: .06rem;
+            box-shadow: none;
+
+            &:active {
+                background-color: @C4 !important;
+                color: @B2 !important;
+            }
+        }
+
     }
 </style>

@@ -1,21 +1,24 @@
 <!-- crated：2019-06-23  author：Monster  -->
 <template>
     <div class='domestic-services'>
-        <div class="tab-container">
-            <div class="tab" v-for="(tab, index) in tabs" :key="index" @click="$router.push({ path: '/on-site-repair' })">
-                <img :src="tab.pic" alt="" class="logo">
+        <div class="tab-container" v-if="tabs.length > 0">
+            <div class="tab" v-for="(tab, index) in tabs" :key="index"
+                 @click="$router.push({ path: '/on-site-repair', query: {id: tab.id} })">
+                <img :src="tab.pic?tab.pic:'http://122.14.208.91:8090/FileCenter/Image/2019-07-15/084b91ea-f4c0-49d6-8123-149dc8383eae.jpg'" alt="" class="logo">
                 <p class="name">{{tab.name}}</p>
             </div>
         </div>
         <div class="separator"></div>
         <div class="recommend-container">
-            <div class="recommend" v-for="(item, index) in lists" :key="index">
+            <div class="recommend" @click="$router.push({path: 'domestic-services-detail', query:{id: item.id}})"
+                 v-for="(item, index) in lists" :key="index">
                 <div class="pic">
-                    <img :src="item.pic" alt="" class="thumb">
+                    <img :src="item.pic?item.pic:'http://122.14.208.91:8090/FileCenter/Image/2019-07-15/084b91ea-f4c0-49d6-8123-149dc8383eae.jpg'" alt="" class="thumb">
                 </div>
                 <div class="content">
-                    <p class="title">{{item.title}}</p>
-                    <p class="desc">{{item.content}}</p>
+                    <p class="title ell">{{item.title}}</p>
+                    <p class="desc" v-if="item.serviceScope">服务项目：{{item.serviceScope}}</p>
+                    <p class="distance" v-if="item.distance">距离：{{item.distance}}</p>
                 </div>
             </div>
         </div>
@@ -57,25 +60,24 @@
         //   }
         // ],
         lists: [],
-      }
+      };
     },
     methods: {
       getHouseService () {
         this.$api.get('/HouseService/Index?ClassifyCount=4&ServiceCount=100').then(res => {
-          this.tabs = res.data.classifyList
-          this.lists = res.data.serviceList
-          document.title = res.data.name
-        }).catch(e => {
+          this.tabs = res.data.classifyList;
+          this.lists = res.data.serviceList;
+            }).catch(e => {
           if (e.code) {
-            this.$vux.toast(e.message)
+            this.$vux.toast(e.message);
           } else {
-            this.$vux.toast(e)
+            this.$vux.toast(e);
           }
-        })
+        });
       }
     },
     created () {
-      this.getHouseService()
+      this.getHouseService();
     }
   };
 </script>
@@ -136,9 +138,11 @@
                 }
 
                 .content {
+                    overflow: hidden;
                     flex: 1;
+                    min-height: 1.62rem;
                     border-bottom: .02rem solid @B7;
-                    padding: .2rem .52rem .46rem 0;
+                    padding: .1rem .52rem .46rem 0;
 
                     .title {
                         font-size: .32rem;
@@ -147,12 +151,7 @@
                         color: @T1;
                         line-height: .32rem;
                         margin-bottom: .34rem;
-                        word-break: break-all;
                         overflow: hidden;
-                        text-overflow: ellipsis;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 1;
-                        -webkit-box-orient: vertical;
                     }
 
                     .desc {

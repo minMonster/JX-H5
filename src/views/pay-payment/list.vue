@@ -6,10 +6,11 @@
                 <icon :type="card.active?'success':'circle'"></icon>
             </div>
             <div class="info">
-                <div class="title">{{card.title}}</div>
-                <div class="timer">{{card.data}}</div>
+                <div class="title">{{card.feeitemname}}</div>
+                <div class="timer">开始日期：{{card.starttime}}</div>
+                <div class="timer">结束日期：{{card.endtime}}</div>
             </div>
-            <div class="money">¥{{card.money}}</div>
+            <div class="money">¥{{card.totalmoney}}</div>
         </div>
         <div class="buttons">
             <div class="money-num-box">应付金额：<span class="num-money">¥{{numMoney}}</span></div>
@@ -54,6 +55,13 @@
         ]
       }
     },
+    created () {
+      //
+      let query = this.$route.query;
+      this.$api.get('/HouseManage/AppGetFee?houseId=' + query.roomId + '&companyId=' + query.companyId).then(res => {
+        this.lists = res.data;
+      })
+    },
     methods: {
       pay () {
         if (this.numMoney === 0) {
@@ -64,9 +72,9 @@
       },
       select (card, index) {
         if (card.active) {
-          this.numMoney -= this.lists[index].money;
+          this.numMoney -= this.lists[index].totalmoney;
         } else {
-          this.numMoney += this.lists[index].money;
+          this.numMoney += this.lists[index].totalmoney;
         }
         card.active = !card.active;
       }

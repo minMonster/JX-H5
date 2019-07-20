@@ -106,6 +106,9 @@
                 font-family: @FR;
                 color: @T3;
                 line-height: .32rem;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
             }
 
             .time {

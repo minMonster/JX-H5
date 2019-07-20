@@ -24,7 +24,8 @@
         value1: [],
         list1: [[]],
         loading: true,
-        roomId: ''
+        roomId: '',
+        companyId: ''
       };
     },
     created () {
@@ -46,7 +47,8 @@
           return {
             name: i.roomNum,
             value: i.roomNum,
-            id: i.roomId
+            id: i.roomId,
+            companyId: i.companyId
           };
         });
         this.list1 = [arr];
@@ -58,7 +60,7 @@
         if (this.roomId === '') {
           this.$vux.toast.text('请选择房屋地址')
         } else {
-          this.$router.push({path: 'pay-payment-list', query: {roomId: this.roomId}})
+          this.$router.push({path: 'pay-payment-list', query: {roomId: this.roomId, companyId: this.companyId}})
         }
       },
       pickerChange () {
@@ -66,6 +68,7 @@
         arr.forEach(i => {
           if (i.name === this.value1[0]) {
             this.roomId = i.id;
+            this.companyId = i.companyId;
           }
         });
       }

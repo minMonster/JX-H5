@@ -1,18 +1,19 @@
 <!-- crated：2019-06-23  author：Monster  -->
 <template>
     <div class='on-site-repair'>
-        <div class="sorter-container">
-            <div class="sorter">
-                综合排序
-            </div>
-        </div>
+<!--        <div class="sorter-container">-->
+<!--            <div class="sorter">-->
+<!--                综合排序-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="recommend-container">
-            <div class="recommend" v-for="(item, index) in lists" :key="index" @click="$router.push({ path: item.path })">
-                <img :src="item.pic" alt="" class="pic">
+            <div class="recommend" @click="$router.push({path: 'domestic-services-detail', query:{id: item.id}})"
+                 v-for="(item, index) in lists" :key="index">
+                <img :src="item.pic?item.pic:'http://122.14.208.91:8090/FileCenter/Image/2019-07-15/084b91ea-f4c0-49d6-8123-149dc8383eae.jpg'" alt="" class="pic">
                 <div class="content">
-                    <p class="title">{{item.title}}</p>
-                    <p class="desc">{{item.content}}</p>
-                    <p class="distance">距离{{item.distance}}</p>
+                    <p class="title ell">{{item.title}}</p>
+                    <p class="desc ell" v-if="item.serviceScope">服务项目：{{item.serviceScope}}</p>
+                    <p class="distance" v-if="item.distance">距离：{{item.distance}}</p>
                 </div>
             </div>
         </div>
@@ -55,24 +56,24 @@
         //   }
         // ],
         lists: []
-      }
+      };
     },
     methods: {
       getHouseServiceList () {
-        this.$api.get('/HouseService/List?ClassifyID=5&PageSize=4&PageIndex=1').then(res => {
-          this.lists = res.data.serviceList
-          document.title = res.data.name
+        this.$api.get('/HouseService/List?PageSize=100&PageIndex=1&ClassifyID=' + this.$route.query.id).then(res => {
+          this.lists = res.data.serviceList;
+          document.title = res.data.name;
         }).catch(e => {
           if (e.code) {
-            this.$vux.toast(e.message)
+            this.$vux.toast(e.message);
           } else {
-            this.$vux.toast(e)
+            this.$vux.toast(e);
           }
-        })
+        });
       }
     },
     created () {
-      this.getHouseServiceList()
+      this.getHouseServiceList();
     }
   };
 </script>
@@ -106,28 +107,28 @@
                 margin-bottom: .26rem;
 
                 .pic {
-                    width: 2rem;
+                    min-width: 2rem;
+                    max-width: 2rem;
+                    min-height: 2rem;
+                    max-height: 2rem;
+                    display: block;
                     border-radius: .06rem;
                     margin-right: .26rem;
                 }
 
                 .content {
+                    overflow: hidden;
+                    flex: 1;
+                    min-height: 2rem;
                     border-bottom: .02rem solid @B7;
-                    padding: .2rem .6rem .2rem 0;
+                    padding: .1rem .2rem .2rem 0;
 
                     .title, .desc {
                         font-size: .32rem;
                         font-family: @FM;
                         font-weight: 600;
                         color: @T1;
-                        line-height: .32rem;
                         margin-bottom: .3rem;
-                        word-break: break-all;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 1;
-                        -webkit-box-orient: vertical;
                     }
 
                     .desc {
