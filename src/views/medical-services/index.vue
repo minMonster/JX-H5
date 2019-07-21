@@ -8,14 +8,14 @@
             <div class="pat-title">
                 {{group.name}}
             </div>
-            <div class="card" v-for="card in group.news" :key="card.id">
+            <div class="card" @click="$router.push({path: 'article-details', query: {id: card.id}})" v-for="card in group.news" :key="card.id">
                 <div class="info">
                     <div class="dec">
                         {{card.title}}
                     </div>
 <!--                    <div class="tag">24观看·24点赞·32评论</div>-->
                 </div>
-                <img :src="'http://122.14.208.91:8090' + card.thumbnails" alt="">
+                <img :src="card.thumbnails" alt="">
             </div>
         </div>
 

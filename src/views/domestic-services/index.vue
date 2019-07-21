@@ -17,7 +17,7 @@
                 </div>
                 <div class="content">
                     <p class="title ell">{{item.title}}</p>
-                    <p class="desc" v-if="item.serviceScope">服务项目：{{item.serviceScope}}</p>
+                    <p class="desc" v-if="item.serviceScope">服务范围：{{item.serviceScope}}</p>
                     <p class="distance" v-if="item.distance">距离：{{item.distance}}</p>
                 </div>
             </div>
@@ -149,7 +149,7 @@
                         font-family: @FM;
                         font-weight: 600;
                         color: @T1;
-                        line-height: .32rem;
+                        line-height: .35rem;
                         margin-bottom: .34rem;
                         overflow: hidden;
                     }
