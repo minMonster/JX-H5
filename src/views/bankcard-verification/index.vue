@@ -16,7 +16,8 @@
       ></x-input>
     </group>
     <div class="btn-container">
-      <x-button class="bind-btn">确认绑定</x-button>
+      <x-button class="bind-btn" @click.native="addCardVerify" v-if="fromMyBankcard">确认绑定</x-button>
+      <x-button class="bind-btn" @click.native="accountOpen" v-else>确认绑定</x-button>
     </div>
     <p class="reminder">信息加密处理，仅用于银行验证及实名认证</p>
   </div>
@@ -34,6 +35,8 @@ export default {
   data: function () {
     return {
       reminder: '提醒：当前只支持绑定中国银行、农业银行、建设银行、交通银行、邮政储蓄银行、工商银行与持卡人信息一致的银行卡',
+      fromMyBankcard: false,
+      mediumId: '',
       cardNumber: {
         value: '',
         title: '卡号',
@@ -64,6 +67,30 @@ export default {
     }
   },
   methods: {
+    accountOpen () {
+      this.$api.post('/Icbc/AccountOpen', {
+        bind_medium: this.cardNumber.value,
+        cust_name: this.info[0].value,
+        cert_no: this.info[1].value,
+        mobile_no: this.info[2].value,
+        password: this.info[3].value,
+        userId: this.cardNumber.value
+      })
+    },
+    addCardVerify () {
+      this.$api.post('/Icbc/AccountBinding', {
+        mediumId: this.mediumId,
+        bindMedium: this.cardNumber.value,
+        custName: this.info[0].value,
+        certNo: this.info[1].value,
+        mobileNo: this.info[2].value,
+        userId: this.cardNumber.value
+      })
+    }
+  },
+  created () {
+    // 判断本页面是点击【开户】还是点击【添加银行卡】进来的（不知道该怎么判断）
+    // 若为前者，不做操作；否则，将 fromMyBankcard 设为 true
   }
 }
 </script>

@@ -35,6 +35,10 @@ export default {
         { name: '银行卡', pic: ''}
       ]
     }
+  },
+  methods: {
+  },
+  created () {
   }
 }
 </script>
