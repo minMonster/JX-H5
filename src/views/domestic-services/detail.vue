@@ -126,8 +126,6 @@ export default {
           font-weight: 600;
           padding-bottom: .2rem;
         }
-        .dec {
-        }
       }
     }
 

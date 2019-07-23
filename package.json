@@ -19,6 +19,7 @@
     "swiper": "^4.5.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
+    "vue-scroller": "^2.2.4",
     "vux": "^2.9.4",
     "vux-loader": "^1.2.9"
   },

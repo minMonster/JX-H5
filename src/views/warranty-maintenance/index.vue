@@ -47,7 +47,7 @@ export default {
     }
   },
   created () {
-    this.$api.get('/HouseManage/AllBindRoomQuery').then(res => {
+    this.$api.get('/HouseManage/AllBindRoomQuery?isCertifi=已认证').then(res => {
       if (!res.data || res.data.length === 0) {
         this.$vux.alert.show({
           title: '您的账号没有房屋地址',

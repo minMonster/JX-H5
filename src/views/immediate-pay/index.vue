@@ -2,13 +2,13 @@
     <div class="immediate-pay">
         <div class="coupon">
             <div class="coupon-top">
-                <span class="address">{{info.address}}</span>
+                <span class="address">{{$route.query.roomName}}</span>
                 <div class="price">
                     <span class="small symbol">¥</span>
-                    <span class="big">{{info.price}}</span>
-                    <span class="small decimal">.00</span>
+                    <span class="big">{{$route.query.numMoney}}</span>
+<!--                    <span class="small decimal">.00</span>-->
                 </div>
-                <span class="company">物业公司：{{info.company}}</span>
+<!--                <span class="company">物业公司：{{$route.query.roomName}}</span>-->
             </div>
             <div class="coupon-bottom">
                 <p class="tip">支付方式</p>
@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-        <x-button class="pay-btn">立即支付</x-button>
+        <x-button class="pay-btn" @click.native="$vux.toast.text('支付功能暂未开放')">立即支付</x-button>
     </div>
 </template>
 
@@ -190,7 +190,9 @@
             height: .84rem;
             background: linear-gradient(178deg,rgba(74,180,254,1) 0%,rgba(27,141,246,1) 64%,rgba(6,123,248,1) 100%);
             border-radius: .06rem;
-            box-shadow: none;
+            &.weui-btn_default {
+              box-shadow: none;
+            }
         }
 
         .pay-btn {

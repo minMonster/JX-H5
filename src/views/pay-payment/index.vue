@@ -25,11 +25,12 @@
         list1: [[]],
         loading: true,
         roomId: '',
-        companyId: ''
+        companyId: '',
+        roomNum: ''
       };
     },
     created () {
-      this.$api.get('/HouseManage/AllBindRoomQuery').then(res => {
+      this.$api.get('/HouseManage/AllBindRoomQuery?isCertifi=已认证').then(res => {
         if (!res.data || res.data.length === 0) {
           this.$vux.alert.show({
             title: '您的账号没有房屋地址',
@@ -60,7 +61,7 @@
         if (this.roomId === '') {
           this.$vux.toast.text('请选择房屋地址')
         } else {
-          this.$router.push({path: 'pay-payment-list', query: {roomId: this.roomId, companyId: this.companyId}})
+          this.$router.push({path: 'pay-payment-list', query: {roomId: this.roomId, companyId: this.companyId, roomName: this.roomNum}})
         }
       },
       pickerChange () {
@@ -69,6 +70,7 @@
           if (i.name === this.value1[0]) {
             this.roomId = i.id;
             this.companyId = i.companyId;
+            this.roomNum = i.value;
           }
         });
       }

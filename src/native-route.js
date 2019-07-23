@@ -24,7 +24,8 @@ let staticRoute = {
   'complaintsSuggestions': 'complaints-suggestions', // 投诉建议
   'warrantyMaintenance': 'warranty-maintenance', // 保修建议
   'propertyNotice': 'property-notice', // 物业通知
-  'serviceRecord': 'service-record' // 服务记录
+  'serviceRecord': 'service-record', // 服务记录
+  'wallet': 'wallet' // 钱包
 };
 
 // 动态路由，retern routeName

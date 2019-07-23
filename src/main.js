@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import api from '@/api';
 import { ToastPlugin } from 'vux';
+import VueScroller from 'vue-scroller'
 
 /* Style */
 import '@/styles/reset.css';
@@ -14,6 +15,7 @@ import { LoadingPlugin } from 'vux';
 import { AlertPlugin } from 'vux';
 
 Vue.use(AlertPlugin);
+Vue.use(VueScroller);
 Vue.use(LoadingPlugin);
 Vue.config.productionTip = false;
 Object.defineProperty(Vue.prototype, '$api', {value: api});

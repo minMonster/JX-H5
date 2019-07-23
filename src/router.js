@@ -276,7 +276,42 @@ const router = new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when ，the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ '@/views/immediate-pay/index')
+      component: resolve => require(['@/views/immediate-pay/index'], resolve)
+    },
+    {
+      path: '/wallet',
+      name: 'wallet',
+      meta: { title: '钱包' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when ，the route is visited.
+      component: resolve => require(['@/views/wallet/index'], resolve)
+    },
+    {
+      path: '/wallet/bankcard-verification',
+      name: 'bankcard-verification',
+      meta: { title: '验证银行卡信息' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when ，the route is visited.
+      component: resolve => require(['@/views/wallet/bankcard-verification'], resolve)
+    },
+    {
+      path: '/wallet/verify-card-info',
+      name: 'verify-card-info',
+      meta: { title: '验证银行卡信息' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when ，the route is visited.
+      component: resolve => require(['@/views/wallet/verify-card-info.vue'], resolve)
+    },
+    {
+      path: '/wallet/to-up',
+      meta: { title: '' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when ，the route is visited.
+      component: resolve => require(['@/views/wallet/to-up.vue'], resolve)
     },
     // native route
     {
