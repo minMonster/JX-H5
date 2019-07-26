@@ -2,7 +2,7 @@
   <div class="jufubao">
     <img src="../../assets/wallet/money_icon.png" alt="" class="icon">
     <span class="tip">我的余额</span>
-    <div class="balance"><span class="big">{{balance}}</span><span class="small">元</span></div>
+    <div class="balance"><span class="big">{{balance/100}}</span><span class="small">元</span></div>
     <x-button class="bank-btn" :link="'/wallet/bankcard-verification'" v-if="!mediumId">开户</x-button>
     <x-button class="charge-btn" @click.native="toUp" v-if="mediumId">充值</x-button>
     <x-button class="withdraw-btn"
@@ -14,17 +14,27 @@
 
 <script>
   import { XButton } from 'vux';
-
   export default {
     name: 'jufubao',
     components: {
       XButton
     },
+    props: {
+      balance: {
+        default: ''
+      },
+      mediumId: {
+        default: ''
+      },
+      bindMedium: {
+        default: ''
+      }
+    },
     data: function () {
       return {
-        balance: '0.00',
-        mediumId: '',
-        bindMedium: ''
+        // balance: '0.00',
+        // mediumId: '',
+        // bindMedium: ''
       };
     },
     methods: {
@@ -32,59 +42,23 @@
         if (this.bindMedium === '') {
           this.$vux.toast.text('请先绑定银行卡');
         } else {
-          this.$router.push({path: '/wallet/to-up', query: {mediumId, bindMedium, type: 'to-up'}});
+          this.$router.push({path: '/wallet/to-up', query: {mediumId: this.mediumId, bindMedium: this.bindMedium, type: 'to-up'}});
         }
       },
       toDown () {
         if (this.bindMedium === '') {
           this.$vux.toast.text('请先绑定银行卡');
         } else {
-          this.$router.push({path: '/wallet/to-up', query: {mediumId, bindMedium, type: 'to-down'}});
+          this.$router.push({path: '/wallet/to-up', query: {mediumId: this.mediumId, bindMedium: this.bindMedium, type: 'to-down'}});
         }
-      },
-      getAccountStatus () {
-        this.$api.get('/Icbc/AppGetOpenAccountStatus', {
-          params: {
-            userId: ''
-          }
-        }).then(res => {
-          console.log('success', res);
-          let data = res.data;
-          if (res.success) {
-            this.mediumId = data;
-            this.$api.post('/Icbc/BindingQuery', {
-              mediumId: data
-            }).then(res => {
-              if (res.data[0].bindMedium) {
-                this.bindMedium = res.data[0].bindMedium;
-              }
-            });
-            this.getAccountBalance();
-          }
-        }).catch(err => {
-          if (err.code) {
-            this.$vux.toast(err.message);
-          } else {
-            this.$vux.toast(err);
-          }
-        });
-      },
-      getAccountBalance () {
-        this.$api.post('/Icbc/AccountBalanceQuery', {
-          mediumId: this.mediumId
-        }).then(res => {
-          this.balance = res.data.accountBalance || 0;
-        }).catch(e => {
-          if (e.code) {
-            this.$vux.toast(e.message);
-          } else {
-            this.$vux.toast(e);
-          }
-        });
       }
     },
     created () {
-      this.getAccountStatus();
+      // console.log(Bus.$emit('getMediumId'))
+      // Bus.$emit('getMediumId', res => {
+      //   this.mediumId = res;
+      // })
+      // this.getAccountStatus();
     }
   };
 </script>

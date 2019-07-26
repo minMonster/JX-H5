@@ -313,6 +313,14 @@ const router = new Router({
       // which is lazy-loaded when ，the route is visited.
       component: resolve => require(['@/views/wallet/to-up.vue'], resolve)
     },
+    {
+      path: '/no-open',
+        meta: { title: '功能尚未开放' },
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when ，the route is visited.
+      component: resolve => require(['@/views/no-open/index.vue'], resolve)
+    },
     // native route
     {
       meta: {title: '政务'},

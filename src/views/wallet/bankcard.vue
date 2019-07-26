@@ -1,7 +1,9 @@
 <template>
   <div class="bankcard">
-    <div class="card-pocket"></div>
-    <x-button class="add-card-btn" :link="'/wallet/bankcard-verification'">+&nbsp;&nbsp;添加银行卡</x-button>
+    <div class="card-pocket">
+      <div class="card" v-for="item in bindMedium" :key="item.bindMedium">工商银行{{item.bind_medium}}</div>
+    </div>
+    <x-button class="add-card-btn" :link="mediumId?'/wallet/bankcard-verification?type=bind&mediumId=' + mediumId: '/wallet/bankcard-verification'">+&nbsp;&nbsp;添加银行卡</x-button>
   </div>
 </template>
 
@@ -11,6 +13,19 @@ export default {
   name: 'bankcard',
   components: {
     XButton
+  },
+  props: {
+    bindMedium: {
+      default: []
+    },
+    mediumId: {
+      default: ''
+    }
+  },
+  data: function () {
+    return {
+      isMediumId: false
+    }
   }
 }
 </script>

@@ -25,7 +25,12 @@ let staticRoute = {
   'warrantyMaintenance': 'warranty-maintenance', // 保修建议
   'propertyNotice': 'property-notice', // 物业通知
   'serviceRecord': 'service-record', // 服务记录
-  'wallet': 'wallet' // 钱包
+  'wallet': 'wallet', // 钱包
+  'showFamilyAd': 'article-details',
+  'showFamilyNews': 'article-details',
+  'visitorAccess': 'no-open',
+  'accessControlManagement': 'no-open',
+  'smartDevice': 'no-open',
 };
 
 // 动态路由，retern routeName

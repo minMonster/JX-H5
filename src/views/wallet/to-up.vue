@@ -93,22 +93,23 @@
           this.$vux.toast.text('请输入6位交易密码');
           return;
         }
+        let amount = this.payOptions.amount * 100;
         if (this.type === 'to-down') {
-          this.$api.post('/Icbc/accountWithdraw', {...this.payOptions}).then(res => {
+          this.$api.post('/Icbc/accountWithdraw', {...this.payOptions, amount: amount}).then(res => {
             if (res.success) {
               this.$vux.toast.text('提现成功');
               this.showDialog = false;
-              this.$route.push({path: '/wallet'});
+              this.$router.push({path: '/wallet'});
             } else {
               this.$vux.toast.text(res.message);
             }
           });
         } else {
-          this.$api.post('/Icbc/AccountRecharge', {...this.payOptions}).then(res => {
+          this.$api.post('/Icbc/AccountRecharge', {...this.payOptions, amount: amount}).then(res => {
             if (res.success) {
               this.$vux.toast.text('充值成功');
               this.showDialog = false;
-              this.$route.push({path: '/wallet'});
+              this.$router.push({path: '/wallet'});
             } else {
               this.$vux.toast.text(res.message);
             }

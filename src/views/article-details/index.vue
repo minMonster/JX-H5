@@ -13,41 +13,41 @@
 </template>
 
 <script>
-  // import {setupWebViewJavascriptBridge} from '@/common/jsbridge'
+// import {setupWebViewJavascriptBridge} from '@/common/jsbridge'
 
-  export default {
-    name: 'article-details',
-    data: function () {
-      return {
-        HospitalDetail: ''
-      };
-    },
-    created () {
-      this.getHospital();
-    },
-    methods: {
-      // callPhone (phone) {
-      //   setupWebViewJavascriptBridge((bridge) => {
-      //     bridge.callHandler('callPhone', {phone: phone})
-      //   })
-      // },
-      // hyperLink (link) {
-      //   window.open(link)
-      // },
-      getHospital () {
-        this.$api.get('/News/' + this.$route.query.id).then(res => {
-          this.HospitalDetail = res.data;
-          document.title = '文章详情';
-        }).catch(e => {
-          if (e.code) {
-            this.$vux.toast.text(e.message);
-          } else {
-            this.$vux.toast.text(e);
-          }
-        });
-      }
+export default {
+  name: 'article-details',
+  data: function () {
+    return {
+      HospitalDetail: ''
     }
-  };
+  },
+  created () {
+    this.getHospital()
+  },
+  methods: {
+    // callPhone (phone) {
+    //   setupWebViewJavascriptBridge((bridge) => {
+    //     bridge.callHandler('callPhone', {phone: phone})
+    //   })
+    // },
+    // hyperLink (link) {
+    //   window.open(link)
+    // },
+    getHospital () {
+      this.$api.get('/News/' + this.$route.query.id).then(res => {
+        this.HospitalDetail = res.data
+        document.title = '文章详情'
+      }).catch(e => {
+        if (e.code) {
+          this.$vux.toast.text(e.message)
+        } else {
+          this.$vux.toast.text(e)
+        }
+      })
+    }
+  }
+}
 </script>
 <style rel="stylesheet/less" lang="less">
 

@@ -38,31 +38,31 @@
         fromMyBankcard: false,
         type: 'bind',
         cardNumber: {
-          value: '6222034000012347971',
+          value: '',
           title: '卡号',
           placeholder: '请输入银行卡号'
         },
         info: [
           {
-            value: '李轩',
+            value: '',
             title: '持卡人',
             placeholder: '持卡人姓名',
             none: true
           },
           {
-            value: '132825199506290010',
+            value: '',
             title: '身份证',
             placeholder: '请输入证件号码',
             none: true
           },
           {
-            value: '15075653544',
+            value: '',
             title: '手机号',
             placeholder: '银行预留手机号',
             none: true
           },
           {
-            value: '597080',
+            value: '',
             title: '密码',
             placeholder: '请输入6位支付密码',
             none: true
@@ -106,18 +106,18 @@
           url = '/Icbc/AccountOpen';
         } else {
           params = {
+            mediumId: this.$route.query.mediumId,
             bindMedium: this.cardNumber.value,
             custName: this.info[0].value,
             certNo: this.info[1].value,
             mobileNo: this.info[2].value,
-            userId: '',
-            mediumId: this.$route.query.mediumId
+            userId: ''
           };
         }
 
         this.$api.post(url, {...params}).then(res => {
           if (!res.data.corpSerno) {
-            this.$vux.toast.text('参数错误，请检查您填写的信息');
+            this.$vux.toast.text(res.message);
           } else {
             this.$router.push({
               path: '/wallet/verify-card-info', query: {
@@ -127,16 +127,6 @@
               }
             });
           }
-        });
-      },
-      addCardVerify () {
-        this.$api.post('/Icbc/AccountBinding', {
-          mediumId: this.mediumId,
-          bindMedium: this.cardNumber.value,
-          custName: this.info[0].value,
-          certNo: this.info[1].value,
-          mobileNo: this.info[2].value,
-          userId: this.cardNumber.value
         });
       }
     },

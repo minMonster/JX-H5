@@ -30,92 +30,92 @@
 </template>
 
 <script>
-  export default {
-    name: 'service-record',
-    data: function () {
-      return {
-        iconSrc: require('../../assets/property-notice/read_state_icon.png'),
-        fakeData: [
-          {
-            title: '水电线路检修',
-            areaName: '莒园区',
-            content: '本月水电线路检修本月水电线路检修本月水电线路检修本月水电线路检修',
-            time: '2019-07-13 21:45:44'
-          },
-          {
-            title: '水电线路检修',
-            areaName: '莒园区',
-            content: '本月水电线路检修',
-            time: '2019-07-13 21:45:44'
-          },
-          {
-            title: '水电线路检修',
-            areaName: '莒园区',
-            content: '本月水电线路检修',
-            time: '2019-07-13 21:45:44'
-          }
-        ],
-        list1: [],
-        loading: true,
-        selectObj: {},
-        isSelect: false
-      };
-    },
-    methods: {
-      decodeUnicode (str) {
-        str = str.replace(/banc/g, '%');
-        return unescape(str);
-      },
-      openSelect () {
-        this.isSelect = true;
-      },
-      selectItem (item) {
-        this.selectObj = item;
-        this.isSelect = false;
-        this.getList();
-      },
-      getList () {
-        return this.$api.post('/HouseManage/AppCprQuery', {
-          pageSize: 100,
-          offset: 0,
-          tsbxlx: '',
-          companyId: this.selectObj.companyId
-        }).then(res => {
-          this.fakeData = res.data;
-        });
-      }
-    },
-    created () {
-      this.$api.get('/HouseManage/AllBindRoomQuery?isCertifi=已认证').then(res => {
-        if (!res.data || res.data.length === 0) {
-          this.$vux.alert.show({
-            title: '您的账号没有房屋地址',
-            content: '点击确定将返回家页面',
-            onShow () {
-            },
-            onHide () {
-              setupWebViewJavascriptBridge((bridge) => {
-                bridge.callHandler('finish');
-              });
-            }
-          });
+export default {
+  name: 'service-record',
+  data: function () {
+    return {
+      iconSrc: require('../../assets/property-notice/read_state_icon.png'),
+      fakeData: [
+        {
+          title: '水电线路检修',
+          areaName: '莒园区',
+          content: '本月水电线路检修本月水电线路检修本月水电线路检修本月水电线路检修',
+          time: '2019-07-13 21:45:44'
+        },
+        {
+          title: '水电线路检修',
+          areaName: '莒园区',
+          content: '本月水电线路检修',
+          time: '2019-07-13 21:45:44'
+        },
+        {
+          title: '水电线路检修',
+          areaName: '莒园区',
+          content: '本月水电线路检修',
+          time: '2019-07-13 21:45:44'
         }
-        let arr = res.data.map(i => {
-          return {
-            name: i.roomNum,
-            value: i.roomNum,
-            id: i.roomId,
-            companyId: i.companyId
-          };
-        });
-        this.list1 = arr;
-        this.selectObj = this.list1[0];
-        this.getList().then(res => {
-          this.loading = false;
-        })
-      });
+      ],
+      list1: [],
+      loading: true,
+      selectObj: {},
+      isSelect: false
     }
-  };
+  },
+  methods: {
+    decodeUnicode (str) {
+      str = str.replace(/banc/g, '%')
+      return unescape(str)
+    },
+    openSelect () {
+      this.isSelect = true
+    },
+    selectItem (item) {
+      this.selectObj = item
+      this.isSelect = false
+      this.getList()
+    },
+    getList () {
+      return this.$api.post('/HouseManage/AppCprQuery', {
+        pageSize: 100,
+        offset: 0,
+        tsbxlx: '',
+        companyId: this.selectObj.companyId
+      }).then(res => {
+        this.fakeData = res.data
+      })
+    }
+  },
+  created () {
+    this.$api.get('/HouseManage/AllBindRoomQuery?isCertifi=已认证').then(res => {
+      if (!res.data || res.data.length === 0) {
+        this.$vux.alert.show({
+          title: '您的账号没有房屋地址',
+          content: '点击确定将返回家页面',
+          onShow () {
+          },
+          onHide () {
+            setupWebViewJavascriptBridge((bridge) => {
+              bridge.callHandler('finish')
+            })
+          }
+        })
+      }
+      let arr = res.data.map(i => {
+        return {
+          name: i.roomNum,
+          value: i.roomNum,
+          id: i.roomId,
+          companyId: i.companyId
+        }
+      })
+      this.list1 = arr
+      this.selectObj = this.list1[0]
+      this.getList().then(res => {
+        this.loading = false
+      })
+    })
+  }
+}
 </script>
 <style rel="stylesheet/less" lang="less">
 
