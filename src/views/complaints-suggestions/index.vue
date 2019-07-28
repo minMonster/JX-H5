@@ -84,6 +84,11 @@ export default {
     })
   },
   methods: {
+    encodeUnicode (s) {
+      return s.replace(/([\u4E00-\u9FA5]|[\uFE30-\uFFA0])/g, function (newStr) {
+        return '\\u' + newStr.charCodeAt(0).toString(16)
+      })
+    },
     onNext () {
       if (this.roomId === '') {
         this.$vux.toast.text('请选择房屋地址')
@@ -102,7 +107,7 @@ export default {
         return
       }
       this.$vux.loading.show()
-      this.$api.post('/HouseManage/AppCprQuery', {
+      this.$api.post('/HouseManage/AppCprAdd', {
         companyId: this.companyId,
         title: this.titleInfo,
         roomId: this.roomId,
@@ -110,21 +115,23 @@ export default {
         description: this.describeDetail,
         tsbxlx: 'tousu',
         opater: ''
-      }).then(() => {
-        this.$vux.loading.hide()
-        this.$vux.toast.text('提交成功')
-        // this.$router.go(-1)
-        this.$vux.alert.show({
-          title: '提交成功',
-          content: '点击确定将返回家页面',
-          onShow () {
-          },
-          onHide () {
-            setupWebViewJavascriptBridge((bridge) => {
-              bridge.callHandler('finish')
-            })
-          }
-        })
+      }).then((res) => {
+        if (res.success) {
+          this.$vux.loading.hide()
+          this.$vux.toast.text('提交成功')
+          // this.$router.go(-1)
+          this.$vux.alert.show({
+            title: '提交成功',
+            content: '点击确定将返回家页面',
+            onShow () {
+            },
+            onHide () {
+              setupWebViewJavascriptBridge((bridge) => {
+                bridge.callHandler('finish')
+              })
+            }
+          })
+        }
       }).catch(() => {
         this.$vux.loading.hide()
         this.$vux.toast.text('提交失败')

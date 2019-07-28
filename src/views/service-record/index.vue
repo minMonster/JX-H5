@@ -1,6 +1,6 @@
 <!-- crated：2019-07-15  author：Monster  -->
 <template>
-  <div class='service-record' v-if="!loading">
+  <div class='service-record'>
     <div class="select" @click="openSelect"><span>{{selectObj.value}}</span></div>
     <transition name="fade">
       <div class="select-list" v-if="isSelect">
@@ -12,16 +12,15 @@
     <transition name="fade">
       <div class="make" @click="isSelect = false" v-if="isSelect"></div>
     </transition>
-
     <div class="notice-container" v-for="(item, index) in fakeData" :key="index">
       <!--            <img :src="iconSrc" class="stateIcon" />-->
       <div class="notice">
         <div class="title-box">
-          <span class="title">{{item.title?item.titel:'标题'}}{{item.classfy?'('+item.classfy+')':''}}</span>
+          <span class="title">{{item.title?decodeUnicode(item.title):'标题'}}{{item.classfy?'('+item.classfy+')':''}}</span>
           <!--                    <span class="area-name">({{item.areaName}})</span>-->
         </div>
-        <p class="content">{{item.description}}</p>
-        <p class="time">{{item.createTime}}</p>
+        <p class="content">{{decodeUnicode(item.content)}}</p>
+        <p class="time">{{item.savetime}}</p>
         <div class="type">{{item.currentState}}</div>
       </div>
     </div>
@@ -30,30 +29,31 @@
 </template>
 
 <script>
+// import * as auth from '@/common/auth'
 export default {
   name: 'service-record',
   data: function () {
     return {
       iconSrc: require('../../assets/property-notice/read_state_icon.png'),
       fakeData: [
-        {
-          title: '水电线路检修',
-          areaName: '莒园区',
-          content: '本月水电线路检修本月水电线路检修本月水电线路检修本月水电线路检修',
-          time: '2019-07-13 21:45:44'
-        },
-        {
-          title: '水电线路检修',
-          areaName: '莒园区',
-          content: '本月水电线路检修',
-          time: '2019-07-13 21:45:44'
-        },
-        {
-          title: '水电线路检修',
-          areaName: '莒园区',
-          content: '本月水电线路检修',
-          time: '2019-07-13 21:45:44'
-        }
+        // {
+        //   title: '水电线路检修',
+        //   areaName: '莒园区',
+        //   content: '本月水电线路检修本月水电线路检修本月水电线路检修本月水电线路检修',
+        //   time: '2019-07-13 21:45:44'
+        // },
+        // {
+        //   title: '水电线路检修',
+        //   areaName: '莒园区',
+        //   content: '本月水电线路检修',
+        //   time: '2019-07-13 21:45:44'
+        // },
+        // {
+        //   title: '水电线路检修',
+        //   areaName: '莒园区',
+        //   content: '本月水电线路检修',
+        //   time: '2019-07-13 21:45:44'
+        // }
       ],
       list1: [],
       loading: true,
@@ -63,8 +63,11 @@ export default {
   },
   methods: {
     decodeUnicode (str) {
-      str = str.replace(/banc/g, '%')
-      return unescape(str)
+      if (!str) {
+        return ''
+      }
+      console.log(str.replace(/jxt/g, '%'))
+      return unescape(str.replace(/jxt/g, '%'))
     },
     openSelect () {
       this.isSelect = true
@@ -72,15 +75,19 @@ export default {
     selectItem (item) {
       this.selectObj = item
       this.isSelect = false
-      this.getList()
+      this.getList().then(() => {
+        this.loading = false
+      })
     },
     getList () {
-      return this.$api.post('/HouseManage/AppCprQuery', {
+      let params = {
         pageSize: 100,
         offset: 0,
-        tsbxlx: '',
+        account: JSON.parse(sessionStorage.getItem('userInfo')).phone,
+        type: 'list',
         companyId: this.selectObj.companyId
-      }).then(res => {
+      }
+      return this.$api.post('/HouseManage/Visit', {...params}).then(res => {
         this.fakeData = res.data
       })
     }

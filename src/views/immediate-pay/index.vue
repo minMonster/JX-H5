@@ -64,8 +64,11 @@ export default {
             auth.getToken()
         ).then(res => {
           if (res.success) {
+            let that = this
             setupWebViewJavascriptBridge((bridge) => {
-              bridge.callHandler('payment', {payType: 1, orderInfo: res.aliParam}, function (res) {})
+              bridge.callHandler('payment', {payType: 1, orderInfo: res.aliParam}, function (res) {
+                that.$vux.toast.text('支付成功')
+              })
             })
           }
         })

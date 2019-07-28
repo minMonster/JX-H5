@@ -8,23 +8,23 @@
 </template>
 
 <script>
-  import Router from '@/router';
-  import { Group, Cell } from 'vux'
+import Router from '@/router'
+import { Group, Cell } from 'vux'
 
-  export default {
-    name: 'home',
-    components: {
-      Group, Cell
-    },
-    data: function () {
-      return {
-        routerList: []
-      };
-    },
-    created () {
-      this.routerList = Router.options.routes;
+export default {
+  name: 'home',
+  components: {
+    Group, Cell
+  },
+  data: function () {
+    return {
+      routerList: []
     }
-  };
+  },
+  created () {
+    this.routerList = Router.options.routes
+  }
+}
 </script>
 <style rel="stylesheet/less" lang="less">
 

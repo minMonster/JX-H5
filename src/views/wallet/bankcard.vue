@@ -1,7 +1,18 @@
 <template>
   <div class="bankcard">
     <div class="card-pocket">
-      <div class="card" v-for="item in bindMedium" :key="item.bindMedium">工商银行{{item.bind_medium}}</div>
+      <div class="card" v-for="item in bindMedium" :key="item.bindMedium">
+        <div class="name">
+          <img src="../../assets/gongshang-icon.jpeg" alt="">
+          <span>工商银行</span>
+        </div>
+        <div class="nums">
+          <span>****</span>
+          <span>****</span>
+          <span>****</span>
+          <span>{{item.bind_medium.substring(item.bind_medium.length-4)}}</span>
+        </div>
+      </div>
     </div>
     <x-button class="add-card-btn" :link="mediumId?'/wallet/bankcard-verification?type=bind&mediumId=' + mediumId: '/wallet/bankcard-verification'">+&nbsp;&nbsp;添加银行卡</x-button>
   </div>
@@ -34,15 +45,13 @@ export default {
 @import "../../styles/index.less";
 @import "../../styles/variable";
   .bankcard {
-    padding: .46rem .24rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap-reverse;
-    justify-content: space-between;
-    align-items: center;
+    padding: .24rem .24rem;
 
     .weui-btn {
+      position: fixed;
+      bottom: .2rem;
+      width: 7rem;
+      left: .25rem;
       height: 0.94rem;
       border-radius: .18rem;
       &.weui-btn_default {
@@ -60,6 +69,32 @@ export default {
       font-weight: 600;
       line-height: .28rem;
       color: @T3 !important;
+    }
+    .name {
+      display: flex;
+      align-items: center;
+      img {
+        display: block;
+        width: .6rem;
+        height: .6rem;
+        border-radius: .3rem;
+        margin-right: .3rem;
+      }
+    }
+    .card-pocket {
+      flex: 1;
+    }
+    .card {
+      color: #fff;
+      font-size: .32rem;
+      border-radius: .2rem;
+      padding: .3rem .4rem;
+      background: linear-gradient(left, #ff8165 , #ff3556);
+      .nums {
+        padding-top: .4rem;
+        padding-left: .8rem;
+        font-size: .4rem;
+      }
     }
   }
 </style>

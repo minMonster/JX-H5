@@ -14,11 +14,11 @@
 </template>
 
 <script>
-import Jufubao from './jufubao';
-import ConsumerDetail from './consumer-detail';
-import Bankcard from './bankcard';
-import { Tab, TabItem } from 'vux';
-import Bus from './bus';
+import Jufubao from './jufubao'
+import ConsumerDetail from './consumer-detail'
+import Bankcard from './bankcard'
+import { Tab, TabItem } from 'vux'
+import Bus from './bus'
 
 export default {
   name: 'wallet',
@@ -41,59 +41,59 @@ export default {
       mediumId: '',
       bindMedium: [],
       balance: ''
-    };
+    }
   },
   methods: {
     getAccountBalance () {
       this.$api.post('/Icbc/AccountBalanceQuery', {
         mediumId: this.mediumId
       }).then(res => {
-        this.balance = res.data.accountBalance || 0;
+        this.balance = res.data.accountBalance || 0
       }).catch(e => {
         if (e.code) {
-          this.$vux.toast(e.message);
+          this.$vux.toast(e.message)
         } else {
-          this.$vux.toast(e);
+          this.$vux.toast(e)
         }
-      });
+      })
     },
     getAccountStatus () {
       this.$api.get('/Icbc/AppGetOpenAccountStatus', {
         params: {
-          userId: ''
+          // userId: '2'
         }
       }).then(res => {
-        let data = res.data;
+        let data = res.data
         if (res.success) {
-          this.mediumId = data;
+          this.mediumId = data
           this.$api.post('/Icbc/BindingQuery', {
             mediumId: data
           }).then(res => {
             if (res.data.length > 0) {
-              this.bindMedium = res.data;
-              this.loading = false;
-              this.getAccountBalance();
+              this.bindMedium = res.data
+              this.loading = false
+              this.getAccountBalance()
             }
-          });
+          })
         } else {
-          this.loading = false;
+          this.loading = false
         }
       }).catch(err => {
         if (err.code) {
-          this.$vux.toast(err.message);
+          this.$vux.toast(err.message)
         } else {
-          this.$vux.toast(err);
+          this.$vux.toast(err)
         }
-      });
+      })
     }
   },
   created () {
     Bus.$on('getAccountBalance', () => {
-      this.getAccountBalance();
-    });
-    this.getAccountStatus();
+      this.getAccountBalance()
+    })
+    this.getAccountStatus()
   }
-};
+}
 </script>
 
 <style rel="stylesheet/less" lang="less">

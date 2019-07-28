@@ -1,8 +1,12 @@
 <template>
   <div class="consumer-detail">
-    <div class="list" v-for="item in list">
-      <div class="title">{{item.remarks}} {{item.drcrf === '1'? '-': '+'}}{{item.amount / 100}}</div>
-      <div class="time">{{item.busidate}}</div>
+    <div class="list" :key="item.id" v-for="item in list">
+      <div class="title">
+        {{item.remarks}}
+      </div>
+      <p class="money">{{item.drcrf === '1'? '-': '+'}}{{item.amount / 100}}</p>
+      <p class="time">{{item.busidate}}</p>
+      <p class="balance">余额：{{item.balance / 100}}</p>
     </div>
   </div>
 </template>
@@ -61,5 +65,26 @@ export default {
 </script>
 
 <style rel="stylesheet/less" lang="less">
-
+  .consumer-detail {
+    .list {
+      font-size: .28rem;
+      height: 1.2rem;
+      position: relative;
+      border-bottom: 1px solid #ebebeb;
+      padding: .2rem .15rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      .time {
+        position: absolute;
+        right: .15rem;
+        top: .2rem;
+      }
+      .money {
+        position: absolute;
+        right: .15rem;
+        bottom: .2rem;
+      }
+    }
+  }
 </style>

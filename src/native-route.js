@@ -28,10 +28,11 @@ let staticRoute = {
   'wallet': 'wallet', // 钱包
   'showFamilyAd': 'article-details',
   'showFamilyNews': 'article-details',
-  'visitorAccess': 'no-open',
+  'visitorAccess': 'visitor-access',
+  'wallet1': 'wallet1',
   'accessControlManagement': 'no-open',
-  'smartDevice': 'no-open',
-};
+  'smartDevice': 'no-open'
+}
 
 // 动态路由，retern routeName
 // function dynamicRoute (page, payload) {
@@ -52,22 +53,23 @@ function dynamicRoute () {
 }
 
 export function nativeRoute (to) {
-  let query = to.query;
-  let queryData = JSON.parse(query.data);
-  let page = queryData.page;
-  let payload = queryData.payload || {};
-  let routeName = staticRoute[page];
+  let query = to.query
+  let queryData = JSON.parse(query.data)
+  debugger
+  let page = queryData.page
+  let payload = queryData.payload || {}
+  let routeName = staticRoute[page]
   if (!routeName) {
-    routeName = dynamicRoute(page, payload);
+    routeName = dynamicRoute(page, payload)
   }
   // routeName to route Object
   // 组装 vue-route， route object
   // TODO 拼接 token
   if (query.token) {
-    payload.token = query.token;
+    payload.token = query.token
   }
-  let route = {};
-  route.path = routeName;
-  route.query = payload;
-  return route;
+  let route = {}
+  route.path = routeName
+  route.query = payload
+  return route
 }

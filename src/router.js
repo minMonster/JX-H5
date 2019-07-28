@@ -315,11 +315,31 @@ const router = new Router({
     },
     {
       path: '/no-open',
-        meta: { title: '功能尚未开放' },
+      meta: { title: '功能尚未开放' },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when ，the route is visited.
       component: resolve => require(['@/views/no-open/index.vue'], resolve)
+    },
+    {
+      path: '/visitor-access',
+      meta: { title: '访客通行' },
+      component: resolve => require(['@/views/visitor-access/index.vue'], resolve)
+    },
+    {
+      path: '/qrcode',
+      meta: { title: '访客通行-二维码' },
+      component: resolve => require(['@/views/visitor-access/qrcode.vue'], resolve)
+    },
+    {
+      path: '/wallet1',
+      meta: { title: '我的物业' },
+      component: resolve => require(['@/views/my-property/index.vue'], resolve)
+    },
+    {
+      path: '/add-my-property',
+      meta: { title: '添加房屋' },
+      component: resolve => require(['@/views/my-property/add-my-property.vue'], resolve)
     },
     // native route
     {
