@@ -48,11 +48,13 @@ export default {
         {name: '微信', logo: require('../../assets/immediate-pay/logo_1_weixin.png')},
         {name: '支付宝', logo: require('../../assets/immediate-pay/logo_2_zhifubao.png')},
         {name: '莒蚨宝', logo: require('../../assets/immediate-pay/logo_3_jufubao.png')}
-      ]
+      ],
+      payinfo: ''
     }
   },
   methods: {
     pay () {
+      this.$vux.loading.show()
       if (this.current === 1) {
         this.$api.post('/HouseManage/DoPayAndroid?payType=ZFB&orderId=' +
             this.$route.query.orderId +
@@ -63,13 +65,43 @@ export default {
             '&token=' +
             auth.getToken()
         ).then(res => {
+          this.payinfo = res
           if (res.success) {
+            this.$vux.loading.hide()
             let that = this
+            this.payinfo = res.aliParam
             setupWebViewJavascriptBridge((bridge) => {
               bridge.callHandler('payment', {payType: 1, orderInfo: res.aliParam}, function (res) {
                 that.$vux.toast.text('支付成功')
               })
             })
+          } else {
+            this.$vux.loading.hide()
+          }
+        })
+      }
+      if (this.current === 0) {
+        this.$api.post('/HouseManage/DoPayAndroid?payType=WX&orderId=' +
+          this.$route.query.orderId +
+          '&companyId=' +
+          this.$route.query.companyId +
+          '&dbName=' +
+          this.$route.query.dbName +
+          '&token=' +
+          auth.getToken()
+        ).then(res => {
+          this.payinfo = res
+          if (res.success) {
+            this.$vux.loading.hide()
+            let that = this
+            let str = 'appid=' + res.data.appid + '&nonceStr=' + res.data.nonceStr + '&partnerId=' + res.data.partnerId + '&prepayId=' + res.data.prepayId + '&sign=' + res.data.sign + '&timeStamp=' + res.data.timeStamp
+            setupWebViewJavascriptBridge((bridge) => {
+              bridge.callHandler('payment', {payType: 2, orderInfo: str}, function (res) {
+                that.$vux.toast.text('支付成功')
+              })
+            })
+          } else {
+            this.$vux.loading.hide()
           }
         })
       }

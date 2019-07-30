@@ -11,71 +11,71 @@
 </template>
 
 <script>
-  import { Group, PopupPicker, XButton } from 'vux';
-  import {setupWebViewJavascriptBridge} from '@/common/jsbridge'
+import { Group, PopupPicker, XButton } from 'vux'
+import {setupWebViewJavascriptBridge} from '@/common/jsbridge'
 
-  export default {
-    name: 'pay-payment',
-    components: {
-      Group, PopupPicker, XButton
-    },
-    data: function () {
-      return {
-        value1: [],
-        list1: [[]],
-        loading: true,
-        roomId: '',
-        companyId: '',
-        roomNum: ''
-      };
-    },
-    created () {
-      this.$api.get('/HouseManage/AllBindRoomQuery?isCertifi=已认证').then(res => {
-        if (!res.data || res.data.length === 0) {
-          this.$vux.alert.show({
-            title: '您的账号没有房屋地址',
-            content: '点击确定将返回家页面',
-            onShow () {
-            },
-            onHide () {
-              setupWebViewJavascriptBridge((bridge) => {
-                bridge.callHandler('finish');
-              });
-            }
-          });
-        }
-        let arr = res.data.map(i => {
-          return {
-            name: i.roomNum,
-            value: i.roomNum,
-            id: i.roomId,
-            companyId: i.companyId
-          };
-        });
-        this.list1 = [arr];
-        this.loading = false;
-      });
-    },
-    methods: {
-      onNext () {
-        if (this.roomId === '') {
-          this.$vux.toast.text('请选择房屋地址')
-        } else {
-          this.$router.push({path: 'pay-payment-list', query: {roomId: this.roomId, companyId: this.companyId, roomName: this.roomNum}})
-        }
-      },
-      pickerChange () {
-        let arr = this.list1[0];
-        arr.forEach(i => {
-          if (i.name === this.value1[0]) {
-            this.roomId = i.id;
-            this.companyId = i.companyId;
-            this.roomNum = i.value;
-          }
-        });
-      }
+export default {
+  name: 'pay-payment',
+  components: {
+    Group, PopupPicker, XButton
+  },
+  data: function () {
+    return {
+      value1: [],
+      list1: [[]],
+      loading: true,
+      roomId: '',
+      companyId: '',
+      roomNum: ''
     }
-  };
+  },
+  created () {
+    this.$api.get('/HouseManage/AllBindRoomQuery?isCertifi=已认证').then(res => {
+      if (!res.data || res.data.length === 0) {
+        this.$vux.alert.show({
+          title: '您的账号没有房屋地址',
+          content: '点击确定将返回家页面',
+          onShow () {
+          },
+          onHide () {
+            setupWebViewJavascriptBridge((bridge) => {
+              bridge.callHandler('finish')
+            })
+          }
+        })
+      }
+      let arr = res.data.map(i => {
+        return {
+          name: i.roomNum,
+          value: i.roomNum,
+          id: i.roomId,
+          companyId: i.companyId
+        }
+      })
+      this.list1 = [arr]
+      this.loading = false
+    })
+  },
+  methods: {
+    onNext () {
+      if (this.roomId === '') {
+        this.$vux.toast.text('请选择房屋地址')
+      } else {
+        this.$router.push({path: 'pay-payment-list', query: {roomId: this.roomId, companyId: this.companyId, roomName: this.roomNum}})
+      }
+    },
+    pickerChange () {
+      let arr = this.list1[0]
+      arr.forEach(i => {
+        if (i.name === this.value1[0]) {
+          this.roomId = i.id
+          this.companyId = i.companyId
+          this.roomNum = i.value
+        }
+      })
+    }
+  }
+}
 </script>
 <style rel="stylesheet/less" lang="less">
 

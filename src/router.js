@@ -270,6 +270,15 @@ const router = new Router({
       component: resolve => require(['@/views/service-record/index'], resolve)
     },
     {
+      path: '/service-record-detail',
+      name: 'service-record-detail',
+      meta: {title: '服务详情'},
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when ，the route is visited.
+      component: resolve => require(['@/views/service-record/service-record-detail'], resolve)
+    },
+    {
       path: '/immediate-pay',
       name: 'immediate-pay',
       meta: { title: '支付' },

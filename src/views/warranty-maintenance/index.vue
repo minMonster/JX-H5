@@ -115,10 +115,10 @@ export default {
       this.$vux.loading.show()
       this.$api.post('/HouseManage/AppCprAdd', {
         companyId: this.companyId,
-        title: this.encodeUnicode(this.titleInfo),
+        title: this.titleInfo,
         roomId: this.roomId,
         typeId: this.baoXiuId,
-        description: this.encodeUnicode(this.describeDetail),
+        description: this.describeDetail,
         tsbxlx: 'baoxiu',
         opater: ''
       }).then((res) => {

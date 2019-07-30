@@ -12,7 +12,7 @@
     <transition name="fade">
       <div class="make" @click="isSelect = false" v-if="isSelect"></div>
     </transition>
-    <div class="notice-container" v-for="(item, index) in fakeData" :key="index">
+    <div class="notice-container" @click="$router.push({path: '/service-record-detail', query: {serviceId: item.id, companyId: selectObj.companyId}})" v-for="(item, index) in fakeData" :key="index">
       <!--            <img :src="iconSrc" class="stateIcon" />-->
       <div class="notice">
         <div class="title-box">

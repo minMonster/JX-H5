@@ -35,89 +35,89 @@
 </template>
 
 <script>
-  import SleepXInput from '@/components/input/sleep-x-input.vue';
-  import { XButton, TransferDomDirective as TransferDom, XDialog } from 'vux';
-  import JxDialog from '@/components/jx-dialog';
+import SleepXInput from '@/components/input/sleep-x-input.vue'
+import { XButton, TransferDomDirective as TransferDom, XDialog } from 'vux'
+import JxDialog from '@/components/jx-dialog'
 
-  export default {
-    name: 'to-up',
-    components: {
-      SleepXInput, XButton, XDialog, JxDialog
-    },
-    directives: {
-      TransferDom
-    },
-    data: function () {
-      return {
-        showDialog: false,
-        passwordMoney: '',
-        type: 'to-up',
-        payOptions: {
-          mediumId: '',
-          bindMedium: '',
-          password: '',
-          userId: '',
-          amount: 0
-        }
-      };
-    },
-    computed: {
-      smallBindMedium () {
-        let a = this.payOptions.bindMedium;
-        return a.substr(a.length - 4);
-      }
-    },
-    created () {
-      this.payOptions = {
-        mediumId: this.$route.query.mediumId,
-        bindMedium: this.$route.query.bindMedium,
-        password: this.passwordMoney,
+export default {
+  name: 'to-up',
+  components: {
+    SleepXInput, XButton, XDialog, JxDialog
+  },
+  directives: {
+    TransferDom
+  },
+  data: function () {
+    return {
+      showDialog: false,
+      passwordMoney: '',
+      type: 'to-up',
+      payOptions: {
+        mediumId: '',
+        bindMedium: '',
+        password: '',
         userId: '',
         amount: 0
-      };
-      this.type = this.$route.query.type;
-      if (this.type === 'to-up') {
-        document.title = '充值';
-      } else {
-        document.title = '提现';
-      }
-    },
-    methods: {
-      paySuumit () {
-        if (Number(this.payOptions.amount) > 0) {
-          this.showDialog = true;
-        }
-      },
-      submit () {
-        if (this.payOptions.password.length < 6) {
-          this.$vux.toast.text('请输入6位交易密码');
-          return;
-        }
-        let amount = this.payOptions.amount * 100;
-        if (this.type === 'to-down') {
-          this.$api.post('/Icbc/accountWithdraw', {...this.payOptions, amount: amount}).then(res => {
-            if (res.success) {
-              this.$vux.toast.text('提现成功');
-              this.showDialog = false;
-              this.$router.push({path: '/wallet'});
-            } else {
-              this.$vux.toast.text(res.message);
-            }
-          });
-        } else {
-          this.$api.post('/Icbc/AccountRecharge', {...this.payOptions, amount: amount}).then(res => {
-            if (res.success) {
-              this.$vux.toast.text('充值成功');
-              this.showDialog = false;
-              this.$router.push({path: '/wallet'});
-            } else {
-              this.$vux.toast.text(res.message);
-            }
-          });
-        }
       }
     }
-  };
+  },
+  computed: {
+    smallBindMedium () {
+      let a = this.payOptions.bindMedium
+      return a.substr(a.length - 4)
+    }
+  },
+  created () {
+    this.payOptions = {
+      mediumId: this.$route.query.mediumId,
+      bindMedium: this.$route.query.bindMedium,
+      password: this.passwordMoney,
+      userId: '',
+      amount: 0
+    }
+    this.type = this.$route.query.type
+    if (this.type === 'to-up') {
+      document.title = '充值'
+    } else {
+      document.title = '提现'
+    }
+  },
+  methods: {
+    paySuumit () {
+      if (Number(this.payOptions.amount) > 0) {
+        this.showDialog = true
+      }
+    },
+    submit () {
+      if (this.payOptions.password.length < 6) {
+        this.$vux.toast.text('请输入6位交易密码')
+        return
+      }
+      let amount = this.payOptions.amount * 100
+      if (this.type === 'to-down') {
+        this.$api.post('/Icbc/accountWithdraw', {...this.payOptions, amount: amount}).then(res => {
+          if (res.success) {
+            this.$vux.toast.text('提现成功')
+            this.showDialog = false
+            this.$router.push({path: '/wallet'})
+          } else {
+            this.$vux.toast.text(res.message)
+          }
+        })
+      } else {
+        this.$api.post('/Icbc/AccountRecharge', {...this.payOptions, amount: amount}).then(res => {
+          if (res.success) {
+            this.$vux.toast.text('充值成功')
+            this.showDialog = false
+            this.$router.push({path: '/wallet'})
+          } else {
+            this.$vux.toast.text(res.message)
+          }
+        })
+      }
+    }
+  }
+}
 </script>
 <style rel="stylesheet/less" lang="less">
 

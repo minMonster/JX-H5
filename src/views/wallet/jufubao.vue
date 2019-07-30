@@ -13,54 +13,54 @@
 </template>
 
 <script>
-  import { XButton } from 'vux';
-  export default {
-    name: 'jufubao',
-    components: {
-      XButton
+import { XButton } from 'vux'
+export default {
+  name: 'jufubao',
+  components: {
+    XButton
+  },
+  props: {
+    balance: {
+      default: ''
     },
-    props: {
-      balance: {
-        default: ''
-      },
-      mediumId: {
-        default: ''
-      },
-      bindMedium: {
-        default: ''
-      }
+    mediumId: {
+      default: ''
     },
-    data: function () {
-      return {
-        // balance: '0.00',
-        // mediumId: '',
-        // bindMedium: ''
-      };
-    },
-    methods: {
-      toUp () {
-        if (this.bindMedium === '') {
-          this.$vux.toast.text('请先绑定银行卡');
-        } else {
-          this.$router.push({path: '/wallet/to-up', query: {mediumId: this.mediumId, bindMedium: this.bindMedium, type: 'to-up'}});
-        }
-      },
-      toDown () {
-        if (this.bindMedium === '') {
-          this.$vux.toast.text('请先绑定银行卡');
-        } else {
-          this.$router.push({path: '/wallet/to-up', query: {mediumId: this.mediumId, bindMedium: this.bindMedium, type: 'to-down'}});
-        }
-      }
-    },
-    created () {
-      // console.log(Bus.$emit('getMediumId'))
-      // Bus.$emit('getMediumId', res => {
-      //   this.mediumId = res;
-      // })
-      // this.getAccountStatus();
+    bindMedium: {
+      default: ''
     }
-  };
+  },
+  data: function () {
+    return {
+      // balance: '0.00',
+      // mediumId: '',
+      // bindMedium: ''
+    }
+  },
+  methods: {
+    toUp () {
+      if (this.bindMedium === '') {
+        this.$vux.toast.text('请先绑定银行卡')
+      } else {
+        this.$router.push({path: '/wallet/to-up', query: {mediumId: this.mediumId, bindMedium: this.bindMedium[0].bind_medium, type: 'to-up'}})
+      }
+    },
+    toDown () {
+      if (this.bindMedium === '') {
+        this.$vux.toast.text('请先绑定银行卡')
+      } else {
+        this.$router.push({path: '/wallet/to-up', query: {mediumId: this.mediumId, bindMedium: this.bindMedium[0].bind_medium, type: 'to-down'}})
+      }
+    }
+  },
+  created () {
+    // console.log(Bus.$emit('getMediumId'))
+    // Bus.$emit('getMediumId', res => {
+    //   this.mediumId = res;
+    // })
+    // this.getAccountStatus();
+  }
+}
 </script>
 
 <style rel="stylesheet/less" lang="less">

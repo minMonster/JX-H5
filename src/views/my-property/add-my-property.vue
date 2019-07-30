@@ -119,8 +119,8 @@ export default {
       })
     },
     pickerChange4 (e) {
-      this.list3[0].forEach(i => {
-        if (i.name === this.value3[0]) {
+      this.list4[0].forEach(i => {
+        if (String(i.name) === String(this.value4[0])) {
           this.selectOptions.houseId = i.id
         }
       })
@@ -153,9 +153,13 @@ export default {
         this.$vux.toast.text('请选择房间号')
         return
       }
+      let params = {}
+      params.companyId = this.selectOptions.companyId
+      params.roomId = this.selectOptions.houseId
+      params.phone = JSON.parse(sessionStorage.getItem('userInfo')).phone
+      params.userName = JSON.parse(sessionStorage.getItem('userInfo')).phone
       this.$api.post('/HouseManage/addRoom', {
-        account: JSON.parse(sessionStorage.getItem('userInfo')).phone,
-        ...this.selectOptions
+        ...params
       }).then(res => {
         if (res.success) {
           this.$vux.toast.text('添加成功')
