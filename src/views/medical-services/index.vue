@@ -15,7 +15,7 @@
                     </div>
 <!--                    <div class="tag">24观看·24点赞·32评论</div>-->
                 </div>
-                <img :src="card.thumbnails" alt="">
+                <img v-if="card.thumbnails" :src="card.thumbnails" alt="">
             </div>
         </div>
 
@@ -114,7 +114,7 @@
                 span {
                     font-size: .24rem;
                     color: @T1;
-                    font-weight: 600;
+                    font-weight: bold;
                 }
             }
         }
@@ -139,7 +139,7 @@
 
                     .dec {
                         font-size: .28rem;
-                        font-weight: 600;
+                        font-weight: bold;
                         color: rgba(53, 53, 53, 1);
                         line-height: .44rem;
                         height: .88rem;

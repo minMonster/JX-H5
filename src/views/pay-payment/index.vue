@@ -53,6 +53,10 @@ export default {
         }
       })
       this.list1 = [arr]
+      this.value1 = [arr[0].value]
+      this.roomId = arr[0].id
+      this.companyId = arr[0].companyId
+      this.roomNum = arr[0].value
       this.loading = false
     })
   },

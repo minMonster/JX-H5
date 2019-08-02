@@ -156,7 +156,7 @@ export default {
       margin-right: .6rem;
       font-size: .28rem;
       font-family: @FM;
-      font-weight: 600;
+      font-weight: bold;
       line-height: .28rem;
       color: @T1;
     }
@@ -191,7 +191,7 @@ export default {
     .bind-btn {
       font-size: .28rem;
       font-family: @FM;
-      font-weight: 600;
+      font-weight: bold;
       line-height: .28rem;
       color: #fff !important;
     }

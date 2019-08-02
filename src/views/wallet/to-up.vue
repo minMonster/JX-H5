@@ -143,7 +143,7 @@ export default {
         .vux-x-input {
           padding: 0;
           font-size: .5rem;
-          font-weight: 600;
+          font-weight: bold;
 
           .weui-label {
             width: .4rem;

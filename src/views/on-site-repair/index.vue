@@ -91,7 +91,7 @@
             .sorter {
                 font-size: .28rem;
                 font-family: @FM;
-                font-weight: 600;
+                font-weight: bold;
                 color: @T1;
                 line-height: .32rem;
             }
@@ -126,7 +126,7 @@
                     .title, .desc {
                         font-size: .32rem;
                         font-family: @FM;
-                        font-weight: 600;
+                        font-weight: bold;
                         color: @T1;
                         margin-bottom: .3rem;
                     }

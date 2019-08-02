@@ -75,7 +75,7 @@ export default {
             line-height: .56rem;
             font-size: .4rem;
             position: relative;
-            font-weight: 600;
+            font-weight: bold;
         }
         .time {
             color: #CBCBCB;

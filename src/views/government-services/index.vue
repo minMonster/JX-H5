@@ -85,7 +85,7 @@
                 padding: .42rem .3rem;
                 font-size: .36rem;
                 font-family: @FM;
-                font-weight: 600;
+                font-weight: bold;
                 color: @T1;
                 line-height: .36rem;
 

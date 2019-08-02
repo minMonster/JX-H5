@@ -14,7 +14,7 @@
                         <p class="info">{{work.title}}</p>
 <!--                        <p class="feedback">{{work.watch}}观看·{{work.thumpUp}}点赞·{{work.comment}}评论</p>-->
                     </div>
-                    <div class="img-display">
+                    <div v-if="work.thumbnails" class="img-display">
                         <img :src="work.thumbnails" alt="" class="pic">
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                 .title {
                     font-size: .36rem;
                     font-family: @FM;
-                    font-weight: 600;
+                    font-weight: bold;
                     color: @T3;
                     line-height: 100%;
                     &.black {
@@ -128,7 +128,7 @@
                     .info {
                         font-size: .28rem;
                         font-family: @FM;
-                        font-weight: 600;
+                        font-weight: bold;
                         color: @T2;
                         line-height: .42rem;
                         margin-bottom: .14rem;

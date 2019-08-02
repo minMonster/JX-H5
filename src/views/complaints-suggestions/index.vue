@@ -70,6 +70,9 @@ export default {
         }
       })
       this.list1 = [arr]
+      this.value1 = [arr[0].value]
+      this.roomId = arr[0].id
+      this.companyId = arr[0].companyId
       this.loading = false
     })
     this.$api.get('/HouseManage/AppCprType?type=tousu').then(res => {
@@ -81,6 +84,8 @@ export default {
         }
       })
       this.list2 = [arr]
+      this.baoXiuId = arr[0].id
+      this.value2 = [arr[0].value]
     })
   },
   methods: {

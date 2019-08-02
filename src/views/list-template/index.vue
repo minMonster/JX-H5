@@ -1,17 +1,21 @@
 <!-- crated：2019-06-18  author：Monster  -->
 <template>
-    <div class='list-template'>
-        <div class="food-list">
-            <div class="food" @click="$router.push({path: '/article-details', query: {id: food.id}})" v-for="food in foods" :key="food.id">
-                <img :src="food.thumbnails" class="pic" alt="">
-                <div class="info">
-                    <p class="name">{{food.title}}</p>
-                    <div class="desc">{{food.briefContent}}</div>
-<!--                    <a :href="food.href" class="check-more">查看更多></a>-->
-                </div>
-            </div>
+  <div class='list-template'>
+    <scroller :on-refresh="refresh" :on-infinite="infinite" noDataText="没有更多数据"
+              :style="{height: contentHeight, top: contentTop}" style="width: 100%;">
+      <div class="food-list">
+        <div class="food" @click="$router.push({path: '/article-details', query: {id: food.id}})" v-for="food in foods"
+             :key="food.id">
+          <img v-if="food.thumbnails" :src="food.thumbnails" class="pic" alt="">
+          <div class="info">
+            <p class="name">{{food.title}}</p>
+            <div class="desc">{{food.briefContent}}</div>
+            <!--                    <a :href="food.href" class="check-more">查看更多></a>-->
+          </div>
         </div>
-    </div>
+      </div>
+    </scroller>
+  </div>
 </template>
 
 <script>
@@ -19,6 +23,8 @@
     name: 'list-template',
     data: function () {
       return {
+        contentHeight: '', // 容器高度
+        contentTop: '',
         foods: [
           // {
           //   src: require('../../assets/eat-in-jx/food-1.jpg'),
@@ -44,84 +50,116 @@
           //   desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...',
           //   href: '#'
           // }
-        ]
+        ],
+        pageOptions: {
+          pageIndex: 1,
+          pageSize: 20,
+          id: 0
+        }
       }
     },
     created () {
       this.$api.get('/Columns/Index?columnID=' + this.$route.params.id).then(res => {
-        this.foods = res.data.newsList;
-        document.title = res.data.model.name || '莒e通';
+        this.pageOptions.id = res.data.classifyList[0].id
+        document.title = res.data.model.name || '莒e通'
+        this.getList()
       })
+    },
+    mounted () {
+      this.contentHeight = document.documentElement.clientHeight
+      this.contentTop = 0
+    },
+    methods: {
+      getList (done) {
+        this.$api.get('/News/List?pageIndex=' + this.pageOptions.pageIndex + '&pageSize=' + this.pageOptions.pageSize + '&classifyId=' + this.pageOptions.id).then(res => {
+          this.foods = res.data.list
+          if (done) done(true)
+          // document.title = res.data.model.name || '莒e通'
+        })
+      },
+      refresh (done) {
+        this.foods = []
+        this.pageOptions.pageSize = 15
+        this.getList(done)
+      },
+      infinite (done) {
+        this.pageOptions.pageSize += 15
+        this.getList(done)
+      }
     }
-  };
+  }
 </script>
-<style rel="stylesheet/less" lang="less">
+<style rel="stylesheet/less" type="text/less" lang="less">
 
-    @import "../../styles/index.less";
-    @import "../../styles/variable";
+  @import "../../styles/index.less";
+  @import "../../styles/variable.less";
 
-    .list-template {
-        .food-list {
-            width: 100vw;
-            padding: .24rem;
+  .list-template {
 
-            .food {
-                width: 100%;
-                height: 1.92rem;
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: .32rem;
-                &:last-child {
-                    margin-bottom: 0;
-                }
+    .food-list {
+      width: 100vw;
+      padding: .24rem;
 
-                .pic {
-                    width: 2.78rem;
-                    border-radius: .08rem;
-                    margin-right: .3rem;
-                }
+      .food {
+        width: 100%;
+        height: 1.92rem;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: .32rem;
 
-                .info {
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                    /*justify-content: space-between;*/
-
-                    .name {
-                        font-size: .28rem;
-                        font-family: @FM;
-                        font-weight: 600;
-                        color: @T2;
-                        line-height: .44rem;
-                        margin-bottom: .14rem;
-                    }
-
-                    .desc {
-                        font-size: .24rem;
-                        font-family: @FR;
-                        font-weight: 400;
-                        color: @T2;
-                        line-height: .36rem;
-                        overflow: hidden;
-                        display: -webkit-box;
-                        -webkit-box-orient: vertical;
-                        -webkit-line-clamp: 2;
-                        word-break: break-all;
-                        text-overflow: ellipsis;
-                        text-align: justify;
-                    }
-
-                    .check-more {
-                        font-size: .2rem;
-                        font-family: @FR;
-                        font-weight: 400;
-                        color: #CBCBCB;
-                        line-height: .2rem;
-                        text-align: right;
-                        margin: .4rem 0 .04rem;
-                    }
-                }
-            }
+        &:last-child {
+          margin-bottom: 0;
         }
+
+        .pic {
+          width: 2.78rem;
+          border-radius: .08rem;
+          margin-right: .3rem;
+        }
+
+        .info {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+
+          /*justify-content: space-between;*/
+
+          .name {
+            font-size: .28rem;
+            font-family: @FM;
+            font-weight: bold;
+            color: @T2;
+            line-height: .44rem;
+            margin-bottom: .14rem;
+          }
+
+          .desc {
+            font-size: .24rem;
+            font-family: @FR;
+            font-weight: 400;
+            color: @T2;
+            line-height: .36rem;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            word-break: break-all;
+            text-overflow: ellipsis;
+            text-align: justify;
+          }
+
+          .check-more {
+            font-size: .2rem;
+            font-family: @FR;
+            font-weight: 400;
+            color: #CBCBCB;
+            line-height: .2rem;
+            text-align: right;
+            margin: .4rem 0 .04rem;
+          }
+
+        }
+      }
     }
+  }
 </style>

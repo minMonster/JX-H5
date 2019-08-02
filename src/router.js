@@ -365,9 +365,9 @@ router.beforeEach((to, from, next) => {
     auth.setToken(to.query.token)
   }
   if (to.meta || to.meta.title) {
-    document.title = to.meta.title || '莒县通'
+    document.title = to.meta.title || ''
   } else {
-    document.title = '莒县通'
+    document.title = ''
   }
   if (auth.getToken() || to.meta.auth === false) { // determine if there has token
     next()

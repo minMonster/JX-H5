@@ -100,7 +100,7 @@ export default {
 
     .title {
       color: #333333;
-      font-weight: 600;
+      font-weight: bold;
       font-size: .32rem;
       padding-bottom: .4rem;
     }
@@ -123,7 +123,7 @@ export default {
         flex-direction: column;
         .label {
           font-size: .32rem;
-          font-weight: 600;
+          font-weight: bold;
           padding-bottom: .2rem;
         }
       }
@@ -153,7 +153,7 @@ export default {
     .tel {
       font-size: .32rem;
       font-family: @FM;
-      font-weight: 600;
+      font-weight: bold;
       color: @T1;
       line-height: .32rem;
     }
@@ -161,7 +161,7 @@ export default {
     .weui-dialog__ft {
       font-size: .32rem;
       font-family: @FM;
-      font-weight: 600;
+      font-weight: bold;
       color: #1B8DF6;
 
       &:after {
@@ -188,7 +188,7 @@ export default {
       height: .84rem;
       font-size: .32rem;
       font-family: @FM;
-      font-weight: 600;
+      font-weight: bold;
       color: @B2;
       line-height: .32rem;
       background-color: @C3;

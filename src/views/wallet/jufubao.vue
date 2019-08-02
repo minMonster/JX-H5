@@ -82,7 +82,7 @@ export default {
     .tip {
       font-size: .3rem;
       font-family: @FM;
-      font-weight: 600;
+      font-weight: bold;
       color: @T3;
       line-height: .3rem;
       margin-bottom: .48rem;
@@ -120,7 +120,7 @@ export default {
     .bank-btn, .charge-btn, .withdraw-btn {
       font-size: .28rem;
       font-family: @FM;
-      font-weight: 600;
+      font-weight: bold;
       line-height: .28rem;
       color: #fff !important;
       letter-spacing: .2rem;

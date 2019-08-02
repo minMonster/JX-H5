@@ -30,7 +30,7 @@
         .title {
             font-size: .34rem;
             text-align: center;
-            font-weight: 600;
+            font-weight: bold;
             padding: .24rem 0;
         }
 

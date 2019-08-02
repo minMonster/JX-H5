@@ -133,7 +133,7 @@ export default {
                 .weui-cell__ft {
                     font-size: .28rem;
                     font-family: @FM;
-                    font-weight: 600;
+                    font-weight: bold;
                     color: @T1;
                     flex: 1;
                     text-align: left !important;

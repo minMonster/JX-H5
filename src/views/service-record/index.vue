@@ -1,7 +1,7 @@
 <!-- crated：2019-07-15  author：Monster  -->
 <template>
   <div class='service-record'>
-    <div class="select" @click="openSelect"><span>{{selectObj.value}}</span></div>
+    <div class="select" ref="tab" @click="openSelect"><span>{{selectObj.value}}</span></div>
     <transition name="fade">
       <div class="select-list" v-if="isSelect">
         <div class="list" @click="selectItem(item)" :class="{'active': selectObj.id === item.id}" v-for="item in list1"
@@ -12,18 +12,21 @@
     <transition name="fade">
       <div class="make" @click="isSelect = false" v-if="isSelect"></div>
     </transition>
-    <div class="notice-container" @click="$router.push({path: '/service-record-detail', query: {serviceId: item.id, companyId: selectObj.companyId}})" v-for="(item, index) in fakeData" :key="index">
-      <!--            <img :src="iconSrc" class="stateIcon" />-->
-      <div class="notice">
-        <div class="title-box">
-          <span class="title">{{item.title?decodeUnicode(item.title):'标题'}}{{item.classfy?'('+item.classfy+')':''}}</span>
-          <!--                    <span class="area-name">({{item.areaName}})</span>-->
+    <scroller :on-refresh="refresh" :on-infinite="infinite" noDataText="没有更多数据"
+              :style="{height: contentHeight, top: contentTop}" style="width: 100%;">
+      <div class="notice-container" @click="$router.push({path: '/service-record-detail', query: {serviceId: item.id, companyId: selectObj.companyId}})" v-for="(item, index) in fakeData" :key="index">
+        <!--            <img :src="iconSrc" class="stateIcon" />-->
+        <div class="notice">
+          <div class="title-box">
+            <span class="title">{{item.title?decodeUnicode(item.title):'标题'}}{{item.classfy?'('+item.classfy+')':''}}</span>
+            <!--                    <span class="area-name">({{item.areaName}})</span>-->
+          </div>
+          <p class="content">{{decodeUnicode(item.content)}}</p>
+          <p class="time">{{item.savetime}}</p>
+          <div class="type">{{item.currentState}}</div>
         </div>
-        <p class="content">{{decodeUnicode(item.content)}}</p>
-        <p class="time">{{item.savetime}}</p>
-        <div class="type">{{item.currentState}}</div>
       </div>
-    </div>
+    </scroller>
     <div v-if="fakeData.length === 0" style="text-align: center;padding-top: 1rem;">该房屋下暂无记录</div>
   </div>
 </template>
@@ -35,6 +38,8 @@ export default {
   data: function () {
     return {
       iconSrc: require('../../assets/property-notice/read_state_icon.png'),
+      contentHeight: '',
+      contentTop: '',
       fakeData: [
         // {
         //   title: '水电线路检修',
@@ -58,10 +63,19 @@ export default {
       list1: [],
       loading: true,
       selectObj: {},
-      isSelect: false
+      isSelect: false,
+      pageSize: 15
     }
   },
   methods: {
+    refresh (done) {
+      this.pageSize = 15
+      this.getList(done)
+    },
+    infinite (done) {
+      this.pageSize += 15
+      this.getList(done)
+    },
     decodeUnicode (str) {
       if (!str) {
         return ''
@@ -75,13 +89,14 @@ export default {
     selectItem (item) {
       this.selectObj = item
       this.isSelect = false
+      this.refresh()
       this.getList().then(() => {
         this.loading = false
       })
     },
-    getList () {
+    getList (done) {
       let params = {
-        pageSize: 100,
+        pageSize: this.pageSize,
         offset: 0,
         account: JSON.parse(sessionStorage.getItem('userInfo')).phone,
         type: 'list',
@@ -89,8 +104,15 @@ export default {
       }
       return this.$api.post('/HouseManage/Visit', {...params}).then(res => {
         this.fakeData = res.data
+        if (done) done(true)
       })
     }
+  },
+  mounted () {
+    let tab = this.$refs.tab
+    this.contentTop = tab.offsetHeight + 10 + 'px'
+    this.contentHeight = document.documentElement.clientHeight - tab.offsetHeight - 10 + 'px'
+    document.documentElement.scrollTop = document.body.scrollTop = 0
   },
   created () {
     this.$api.get('/HouseManage/AllBindRoomQuery?isCertifi=已认证').then(res => {
@@ -225,7 +247,7 @@ export default {
 
           .title, .area-name {
             font-size: .28rem;
-            font-weight: 600;
+            font-weight: bold;
             font-family: @FM;
             color: @T1;
             line-height: .28rem;

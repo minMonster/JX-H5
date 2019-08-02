@@ -58,7 +58,7 @@
                 .name {
                     font-size: .24rem;
                     font-family: @FM;
-                    font-weight: 600;
+                    font-weight: bold;
                     color: @T1;
                     line-height: .24rem;
                     text-align: center;

@@ -86,7 +86,7 @@
 
                     .title, .area-name {
                         font-size: .28rem;
-                        font-weight: 600;
+                        font-weight: bold;
                         font-family: @FM;
                         color: @T1;
                         line-height: .28rem;

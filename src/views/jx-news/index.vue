@@ -156,7 +156,7 @@
                     .text {
                         font-size: .36rem;
                         font-family: @FM;
-                        font-weight: 600;
+                        font-weight: bold;
                         color: @T1;
                         line-height: 100%;
                     }
@@ -186,7 +186,7 @@
                         .info {
                             font-size: .28rem;
                             font-family: @FM;
-                            font-weight: 600;
+                            font-weight: bold;
                             color: @T2;
                             line-height: .42rem;
                             margin-bottom: .14rem;

@@ -81,7 +81,7 @@
                     .name {
                         font-size: .28rem;
                         font-family: @FM;
-                        font-weight: 600;
+                        font-weight: bold;
                         color: @T2;
                         line-height: .44rem;
                         margin-bottom: .14rem;

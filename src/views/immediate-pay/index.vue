@@ -163,7 +163,7 @@ export default {
         .address {
           font-size: .24rem;
           font-family: @FM;
-          font-weight: 600;
+          font-weight: bold;
           color: #595961;
           line-height: .24rem;
           margin-bottom: .3rem;
@@ -183,7 +183,7 @@ export default {
 
           .decimal {
             font-family: PingFangSC-Semibold;
-            font-weight: 600;
+            font-weight: bold;
           }
 
           .big {
@@ -198,7 +198,7 @@ export default {
         .company {
           font-size: .24rem;
           font-family: @FM;
-          font-weight: 600;
+          font-weight: bold;
           color: #595961;
           line-height: .24rem;
           margin-top: .22rem;
@@ -211,7 +211,7 @@ export default {
         .tip {
           font-size: .24rem;
           font-family: @FM;
-          font-weight: 600;
+          font-weight: bold;
           color: #595961;
           line-height: .24rem;
           margin-bottom: .36rem;
@@ -240,7 +240,7 @@ export default {
             .pay-type {
               font-size: .28rem;
               font-family: @FM;
-              font-weight: 600;
+              font-weight: bold;
               color: #595961;
               line-height: .28rem;
             }
@@ -273,7 +273,7 @@ export default {
     .pay-btn {
       font-size: .28rem;
       font-family: @FM;
-      font-weight: 600;
+      font-weight: bold;
       line-height: .28rem;
       color: #fff !important;
     }

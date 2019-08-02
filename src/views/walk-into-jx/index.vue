@@ -89,7 +89,7 @@
                     .text {
                         font-size: .36rem;
                         font-family: @FM;
-                        font-weight: 600;
+                        font-weight: bold;
                         color: @T3;
                         line-height: 100%;
 
@@ -125,7 +125,7 @@
                     .tag {
                         font-size: .36rem;
                         font-family: @FM;
-                        font-weight: 600;
+                        font-weight: bold;
                         color: @T1;
                         line-height: .5rem;
                         margin-bottom: .4rem;

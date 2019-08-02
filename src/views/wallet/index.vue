@@ -9,7 +9,7 @@
     </tab>
     <consumer-detail :mediumId="mediumId" v-if="current===0"></consumer-detail>
     <jufubao :mediumId="mediumId" :balance="balance" :bindMedium="bindMedium" v-if="current===1"></jufubao>
-    <bankcard :bindMedium="bindMedium" :mediumId="mediumId" v-if="current===2"></bankcard>
+    <bankcard :bindMedium="bindMedium" @reset="resetBindMedium" :mediumId="mediumId" v-if="current===2"></bankcard>
   </div>
 </template>
 
@@ -44,6 +44,17 @@ export default {
     }
   },
   methods: {
+    resetBindMedium () {
+      this.$api.post('/Icbc/BindingQuery', {
+        mediumId: this.mediumId
+      }).then(res => {
+        if (res.data.length > 0) {
+          this.bindMedium = res.data
+          this.loading = false
+          this.getAccountBalance()
+        }
+      })
+    },
     getAccountBalance () {
       this.$api.post('/Icbc/AccountBalanceQuery', {
         mediumId: this.mediumId
@@ -65,14 +76,14 @@ export default {
       }).then(res => {
         let data = res.data
         if (res.success) {
+          this.loading = false
           this.mediumId = data
+          this.getAccountBalance()
           this.$api.post('/Icbc/BindingQuery', {
             mediumId: data
           }).then(res => {
             if (res.data.length > 0) {
               this.bindMedium = res.data
-              this.loading = false
-              this.getAccountBalance()
             }
           })
         } else {
