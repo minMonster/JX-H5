@@ -350,6 +350,11 @@ const router = new Router({
       meta: { title: '添加房屋' },
       component: resolve => require(['@/views/my-property/add-my-property.vue'], resolve)
     },
+    {
+      path: '/entertainment',
+      meta: { title: '娱乐' },
+      component: resolve => require(['@/views/entertainment/index.vue'], resolve)
+    },
     // native route
     {
       meta: {title: '政务'},

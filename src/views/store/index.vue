@@ -30,86 +30,86 @@
 </template>
 
 <script>
-  import Swiper from 'swiper';
+import Swiper from 'swiper'
 
-  export default {
-    name: 'store',
-    data: function () {
-      return {
-        tabs: [
-          {
-            imgSrc: require('../../assets/store/ic_shop_market.png'),
-            name: '超市',
-            path: '/store/market'
-          },
-          {
-            imgSrc: require('../../assets/store/ic_shop_food.png'),
-            name: '美食',
-            path: '/store/food'
-          },
-          {
-            imgSrc: require('../../assets/store/ic_shop_hotel.png'),
-            name: '酒店',
-            path: '/store/hotel'
-          },
-          {
-            imgSrc: require('../../assets/store/ic_shop_entertainment.png'),
-            name: '娱乐',
-            path: '/store/entertainment'
-          }
-        ],
-        products: [
-          {
-            imgSrc: require('../../assets/store/ic_shop_product_1.png'),
-            name: '时尚床上用品',
-            price: 399.9,
-            sold: 1234,
-            path: ''
-          },
-          {
-            imgSrc: require('../../assets/store/ic_shop_product_2.png'),
-            name: '时尚床上用品',
-            price: 399.9,
-            sold: 1234,
-            path: ''
-          },
-          {
-            imgSrc: require('../../assets/store/ic_shop_product_2.png'),
-            name: '时尚床上用品',
-            price: 399.9,
-            sold: 1234,
-            path: ''
-          },
-          {
-            imgSrc: require('../../assets/store/ic_shop_product_1.png'),
-            name: '时尚床上用品',
-            price: 399.9,
-            sold: 1234,
-            path: ''
-          },
-          {
-            imgSrc: require('../../assets/store/ic_shop_product_2.png'),
-            name: '时尚床上用品',
-            price: 399.9,
-            sold: 1234,
-            path: ''
-          }
-        ]
-      }
-    },
-    mounted () {
-      new Swiper('.swiper-container', {
-        loop: true,
-        // 如果需要分页器
-        pagination: '.swiper-pagination',
-        // 如果需要前进后退按钮
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev',
-        // 如果需要滚动条
-        scrollbar: '.swiper-scrollbar',
-      });
+export default {
+  name: 'store',
+  data: function () {
+    return {
+      tabs: [
+        {
+          imgSrc: require('../../assets/store/ic_shop_market.png'),
+          name: '超市',
+          path: 'market'
+        },
+        {
+          imgSrc: require('../../assets/store/ic_shop_food.png'),
+          name: '美食',
+          path: 'food'
+        },
+        {
+          imgSrc: require('../../assets/store/ic_shop_hotel.png'),
+          name: '酒店',
+          path: 'hotel'
+        },
+        {
+          imgSrc: require('../../assets/store/ic_shop_entertainment.png'),
+          name: '娱乐',
+          path: 'entertainment'
+        }
+      ],
+      products: [
+        {
+          imgSrc: require('../../assets/store/ic_shop_product_1.png'),
+          name: '时尚床上用品',
+          price: 399.9,
+          sold: 1234,
+          path: ''
+        },
+        {
+          imgSrc: require('../../assets/store/ic_shop_product_2.png'),
+          name: '时尚床上用品',
+          price: 399.9,
+          sold: 1234,
+          path: ''
+        },
+        {
+          imgSrc: require('../../assets/store/ic_shop_product_2.png'),
+          name: '时尚床上用品',
+          price: 399.9,
+          sold: 1234,
+          path: ''
+        },
+        {
+          imgSrc: require('../../assets/store/ic_shop_product_1.png'),
+          name: '时尚床上用品',
+          price: 399.9,
+          sold: 1234,
+          path: ''
+        },
+        {
+          imgSrc: require('../../assets/store/ic_shop_product_2.png'),
+          name: '时尚床上用品',
+          price: 399.9,
+          sold: 1234,
+          path: ''
+        }
+      ]
     }
-  };
+  },
+  mounted () {
+    new Swiper('.swiper-container', {
+      loop: true,
+      // 如果需要分页器
+      pagination: '.swiper-pagination',
+      // 如果需要前进后退按钮
+      nextButton: '.swiper-button-next',
+      prevButton: '.swiper-button-prev',
+      // 如果需要滚动条
+      scrollbar: '.swiper-scrollbar',
+    });
+  }
+};
 </script>
 <style rel="stylesheet/less" lang="less">
 
