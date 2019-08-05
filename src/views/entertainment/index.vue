@@ -181,7 +181,6 @@ export default {
             font-family: @FR;
             font-weight: 400;
             color: @T2;
-            line-height: .24rem;
             flex: 1;
             overflow: hidden;
             text-overflow: ellipsis;

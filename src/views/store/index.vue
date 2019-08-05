@@ -11,7 +11,7 @@
             <div class="swiper-pagination"></div>
         </div>
         <div class="tab-container">
-            <div class="tab" v-for="tab in tabs" :key="tab.id">
+            <div class="tab" @click="$router.push({path: '/entertainment'})" v-for="tab in tabs" :key="tab.id">
                 <img :src="tab.imgSrc" alt="" class="tab-img">
                 <span class="tab-name">{{tab.name}}</span>
             </div>
