@@ -12,13 +12,13 @@
                 <div class="work" @click="$router.push({path: '/article-details', query: {id: work.id}})" v-for="work in item.news" :key="work.id">
                     <div class="content">
                         <p class="info">{{work.title}}</p>
-<!--                        <p class="feedback">{{work.watch}}观看·{{work.thumpUp}}点赞·{{work.comment}}评论</p>-->
+                        <p class="feedback">{{work.createDate}}</p>
                     </div>
                     <div v-if="work.thumbnails" class="img-display">
                         <img :src="work.thumbnails" alt="" class="pic">
                     </div>
                 </div>
-<!--                <div class="check-more">查看更多></div>-->
+                <div @click="$router.push({path: '/list-template/-1', query: {classifyId: item.id, title: item.name}})" class="check-more">查看更多></div>
             </div>
         </template>
 
@@ -26,43 +26,21 @@
 </template>
 
 <script>
-  export default {
-    name: 'investment-in-jx',
-    data: function () {
-      return {
-        current: 0,
-        works: [
-          {
-            info: '莒县收听收看全省重点工作推进会一新旧动能转换项目落地第二次现场观摩总结会议',
-            watch: 24,
-            thumpUp: 24,
-            comment: 32,
-            imgSrc: ''
-          },
-          {
-            info: '体检前不能做的8件事，否则钱容易白话',
-            watch: 18,
-            thumpUp: 60,
-            comment: 52,
-            imgSrc: require('../../assets/investment-in-jx/investment-1.png')
-          },
-          {
-            info: '体检前不能做的8件事，否则钱容易白话',
-            watch: 28,
-            thumpUp: 15,
-            comment: 12,
-            imgSrc: require('../../assets/investment-in-jx/investment-1.png')
-          }
-        ]
-      }
-    },
-    created () {
-      this.$api.get('/Columns/Index?columnID=' + 5).then(res => {
-        this.works = res.data.classifyList;
-        document.title = res.data.model.name || '莒e通';
-      })
+export default {
+  name: 'investment-in-jx',
+  data: function () {
+    return {
+      current: 0,
+      works: []
     }
-  };
+  },
+  created () {
+    this.$api.get('/Columns/Index?columnID=' + 5).then(res => {
+      this.works = res.data.classifyList;
+      document.title = res.data.model.name || '莒e通';
+    })
+  }
+};
 </script>
 <style rel="stylesheet/less" lang="less">
 
@@ -119,12 +97,13 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                box-shadow:0px .04rem .12rem 0px rgba(134,142,161,0.2);
                 border-radius: .05rem;
+                border-bottom: 1px solid #EBEEF4;
                 .content {
                     display: flex;
+                    justify-content: space-between;
                     flex-direction: column;
-                    height: 1.48rem;
+                    height: 1rem;
                     .info {
                         font-size: .28rem;
                         font-family: @FM;
@@ -162,7 +141,7 @@
             }
 
             .check-more {
-                font-size: .24rem;
+                font-size: .28rem;
                 font-family: @FR;
                 font-weight: 400;
                 color: @T4;

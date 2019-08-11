@@ -2,8 +2,10 @@
 <template>
     <div class='my-property'>
       <div class="card" v-for="item in list" :key="item.id">
+        <img v-if="item.isCertifi === '已认证'" src="../../assets/Certified.png" alt="">
+        <img v-else src="../../assets/Uncertified.png" alt="">
         <p>{{item.roomNum}}</p>
-        <p>{{item.isCertifi}}</p>
+<!--        <p>{{item.isCertifi}}</p>-->
         <span class="unbind-button" @click="unbind(item)">解绑</span>
       </div>
       <x-button class="next-button" @click.native="$router.push({path: '/add-my-property'})" type="primary">添加房屋</x-button>
@@ -60,7 +62,15 @@ export default {
         font-size: .32rem;
         position: relative;
         padding: .2rem;
+        height: 1.4rem;
+        display: flex;
+        align-items: center;
         border-bottom: 1px solid #ebebeb;
+        img {
+          width: .8rem;
+          height: .8rem;
+          margin-right: .15rem;
+        }
       }
       .unbind-button {
         width: 1rem;
@@ -70,7 +80,8 @@ export default {
         right: .2rem;
         height: .6rem;
         color: #fff;
-        font-size: .2rem;
+        font-size: .3rem;
+        border-radius: .1rem;
         text-align: center;
         line-height: .6rem;
         background: linear-gradient(178deg, rgba(74, 180, 254, 1) 0%, rgba(27, 141, 246, 1) 64%, rgba(6, 123, 248, 1) 100%);

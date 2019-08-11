@@ -19,75 +19,81 @@
 </template>
 
 <script>
-  export default {
-    name: 'list-template',
-    data: function () {
-      return {
-        contentHeight: '', // 容器高度
-        contentTop: '',
-        foods: [
-          // {
-          //   src: require('../../assets/eat-in-jx/food-1.jpg'),
-          //   name: '莒县全羊',
-          //   desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯',
-          //   href: '#'
-          // },
-          // {
-          //   src: require('../../assets/eat-in-jx/food-1.jpg'),
-          //   name: '莒县全羊',
-          //   desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...',
-          //   href: '#'
-          // },
-          // {
-          //   src: require('../../assets/eat-in-jx/food-1.jpg'),
-          //   name: '莒县全羊',
-          //   desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...',
-          //   href: '#'
-          // },
-          // {
-          //   src: require('../../assets/eat-in-jx/food-1.jpg'),
-          //   name: '莒县全羊',
-          //   desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...',
-          //   href: '#'
-          // }
-        ],
-        pageOptions: {
-          pageIndex: 1,
-          pageSize: 20,
-          id: 0
-        }
+export default {
+  name: 'list-template',
+  data: function () {
+    return {
+      contentHeight: '', // 容器高度
+      contentTop: '',
+      foods: [
+        // {
+        //   src: require('../../assets/eat-in-jx/food-1.jpg'),
+        //   name: '莒县全羊',
+        //   desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯',
+        //   href: '#'
+        // },
+        // {
+        //   src: require('../../assets/eat-in-jx/food-1.jpg'),
+        //   name: '莒县全羊',
+        //   desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...',
+        //   href: '#'
+        // },
+        // {
+        //   src: require('../../assets/eat-in-jx/food-1.jpg'),
+        //   name: '莒县全羊',
+        //   desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...',
+        //   href: '#'
+        // },
+        // {
+        //   src: require('../../assets/eat-in-jx/food-1.jpg'),
+        //   name: '莒县全羊',
+        //   desc: '莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...莒县羊汤馆门面众多，最有名的当属任记羊汤馆著名笑星陈佩斯...',
+        //   href: '#'
+        // }
+      ],
+      pageOptions: {
+        pageIndex: 1,
+        pageSize: 20,
+        id: 0
       }
-    },
-    created () {
+    }
+  },
+  created () {
+    if (this.$route.query.classifyId) {
+      this.pageOptions.id = this.$route.query.classifyId
+      document.title = this.$route.query.title || '莒e通'
+      this.getList()
+    } else {
       this.$api.get('/Columns/Index?columnID=' + this.$route.params.id).then(res => {
         this.pageOptions.id = res.data.classifyList[0].id
         document.title = res.data.model.name || '莒e通'
         this.getList()
       })
+    }
+  },
+  mounted () {
+    this.contentHeight = document.documentElement.clientHeight
+    this.contentTop = 0
+  },
+  methods: {
+    getList (done) {
+      this.$api.get('/News/List?pageIndex=' + this.pageOptions.pageIndex + '&pageSize=' + this.pageOptions.pageSize + '&classifyId=' + this.pageOptions.id).then(res => {
+        this.foods = res.data.list
+        if (done) done(true)
+        // document.title = res.data.model.name || '莒e通'
+      })
     },
-    mounted () {
-      this.contentHeight = document.documentElement.clientHeight
-      this.contentTop = 0
+    refresh (done) {
+      this.foods = []
+      this.pageOptions.pageSize = 15
+      this.getList(done)
     },
-    methods: {
-      getList (done) {
-        this.$api.get('/News/List?pageIndex=' + this.pageOptions.pageIndex + '&pageSize=' + this.pageOptions.pageSize + '&classifyId=' + this.pageOptions.id).then(res => {
-          this.foods = res.data.list
-          if (done) done(true)
-          // document.title = res.data.model.name || '莒e通'
-        })
-      },
-      refresh (done) {
-        this.foods = []
-        this.pageOptions.pageSize = 15
-        this.getList(done)
-      },
-      infinite (done) {
-        this.pageOptions.pageSize += 15
-        this.getList(done)
-      }
+    infinite (done) {
+      this.pageOptions.pageSize += 15
+      this.getList(done)
     }
   }
+}
 </script>
 <style rel="stylesheet/less" type="text/less" lang="less">
 
@@ -102,10 +108,12 @@
 
       .food {
         width: 100%;
-        height: 1.92rem;
         display: flex;
         justify-content: space-between;
         margin-bottom: .32rem;
+        border-bottom: 1px solid #F3F5F6;
+        padding-bottom: .2rem;
+        max-height: 1.92rem;
 
         &:last-child {
           margin-bottom: 0;

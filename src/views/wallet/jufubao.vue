@@ -110,7 +110,6 @@ export default {
     .weui-btn {
       height: .84rem;
       background: linear-gradient(178deg, rgba(74, 180, 254, 1) 0%, rgba(27, 141, 246, 1) 64%, rgba(6, 123, 248, 1) 100%);
-      border-radius: .99rem;
 
       &.weui-btn_default {
         box-shadow: none !important;
@@ -129,6 +128,9 @@ export default {
 
     .withdraw-btn {
       margin-top: .28rem;
+      background: #fff!important;
+      border: 1px solid rgba(6, 123, 248, 1);
+      color: rgba(6, 123, 248, 1)!important;
     }
   }
 </style>

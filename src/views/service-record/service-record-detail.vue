@@ -8,12 +8,16 @@
         <cell title="提报时间">{{options.created || '暂无'}}</cell>
         <cell title="服务类型">{{options.servicetypetext || '暂无'}}</cell>
         <cell title="指派人">{{options.visitusername || '暂无'}}</cell>
-        <cell title="指派给">{{options.finishusername || '暂无'}}</cell>
+        <cell title="指派给">{{options.receivername || '暂无'}}</cell>
         <cell title="处理人电话">{{options.assignphone || '暂无'}}</cell>
       </group>
       <group title="业主描述">
         <cell title="标题">{{options.title || '暂无'}}</cell>
         <cell title="描述">{{options.content || '暂无'}}</cell>
+      </group>
+      <group title="物业反馈">
+        <cell title="反馈人">{{options.backName || '暂无'}}</cell>
+        <cell title="描述">{{options.backConcent || '暂无'}}</cell>
       </group>
     </div>
 </template>

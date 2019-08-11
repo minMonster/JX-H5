@@ -132,4 +132,10 @@ export default {
       height: auto !important;
     }
   }
+  .vux-tab-item {
+    .name {
+      font-size: .3rem;
+      font-weight: bold;
+    }
+  }
 </style>

@@ -4,7 +4,7 @@
       <div class="title">
         {{item.remarks}}
       </div>
-      <p class="money">{{item.drcrf === '1'? '-': '+'}}{{item.amount / 100}}</p>
+      <p class="money">{{item.amount / 100}}</p>
       <p class="time">{{item.busidate}}</p>
       <p class="balance">余额：{{item.balance / 100}}</p>
     </div>
@@ -68,22 +68,36 @@ export default {
   .consumer-detail {
     .list {
       font-size: .28rem;
-      height: 1.2rem;
+      height: 1.4rem;
       position: relative;
       border-bottom: 1px solid #ebebeb;
-      padding: .2rem .15rem;
+      padding: .2rem 0;
+      margin: 0 .24rem;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
+      .title {
+        font-size: .3rem;
+        color: #333333;
+        font-weight: bold;
+      }
+      .balance {
+        color: #8b9199;
+        font-size: .24rem;
+      }
       .time {
         position: absolute;
-        right: .15rem;
-        top: .2rem;
+        color: #8b9199;
+        font-size: .24rem;
+        right: 0rem;
+        bottom: .2rem;
       }
       .money {
+        font-size: .3rem;
+        color: #333333;
         position: absolute;
-        right: .15rem;
-        bottom: .2rem;
+        right: 0rem;
+        top: .2rem;
       }
     }
   }

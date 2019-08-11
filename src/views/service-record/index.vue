@@ -100,7 +100,7 @@ export default {
         offset: 0,
         account: JSON.parse(sessionStorage.getItem('userInfo')).phone,
         type: 'list',
-        companyId: this.selectObj.companyId
+        companyId: this.selectObj.id
       }
       return this.$api.post('/HouseManage/Visit', {...params}).then(res => {
         this.fakeData = res.data
@@ -115,7 +115,7 @@ export default {
     document.documentElement.scrollTop = document.body.scrollTop = 0
   },
   created () {
-    this.$api.get('/HouseManage/AllBindRoomQuery?isCertifi=已认证').then(res => {
+    this.$api.get('/HouseManage/GetBindCompanyQuery').then(res => {
       if (!res.data || res.data.length === 0) {
         this.$vux.alert.show({
           title: '您的账号没有房屋地址',
@@ -131,9 +131,9 @@ export default {
       }
       let arr = res.data.map(i => {
         return {
-          name: i.roomNum,
-          value: i.roomNum,
-          id: i.roomId,
+          name: i.reserve1,
+          value: i.reserve1,
+          id: i.id,
           companyId: i.companyId
         }
       })

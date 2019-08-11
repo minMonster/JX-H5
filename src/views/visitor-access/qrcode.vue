@@ -1,28 +1,43 @@
 <!-- crated：2019-07-28  author：Monster  -->
 <template>
-    <div class='qrcode'>
-      <qriously class="code-img" :value="$route.query.codeUrl" :size="200" />
-    </div>
+  <div class='qrcode'>
+    <qriously class="code-img" :value="$route.query.codeUrl" :size="200"/>
+    <x-button class="next-button" type="primary">分享二维码</x-button>
+  </div>
 </template>
 
 <script>
 import Vue from 'vue'
 import VueQriously from 'vue-qriously'
+import {XButton} from 'vux'
+
 Vue.use(VueQriously)
 export default {
-  name: 'qrcode'
+  name: 'qrcode',
+  components: {
+    XButton
+  }
 }
 </script>
 <style rel="stylesheet/less" lang="less">
 
-    @import "../../styles/index.less";
+  @import "../../styles/index.less";
 
-    .qrcode {
-      .code-img {
-        padding-top: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+  .qrcode {
+    .code-img {
+      padding-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
+    .next-button {
+      margin: 0 .24rem;
+      margin-top: .6rem;
+      width: 7.02rem;
+      height: .84rem;
+      color: #fff;
+      background: linear-gradient(178deg, rgba(74, 180, 254, 1) 0%, rgba(27, 141, 246, 1) 64%, rgba(6, 123, 248, 1) 100%);
+    }
+  }
 </style>

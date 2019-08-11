@@ -7,13 +7,13 @@
                     <div class="bg"></div>
                     <div class="text">{{variety.name}}</div>
                 </div>
-<!--                <a :href="variety.href" class="check-more">查看更多></a>-->
+                <div @click="$router.push({path: '/list-template/-1', query: {classifyId: variety.id, title: variety.name}})" class="check-more">查看更多></div>
             </div>
             <div class="news-list">
                 <div class="news" @click="$router.push({path: '/article-details', query: {id: newsItem.id}})" v-for="newsItem in variety.news" :key="newsItem.id">
                     <div class="content">
                         <p class="info">{{newsItem.title}}</p>
-<!--                        <p class="feedback">{{newsItem.watch}}观看·{{news.thumpUp}}点赞·{{news.comment}}评论</p>-->
+                        <p class="feedback">{{newsItem.createDate}}</p>
                     </div>
                     <div class="img-display" v-if="newsItem.thumbnails">
                         <img :src="newsItem.thumbnails" alt="" class="pic">
@@ -130,7 +130,6 @@
     .jx-news {
         .variety {
             padding: .42rem .24rem .2rem;
-            border-bottom: .02rem solid @L4;
 
             .header {
                 display: flex;
@@ -163,7 +162,7 @@
                 }
 
                 .check-more {
-                    font-size: .2rem;
+                    font-size: .28rem;
                     font-family: @FR;
                     font-weight: 400;
                     color: @T4;
@@ -175,7 +174,9 @@
                 .news {
                     padding: .28rem 0;
                     display: flex;
-                    justify-content: space-between;
+                  border-bottom: 1px solid #EBEEF4;
+
+                  justify-content: space-between;
                     align-items: center;
 
                     .content {
