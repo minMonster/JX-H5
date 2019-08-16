@@ -10089,6 +10089,11 @@ websocket-extensions@>=0.1.1:
   resolved "https://registry.npm.taobao.org/websocket-extensions/download/websocket-extensions-0.1.3.tgz#5d2ff22977003ec687a4b87073dfbbac146ccf29"
   integrity sha1-XS/yKXcAPsaHpLhwc9+7rBRszyk=
 
+weui@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/weui/-/weui-2.0.1.tgz#ba8824ce83c82b411bde5ab78464034a96165d7a"
+  integrity sha512-j/LzfURBS72kQySHaenzO61Mycz0BtzSsA7TDYB6bJ/t/vt4ZdDDzUh4YaqeITZBDZECgQ8xZhMWwjZU1rvUEg==
+
 whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.3:
   version "1.0.5"
   resolved "https://registry.npm.taobao.org/whatwg-encoding/download/whatwg-encoding-1.0.5.tgz#5abacf777c32166a51d085d6b4f3e7d27113ddb0"

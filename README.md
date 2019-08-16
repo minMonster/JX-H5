@@ -30,5 +30,6 @@ npm test
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 # 上传代码到服务器
 ````bash 
+$ scp -r /d/gz/JX-H5/dist/ root@47.112.201.72:/www/juxian
 scp -r /d/gz/JX-H5/dist/ root@47.112.201.72:/www/juxian
 ````

@@ -2,7 +2,7 @@
 <template>
   <div class='qrcode'>
     <qriously class="code-img" :value="$route.query.codeUrl" :size="200"/>
-    <x-button class="next-button" type="primary">分享二维码</x-button>
+    <x-button class="next-button" @click.native="shareQrcode" type="primary">分享二维码</x-button>
   </div>
 </template>
 
@@ -10,12 +10,26 @@
 import Vue from 'vue'
 import VueQriously from 'vue-qriously'
 import {XButton} from 'vux'
+import {setupWebViewJavascriptBridge} from '@/common/jsbridge'
 
 Vue.use(VueQriously)
 export default {
   name: 'qrcode',
   components: {
     XButton
+  },
+  methods: {
+    shareQrcode () {
+      setupWebViewJavascriptBridge((bridge) => {
+        bridge.callHandler('share', {
+          platform: 'wx',
+          title: '访客二维码',
+          desc: '分享描述',
+          icon: '',
+          url: window.location.href
+        })
+      })
+    }
   }
 }
 </script>

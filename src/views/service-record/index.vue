@@ -23,7 +23,7 @@
           </div>
           <p class="content">{{decodeUnicode(item.content)}}</p>
           <p class="time">{{item.savetime}}</p>
-          <div class="type">{{item.currentState}}</div>
+          <div class="type">{{item.servicetypetext}}</div>
         </div>
       </div>
     </scroller>

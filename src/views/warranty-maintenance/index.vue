@@ -1,27 +1,56 @@
 <!-- crated：2019-07-14  author：Monster  -->
 <template>
-    <div class='warranty-maintenance' v-if="!loading">
-        <group>
-            <popup-picker :title="'房屋地址'" :data="list1" v-model="value1" :placeholder="'选择'"
-                          @on-change="pickerChange"></popup-picker>
-        </group>
-        <group>
-            <popup-picker :title="'报修类型'" :data="list2" v-model="value2" :placeholder="'选择'"
-                          @on-change="pickerChange2"></popup-picker>
-            <sleep-x-input title="标题" v-model="titleInfo"></sleep-x-input>
-        </group>
-        <group>
-            <sleep-x-textarea title="详情" v-model="describeDetail"></sleep-x-textarea>
-        </group>
-        <x-button class="next-button" @click.native="onNext" type="primary">提交</x-button>
+  <div class='complaints-suggestions' v-if="!loading">
+    <group>
+      <popup-picker :title="'房屋地址'" :data="list1" v-model="value1" :placeholder="'选择'"
+                    @on-change="pickerChange"></popup-picker>
+    </group>
+    <group>
+      <popup-picker :title="'报修类型'" :data="list2" v-model="value2" :placeholder="'选择'"
+                    @on-change="pickerChange2"></popup-picker>
+      <sleep-x-input title="标题" v-model="titleInfo"></sleep-x-input>
+    </group>
+    <group>
+      <sleep-x-textarea title="详情" placeholder="写下问题详情和地点，为您更快解决" v-model="describeDetail"></sleep-x-textarea>
+      <cell-box>
+        <div class="weui-uploader" style="flex: 1">
+          <div class="weui-uploader__bd">
+            <ul class="weui-uploader__files" id="uploaderFiles">
+              <li class="weui-uploader__file"
+                  :style="{backgroundImage: 'url(' + img.url + ')'}" v-for="(img, index) in images"
+                  @click="showImgIndex = index"
+                  :key="img.name"></li>
+              <div class="weui-uploader__input-box" v-if="images.length<9">
+                <div style="height: 100%;width: 100%;" id="uploaderInput" @click="uploaderInput"></div>
+              </div>
+              <div class="weui-uploader__text" v-if="images.length===0">
+                请上传相关图片
+              </div>
+            </ul>
+          </div>
+        </div>
+      </cell-box>
+    </group>
+    <div v-if="showImgIndex!=null" class="weui-gallery" style="height: 100%;width: 100%;display: block;">
+      <span class="weui-gallery__img" @click="showImgIndex=null"
+            :style="{backgroundImage: 'url(' + images[showImgIndex].url + ')'}"></span>
+      <div class="weui-gallery__opr" @click="deleteImg(showImgIndex)">
+        <a href="javascript:" class="weui-gallery__del">
+          <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+        </a>
+      </div>
     </div>
+    <x-button class="next-button" @click.native="onNext" type="primary">提交</x-button>
+  </div>
 </template>
 
 <script>
-import { Group, PopupPicker, XButton } from 'vux'
+import {Group, PopupPicker, XButton, CellBox} from 'vux'
 import SleepXInput from '@/components/input/sleep-x-input.vue'
 import SleepXTextarea from '@/components/input/sleep-x-textarea.vue'
-import { setupWebViewJavascriptBridge } from '@/common/jsbridge'
+import {setupWebViewJavascriptBridge} from '@/common/jsbridge'
+import 'weui/src/style/widget/weui-cell/weui-uploader.less'
+import 'weui/src/style/widget/weui-cell/weui-gallery.less'
 
 export default {
   name: 'complaints-suggestions',
@@ -30,13 +59,17 @@ export default {
     SleepXTextarea,
     Group,
     PopupPicker,
-    XButton
+    XButton,
+    CellBox
   },
   data: function () {
     return {
       titleInfo: '',
       value1: [],
       value2: [],
+      showImgIndex: null,
+      env: 2,
+      images: [{url: 'http://pic41.nipic.com/20140508/18609517_112216473140_2.jpg'}],
       list1: [[]],
       list2: [[]],
       loading: true,
@@ -89,16 +122,42 @@ export default {
     })
   },
   methods: {
+    deleteImg (index) {
+      this.images.splice(index, 1)
+      this.showImgIndex = null
+    },
+    convertBase64UrlToBlob (urlData) {
+      let bytes = window.atob(urlData.split(',')[1])
+      let ab = new ArrayBuffer(bytes.length)
+      let ia = new Uint8Array(ab)
+      for (let i = 0; i < bytes.length; i++) {
+        ia[i] = bytes.charCodeAt(i)
+      }
+      return new Blob([ab], {type: 'image/png'})
+    },
+    uploaderInput (e) {
+      let that = this
+      let selectQuantity = 9 - this.images.length
+      setupWebViewJavascriptBridge((bridge) => {
+        bridge.callHandler('getImgUrl', {selectQuantity: selectQuantity}, function (res) {
+          console.log('执行回掉')
+          console.log(res, '原数据')
+          res = JSON.parse(res)
+          // console.log(res, '解析之后的数据')
+          for (let i = 0; i < res.length; i++) {
+            let file = that.convertBase64UrlToBlob(res[i])
+            that.images.push({
+              url: URL.createObjectURL(file),
+              file: file
+            })
+          }
+        })
+      })
+    },
     encodeUnicode (s) {
       return s.replace(/([\u4E00-\u9FA5]|[\uFE30-\uFFA0])/g, function (newStr) {
         return '\\u' + newStr.charCodeAt(0).toString(16)
       })
-    },
-
-    // 解码
-    decodeUnicode (str) {
-      str = str.replace(/\\u/g, '%')
-      return unescape(str)
     },
     onNext () {
       if (this.roomId === '') {
@@ -170,31 +229,45 @@ export default {
 </script>
 <style rel="stylesheet/less" lang="less">
 
-    @import "../../styles/index.less";
+  @import "../../styles/index.less";
 
-    .warranty-maintenance {
-        padding-top: .01rem;
+  .complaints-suggestions {
+    padding-top: .01rem;
 
-        .weui-cells__title {
-            margin-top: 0;
-            margin-bottom: 0;
-            padding: .24rem;
-        }
-
-        min-height: 100vh;
-        background-color: #F3F5F6;
-
-        .next-button {
-            margin: 0 .24rem;
-            margin-top: .6rem;
-            width: 7.02rem;
-            height: .84rem;
-            background: linear-gradient(178deg, rgba(74, 180, 254, 1) 0%, rgba(27, 141, 246, 1) 64%, rgba(6, 123, 248, 1) 100%);
-        }
-
-        .weui-textarea {
-            background-color: #F3F5F6;
-            padding: .1rem;
-        }
+    .weui-cells__title {
+      margin-top: 0;
+      margin-bottom: 0;
+      padding: .24rem;
     }
+
+    min-height: 100vh;
+    background-color: #F3F5F6;
+
+    .next-button {
+      margin: 0 .24rem;
+      margin-top: .6rem;
+      width: 7.02rem;
+      height: .84rem;
+      background: linear-gradient(178deg, rgba(74, 180, 254, 1) 0%, rgba(27, 141, 246, 1) 64%, rgba(6, 123, 248, 1) 100%);
+    }
+
+    .weui-textarea {
+      background-color: #F3F5F6;
+      padding: .2rem;
+      margin-top: .2rem;
+    }
+
+    .weui-cell__bd {
+      width: 100%;
+    }
+
+    .vux-x-textarea {
+      flex-direction: column;
+    }
+
+    .weui-uploader__file {
+      margin-right: .45rem;
+      margin-bottom: .45rem;
+    }
+  }
 </style>

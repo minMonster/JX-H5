@@ -2,7 +2,7 @@
 <template>
     <div class='service-record-detail'>
       <group>
-        <cell title="地址">{{options.communityname}}{{options.housenum || '暂无'}}</cell>
+        <cell title="地址">{{housenum}}</cell>
         <cell title="提报人">{{options.ownername || '暂无'}}</cell>
         <cell title="提报人电话">{{options.phone || '暂无'}}</cell>
         <cell title="提报时间">{{options.created || '暂无'}}</cell>
@@ -19,6 +19,10 @@
         <cell title="反馈人">{{options.backName || '暂无'}}</cell>
         <cell title="描述">{{options.backConcent || '暂无'}}</cell>
       </group>
+      <group title="反馈资料">
+        <img :key="item.id" v-for="item in options.picList" class="img-list" :src="item" alt="">
+        <img class="img-list" src="http://pic41.nipic.com/20140508/18609517_112216473140_2.jpg" alt="">
+      </group>
     </div>
 </template>
 
@@ -32,6 +36,15 @@ export default {
   data: function () {
     return {
       options: {}
+    }
+  },
+  computed: {
+    housenum () {
+      if (this.options.communityname && this.options.unit && this.options.buildingnum && this.options.housenum) {
+        return this.options.communityname + '-' + this.options.unit + '号楼-' + this.options.buildingnum + '单元-' + this.options.housenum
+      } else {
+        return '暂无'
+      }
     }
   },
   created () {
@@ -57,6 +70,10 @@ export default {
         max-width: 4.8rem;
         min-width: 4.8rem;
         text-align: left;
+      }
+      .img-list {
+        width: 100vw;
+        margin-top: .1rem;
       }
     }
 </style>
