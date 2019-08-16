@@ -69,9 +69,9 @@ export default {
           if (res.success) {
             this.$vux.loading.hide()
             let that = this
-            this.payinfo = res.aliParam
+            let str = 'appid=' + res.data.appid + '&nonceStr=' + res.data.nonceStr + '&partnerId=' + res.data.partnerId + '&prepayId=' + res.data.prepayId + '&sign=' + res.data.sign + '&timeStamp=' + res.data.timeStamp
             setupWebViewJavascriptBridge((bridge) => {
-              bridge.callHandler('payment', {payType: 1, orderInfo: res.aliParam}, function (res) {
+              bridge.callHandler('payment', {payType: 2, orderInfo: str}, function (res) {
                 that.$vux.toast.text('支付成功')
               })
             })
@@ -81,7 +81,7 @@ export default {
         })
       }
       if (this.current === 0) {
-        this.$api.post('/HouseManage/DoPayAndroid?payType=WX&orderId=' +
+        this.$api.post('/HouseManage/DoPayAndroidWx?orderId=' +
           this.$route.query.orderId +
           '&companyId=' +
           this.$route.query.companyId +
@@ -94,9 +94,9 @@ export default {
           if (res.success) {
             this.$vux.loading.hide()
             let that = this
-            let str = 'appid=' + res.data.appid + '&nonceStr=' + res.data.nonceStr + '&partnerId=' + res.data.partnerId + '&prepayId=' + res.data.prepayId + '&sign=' + res.data.sign + '&timeStamp=' + res.data.timeStamp
+            this.payinfo = res.aliParam
             setupWebViewJavascriptBridge((bridge) => {
-              bridge.callHandler('payment', {payType: 2, orderInfo: str}, function (res) {
+              bridge.callHandler('payment', {payType: 2, orderInfo: res.aliParam}, function (res) {
                 that.$vux.toast.text('支付成功')
               })
             })
@@ -106,16 +106,21 @@ export default {
         })
       }
       if (this.current === 2) {
-        this.$api.post('/HouseManage/AppAccountTransfer', {
-          orderId: this.$route.query.orderId,
-          dbName: this.$route.query.dbName,
-          token: auth.getToken()
-        }).then(res => {
+        this.$api.post('/HouseManage/AppAccountTransfer?orderId=' +
+          this.$route.query.orderId +
+          '&dbName=' +
+          this.$route.query.dbName +
+          '&token=' + auth.getToken()).then(res => {
           if (res.success) {
             this.$vux.toast.text('支付成功')
           } else {
+            this.$vux.loading.hide()
             this.$vux.toast.text(res.message)
           }
+        }).catch(err => {
+          this.$vux.loading.hide()
+          console.log(err)
+          this.$vux.toast.text('支付失败！')
         })
       }
     }

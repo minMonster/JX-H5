@@ -1,37 +1,56 @@
 <!-- crated：2019-07-28  author：Monster  -->
 <template>
   <div class='qrcode'>
-    <qriously class="code-img" :value="$route.query.codeUrl" :size="200"/>
+    <qriously class="code-img" :value="toUtf8($route.query.codeUrl)" :size="200"/>
     <x-button class="next-button" @click.native="shareQrcode" type="primary">分享二维码</x-button>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import VueQriously from 'vue-qriously'
-import {XButton} from 'vux'
-import {setupWebViewJavascriptBridge} from '@/common/jsbridge'
+  import Vue from 'vue'
+  import VueQriously from 'vue-qriously'
+  import {XButton} from 'vux'
+  import {setupWebViewJavascriptBridge} from '@/common/jsbridge'
 
-Vue.use(VueQriously)
-export default {
-  name: 'qrcode',
-  components: {
-    XButton
-  },
-  methods: {
-    shareQrcode () {
-      setupWebViewJavascriptBridge((bridge) => {
-        bridge.callHandler('share', {
-          platform: 'wx',
-          title: '访客二维码',
-          desc: '分享描述',
-          icon: '',
-          url: window.location.href
+  Vue.use(VueQriously)
+  export default {
+    name: 'qrcode',
+    components: {
+      XButton
+    },
+    methods: {
+      toUtf8 (str) {
+        var out, i, len, c
+        out = ''
+        len = str.length
+        for (i = 0; i < len; i++) {
+          c = str.charCodeAt(i)
+          if ((c >= 0x0001) && (c <= 0x007F)) {
+            out += str.charAt(i)
+          } else if (c > 0x07FF) {
+            out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F))
+            out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F))
+            out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F))
+          } else {
+            out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F))
+            out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F))
+          }
+        }
+        return out
+      },
+      shareQrcode () {
+        setupWebViewJavascriptBridge((bridge) => {
+          bridge.callHandler('share', {
+            platform: 'wx',
+            title: '访客二维码',
+            desc: '分享描述',
+            icon: '',
+            url: window.location.href
+          })
         })
-      })
+      }
     }
   }
-}
 </script>
 <style rel="stylesheet/less" lang="less">
 
