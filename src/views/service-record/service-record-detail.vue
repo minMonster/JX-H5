@@ -20,8 +20,7 @@
         <cell title="描述">{{options.backConcent || '暂无'}}</cell>
       </group>
       <group title="反馈资料">
-        <img :key="item.id" v-for="item in options.picList" class="img-list" :src="item" alt="">
-        <img class="img-list" src="http://pic41.nipic.com/20140508/18609517_112216473140_2.jpg" alt="">
+        <img :key="item.id" v-for="item in options.picList" class="img-list" :src="item.filename" alt="">
       </group>
     </div>
 </template>

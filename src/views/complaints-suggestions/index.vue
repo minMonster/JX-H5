@@ -51,6 +51,7 @@
   import {setupWebViewJavascriptBridge} from '@/common/jsbridge'
   import 'weui/src/style/widget/weui-cell/weui-uploader.less'
   import 'weui/src/style/widget/weui-cell/weui-gallery.less'
+  import * as auth from '@/common/auth'
 
   export default {
     name: 'complaints-suggestions',
@@ -69,7 +70,7 @@
         value2: [],
         showImgIndex: null,
         env: 2,
-        images: [{url: 'http://pic41.nipic.com/20140508/18609517_112216473140_2.jpg'}],
+        images: [],
         list1: [[]],
         list2: [[]],
         loading: true,
@@ -126,6 +127,14 @@
         this.images.splice(index, 1)
         this.showImgIndex = null
       },
+      dataURLtoFile (dataurl, filename) { // 将base64转换为文件
+        let arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n)
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n)
+        }
+        return new File([u8arr], filename, {type: mime})
+      },
       convertBase64UrlToBlob (urlData) {
         let bytes = window.atob(urlData.split(',')[1])
         let ab = new ArrayBuffer(bytes.length)
@@ -145,7 +154,7 @@
             res = JSON.parse(res)
             // console.log(res, '解析之后的数据')
             for (let i = 0; i < res.length; i++) {
-              let file = that.convertBase64UrlToBlob(res[i])
+              let file = that.dataURLtoFile(res[i], 'asdasdasd')
               that.images.push({
                 url: URL.createObjectURL(file),
                 file: file
@@ -187,20 +196,51 @@
           opater: ''
         }).then((res) => {
           if (res.success) {
-            this.$vux.loading.hide()
-            this.$vux.toast.text('提交成功')
-            // this.$router.go(-1)
-            this.$vux.alert.show({
-              title: '提交成功',
-              content: '点击确定将返回家页面',
-              onShow () {
-              },
-              onHide () {
-                setupWebViewJavascriptBridge((bridge) => {
-                  bridge.callHandler('finish')
+            if (this.images.length === 0) { // 没有图片上传
+              this.$vux.loading.hide()
+              this.$vux.toast.text('提交成功')
+              // this.$router.go(-1)
+
+              this.$vux.alert.show({
+                title: '提交成功',
+                content: '点击确定将返回家页面',
+                onShow () {
+                },
+                onHide () {
+                  setupWebViewJavascriptBridge((bridge) => {
+                    bridge.callHandler('finish')
+                  })
+                }
+              })
+            } else { // 有图片上传
+              let files = []
+              files = this.images.map(i => {
+                return i.file
+              })
+              let cprId = res.message
+              this.$api.post('/HouseManage/UploadCprImage?cprId=' + cprId, {
+                upload: this.images[0].file
+              }, {
+                headers: {
+                  token: auth.getToken(),
+                  'Content-Type': 'multipart/form-data'
+                }
+              }).then(res => {
+                this.$vux.loading.hide()
+
+                this.$vux.alert.show({
+                  title: '提交成功',
+                  content: res + cprId
                 })
-              }
-            })
+              }).catch(err => {
+                this.$vux.loading.hide()
+
+                this.$vux.alert.show({
+                  title: '提交失败',
+                  content: JSON.stringify(err) + cprId
+                })
+              })
+            }
           }
         }).catch(() => {
           this.$vux.loading.hide()

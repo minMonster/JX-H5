@@ -100,10 +100,12 @@ export default {
         offset: 0,
         account: JSON.parse(sessionStorage.getItem('userInfo')).phone,
         type: 'list',
-        companyId: this.selectObj.id
+        companyId: this.selectObj.companyId
       }
       return this.$api.post('/HouseManage/Visit', {...params}).then(res => {
-        this.fakeData = res.data
+        if (res.success) {
+          this.fakeData = res.data
+        }
         if (done) done(true)
       })
     }
@@ -134,7 +136,7 @@ export default {
           name: i.reserve1,
           value: i.reserve1,
           id: i.id,
-          companyId: i.companyId
+          companyId: i.companyid
         }
       })
       this.list1 = arr
