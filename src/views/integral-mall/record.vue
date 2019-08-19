@@ -22,27 +22,27 @@
           {
             name: '时尚床上用品',
             cost: 4000,
-            logo: require('../../assets/integral-mall/integral-logo.png')
+            logo: require('../../assets/integral-mall/integral-product.png')
           },
           {
             name: '时尚床上用品',
             cost: 4000,
-            logo: require('../../assets/integral-mall/integral-logo.png')
+            logo: require('../../assets/integral-mall/integral-product.png')
           },
           {
             name: '时尚床上用品',
             cost: 4000,
-            logo: require('../../assets/integral-mall/integral-logo.png')
+            logo: require('../../assets/integral-mall/integral-product.png')
           },
           {
             name: '时尚床上用品',
             cost: 4000,
-            logo: require('../../assets/integral-mall/integral-logo.png')
+            logo: require('../../assets/integral-mall/integral-product.png')
           },
           {
             name: '时尚床上用品',
             cost: 4000,
-            logo: require('../../assets/integral-mall/integral-logo.png')
+            logo: require('../../assets/integral-mall/integral-product.png')
           }
         ]
       }
