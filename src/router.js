@@ -360,6 +360,11 @@ const router = new Router({
       meta: { title: '积分商城' },
       component: resolve => require(['@/views/integral-mall/index.vue'], resolve)
     },
+    {
+      path: '/integral-mall/record',
+      meta: { title: '兑换记录' },
+      component: resolve => require(['@/views/integral-mall/record.vue'], resolve)
+    },
     // native route
     {
       meta: {title: '政务'},
