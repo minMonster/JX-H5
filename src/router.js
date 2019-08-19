@@ -355,6 +355,11 @@ const router = new Router({
       meta: { title: '娱乐' },
       component: resolve => require(['@/views/entertainment/index.vue'], resolve)
     },
+    {
+      path: '/integral-mall',
+      meta: { title: '积分商城' },
+      component: resolve => require(['@/views/integral-mall/index.vue'], resolve)
+    },
     // native route
     {
       meta: {title: '政务'},
