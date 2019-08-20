@@ -4,18 +4,18 @@
       <group>
         <popup-picker :title="'房屋地址'" :data="list1" v-model="value1" :placeholder="'选择'"
                       @on-change="pickerChange"></popup-picker>
-        <datetime
-          v-model="startTime"
-          @on-change="change"
-          title="开始日期"
-          :start-date="startData"
-          @on-confirm="onConfirm"
-         ></datetime>
-        <datetime
-          v-model="endTime"
-          title="结束日期"
-          :start-date="startTime"
-        ></datetime>
+<!--        <datetime-->
+<!--          v-model="startTime"-->
+<!--          @on-change="change"-->
+<!--          title="开始日期"-->
+<!--          :start-date="startData"-->
+<!--          @on-confirm="onConfirm"-->
+<!--         ></datetime>-->
+<!--        <datetime-->
+<!--          v-model="endTime"-->
+<!--          title="结束日期"-->
+<!--          :start-date="startTime"-->
+<!--        ></datetime>-->
 <!--        <sleep-x-input placeholder="请输入访客姓名" title="访客姓名" v-model="fKName"></sleep-x-input>-->
 <!--        <sleep-x-input placeholder="请输入访客电话" title="访客电话" v-model="phone"></sleep-x-input>-->
       </group>
@@ -101,10 +101,10 @@ export default {
         this.$vux.toast.text('请选择房屋')
         return
       }
-      if (!this.endTime) {
-        this.$vux.toast.text('请选择结束日期')
-        return
-      }
+      // if (!this.endTime) {
+      //   this.$vux.toast.text('请选择结束日期')
+      //   return
+      // }
       // if (!this.fKName) {
       //   this.$vux.toast.text('请输入访客姓名')
       //   return
@@ -113,9 +113,10 @@ export default {
       //   this.$vux.toast.text('请输入访客电话')
       //   return
       // }
+      let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
       this.$router.push({path: '/qrcode',
         query: {
-          codeUrl: this.roomId + ',' + this.startTime + ',' + this.endTime + ',' + this.list1[0][0].name
+          codeUrl: userInfo.realName + ',' + this.list1[0][0].name + ',' + moment().format('YYYY-MM-DD hh:mm:ss') + ',' +this.companyId
         }})
     }
   }
