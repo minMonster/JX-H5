@@ -355,6 +355,26 @@ const router = new Router({
       meta: { title: '娱乐' },
       component: resolve => require(['@/views/entertainment/index.vue'], resolve)
     },
+    {
+      path: '/integral-mall',
+      meta: { title: '积分商城' },
+      component: resolve => require(['@/views/integral-mall/index.vue'], resolve)
+    },
+    {
+      path: '/integral-mall/record',
+      meta: { title: '兑换记录' },
+      component: resolve => require(['@/views/integral-mall/record.vue'], resolve)
+    },
+    {
+      path: '/integral-mall/detail',
+      meta: { title: '积分兑换' },
+      component: resolve => require(['@/views/integral-mall/detail.vue'], resolve)
+    },
+    {
+      path: '/integral-mall/confirm',
+      meta: { title: '积分兑换' },
+      component: resolve => require(['@/views/integral-mall/confirm'], resolve)
+    },
     // native route
     {
       meta: {title: '政务'},

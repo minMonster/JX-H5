@@ -185,7 +185,7 @@ export default {
                     width: 3.16rem;
                     height: 3rem;
                     margin-bottom: .13rem;
-                    border-bottom: .02rem solid @B7;
+                    border-bottom: 1px solid @B7;
                 }
 
                 .desc {
