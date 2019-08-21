@@ -75,7 +75,6 @@
           font-family: @FM;
           font-weight: 600;
           color: @T1;
-          line-height: .36rem;
           display: -webkit-box;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -85,20 +84,19 @@
 
         .more {
           display: flex;
+          align-items: flex-end;
 
           .cost {
             font-size: .20rem;
             font-family: @FR;
             font-weight: 400;
             color: @T3;
-            line-height: .2rem;
             margin-right: .38rem;
 
             .red {
               font-size: .32rem;
               font-weight: 600;
               color: @C4;
-              line-height: .2rem;
               vertical-align: bottom;
               margin-right: 2px;
               margin-left: .06rem;
@@ -110,7 +108,6 @@
             font-family: @FR;
             font-weight: 400;
             color: @T4;
-            line-height: .2rem;
           }
         }
       }
@@ -133,7 +130,6 @@
         font-family: @FR;
         font-weight: 400;
         color: #FFFFFF;
-        line-height: .24rem;
       }
     }
 
@@ -146,7 +142,6 @@
         font-family: @FR;
         font-weight: 400;
         color: @T1;
-        line-height: .28rem;
         margin-bottom: .36rem;
       }
     }

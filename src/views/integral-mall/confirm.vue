@@ -84,7 +84,6 @@
           font-family: @FM;
           font-weight: 600;
           color: @T1;
-          line-height: .36rem;
           margin-bottom: .44rem;
           display: -webkit-box;
           overflow: hidden;
@@ -98,7 +97,6 @@
           font-family: @FR;
           font-weight: 400;
           color: @T3;
-          line-height: .2rem;
 
           .red {
             font-size: .32rem;
@@ -134,7 +132,6 @@
           font-family: @FR;
           font-weight: 600;
           color: @C3;
-          line-height: .28rem;
           margin-right: .1rem;
         }
 
@@ -180,7 +177,6 @@
             font-family: @FR;
             font-weight: 400;
             color: @T3;
-            line-height: .3rem;
           }
         }
 
@@ -193,13 +189,11 @@
             font-family: @FM;
             font-weight: 600;
             color: @C3;
-            line-height: .28rem;
             margin-right: .2rem;
           }
 
           .arrow {
             width: .18rem;
-            margin-top: .03rem;
           }
         }
       }
@@ -209,7 +203,6 @@
         font-family: @FR;
         font-weight: 400;
         color: @T1;
-        line-height: .24rem;
         margin-right: .4rem;
         display: -webkit-box;
         overflow: hidden;
@@ -236,7 +229,6 @@
       font-weight: 600;
       color: #FFFFFF !important;
       background-color: @C3 !important;
-      line-height: .32rem;
     }
   }
 </style>

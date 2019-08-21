@@ -87,7 +87,6 @@
           font-family: @FR;
           font-weight: 400;
           color: @T1;
-          line-height: .28rem;
         }
       }
 
@@ -97,7 +96,6 @@
         font-family: @FR;
         font-weight: 400;
         color: @T3;
-        line-height: .2rem;
         margin-bottom: -.05rem;
 
         .red {
