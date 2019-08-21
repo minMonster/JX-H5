@@ -145,8 +145,8 @@
           .product-img {
             width: 3.16rem;
             height: 3rem;
-            margin-bottom: .12rem;
             border-bottom: 1px solid @B7;
+            margin-bottom: 2px;
           }
 
           .product-name {
@@ -160,7 +160,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: .12rem;
+            margin-top: .1rem;
 
             .cost {
               font-size: .2rem;

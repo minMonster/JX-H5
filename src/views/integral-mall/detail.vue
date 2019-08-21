@@ -58,7 +58,7 @@
     .product-info {
       height: 1.4rem;
       background-color: #fff;
-      padding: .28rem .24rem .24rem;
+      padding: .2rem .24rem;
       margin-bottom: .24rem;
       display: flex;
       justify-content: space-between;
@@ -130,12 +130,13 @@
         font-family: @FR;
         font-weight: 400;
         color: #FFFFFF;
+        line-height: .24rem;
       }
     }
 
     .product-detail {
       background-color: #fff;
-      padding: .36rem .24rem;
+      padding: .28rem .24rem .36rem;
 
       .title {
         font-size: .28rem;

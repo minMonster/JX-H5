@@ -7,7 +7,7 @@
         <div class="cost"><span class="red">-{{product.cost}}</span>积分</div>
       </div>
     </div>
-    <div class="receive-info default-info" v-if="receiveInfo">
+    <div class="receive-info default-info" v-if="!receiveInfo">
       <div class="flex-box">
         <div class="left">
           <span class="name">{{receiveInfo.name}}</span>
@@ -137,7 +137,6 @@
 
         .arrow {
           width: .18rem;
-          margin-top: .02rem;
         }
       }
     }
