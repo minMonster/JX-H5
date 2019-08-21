@@ -1,15 +1,15 @@
 <template>
   <div class="integral-mall">
-    <img src="../../assets/integral-mall/integral-banner.png" alt="" class="banner">
+    <img src="../../assets/integral-mall/integral-banner@2x.png" alt="" class="banner">
     <div class="nav">
       <div class="integral">
-        <img src="../../assets/integral-mall/integral-logo.png" alt="" class="logo">
+        <img src="../../assets/integral-mall/integral-logo@2x.png" alt="" class="logo">
         <span class="current-integral">{{currentIntegral}}积分</span>
       </div>
       <div class="convert-record" @click="$router.push({path: '/integral-mall/record'})">兑换记录</div>
     </div>
     <div class="integral-convert">
-      <img src="../../assets/integral-mall/integral-title.png" alt="" class="title">
+      <img src="../../assets/integral-mall/integral-title@2x.png" alt="" class="title">
       <div class="product-container">
         <div class="product" v-for="product in products" :key="product.id">
           <img :src="product.imgSrc" alt="" class="product-img">

@@ -15,7 +15,7 @@
         </div>
         <div class="change-address">
           <span class="tip">更改地址</span>
-          <img src="../../assets/integral-mall/arrow.png" alt="" class="arrow">
+          <img src="../../assets/integral-mall/arrow@2x.png" alt="" class="arrow">
         </div>
       </div>
       <p class="address">{{receiveInfo.address}}</p>
@@ -23,7 +23,7 @@
     <div class="receive-info empty" v-else>
       <div class="write-link">
         <span class="tip">请填写收货信息</span>
-        <img src="../../assets/integral-mall/arrow.png" alt="" class="arrow">
+        <img src="../../assets/integral-mall/arrow@2x.png" alt="" class="arrow">
       </div>
     </div>
     <x-button class="confirm-btn">确定</x-button>
@@ -42,7 +42,7 @@
         product: {
           name: '山东烟台大苹果',
           cost: 4000,
-          pic: require('../../assets/integral-mall/integral-product.png')
+          pic: require('../../assets/integral-mall/integral-product@2x.png')
         },
         receiveInfo: {
           name: '华联百货',
@@ -199,7 +199,7 @@
 
           .arrow {
             width: .18rem;
-            margin-top: .02rem;
+            margin-top: .03rem;
           }
         }
       }
