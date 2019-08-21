@@ -31,7 +31,8 @@ let staticRoute = {
   'visitorAccess': 'visitor-access',
   'wallet1': 'wallet1',
   'accessControlManagement': 'no-open',
-  'smartDevice': 'no-open'
+  'smartDevice': 'no-open',
+  'myIntegration': 'integral-mall' // 积分商城
 }
 
 // 动态路由，retern routeName

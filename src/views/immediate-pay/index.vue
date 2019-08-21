@@ -8,7 +8,7 @@
           <span class="big">{{$route.query.numMoney}}</span>
           <!--                    <span class="small decimal">.00</span>-->
         </div>
-        <!--                <span class="company">物业公司：{{$route.query.roomName}}</span>-->
+<!--        <span class="company">物业公司：{{$route.query.roomName}}</span>-->
       </div>
       <div class="coupon-bottom">
         <p class="tip">支付方式</p>
@@ -55,31 +55,6 @@ export default {
   methods: {
     pay () {
       this.$vux.loading.show()
-      if (this.current === 1) {
-        this.$api.post('/HouseManage/DoPayAndroid?payType=ZFB&orderId=' +
-            this.$route.query.orderId +
-            '&companyId=' +
-            this.$route.query.companyId +
-            '&dbName=' +
-            this.$route.query.dbName +
-            '&token=' +
-            auth.getToken()
-        ).then(res => {
-          this.payinfo = res
-          if (res.success) {
-            this.$vux.loading.hide()
-            let that = this
-            let str = 'appid=' + res.data.appid + '&nonceStr=' + res.data.nonceStr + '&partnerId=' + res.data.partnerId + '&prepayId=' + res.data.prepayId + '&sign=' + res.data.sign + '&timeStamp=' + res.data.timeStamp
-            setupWebViewJavascriptBridge((bridge) => {
-              bridge.callHandler('payment', {payType: 2, orderInfo: str}, function (res) {
-                that.$vux.toast.text('支付成功')
-              })
-            })
-          } else {
-            this.$vux.loading.hide()
-          }
-        })
-      }
       if (this.current === 0) {
         this.$api.post('/HouseManage/DoPayAndroidWx?orderId=' +
           this.$route.query.orderId +
@@ -94,9 +69,35 @@ export default {
           if (res.success) {
             this.$vux.loading.hide()
             let that = this
-            this.payinfo = res.aliParam
+            let str = 'appid=wx56100d898b8a6665&nonceStr=' + res.data.nonceStr + '&partnerId=' + res.data.partnerId + '&prepayId=' + res.data.prepayId + '&sign=' + res.data.sign + '&timeStamp=' + res.data.timeStamp
+            debugger
             setupWebViewJavascriptBridge((bridge) => {
-              bridge.callHandler('payment', {payType: 2, orderInfo: res.aliParam}, function (res) {
+              bridge.callHandler('payment', {payType: 2, orderInfo: str}, function (res) {
+                that.$vux.toast.text('支付成功')
+              })
+            })
+          } else {
+            this.$vux.loading.hide()
+          }
+        })
+      }
+      if (this.current === 1) {
+        this.$api.post('/HouseManage/DoPayAndroid?payType=ZFB&orderId=' +
+          this.$route.query.orderId +
+          '&companyId=' +
+          this.$route.query.companyId +
+          '&dbName=' +
+          this.$route.query.dbName +
+          '&token=' +
+          auth.getToken()
+        ).then(res => {
+          this.payinfo = res
+          if (res.success) {
+            this.$vux.loading.hide()
+            let that = this
+            let str = res.aliParam
+            setupWebViewJavascriptBridge((bridge) => {
+              bridge.callHandler('payment', {payType: 1, orderInfo: str}, function (res) {
                 that.$vux.toast.text('支付成功')
               })
             })
@@ -159,9 +160,9 @@ export default {
           bottom: 0;
           left: -.08rem;
           right: -.08rem;
-          height: .02rem;
+          height: 2px;
           background-image: linear-gradient(to right, @T6 0%, @T6 50%, transparent 50%);
-          background-size: .15rem .02rem;
+          background-size: .15rem 1px;
           background-repeat: repeat-x;
         }
 

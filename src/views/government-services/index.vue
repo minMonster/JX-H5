@@ -98,6 +98,13 @@
                 .weui-cell__ft:after {
                     border-color: @T5;
                 }
+                .vux-label {
+                  width: 5.5rem;
+                  font-size: .28rem;
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+                  white-space: nowrap;
+                }
             }
         }
 

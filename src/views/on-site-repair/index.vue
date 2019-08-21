@@ -136,7 +136,6 @@
                         font-family: @FR;
                         font-weight: 400;
                         color: @T2;
-                        line-height: .28rem;
                         margin-bottom: .38rem;
                     }
 
@@ -145,7 +144,6 @@
                         font-family: @FR;
                         font-weight: 400;
                         color: @T5;
-                        line-height: .28rem;
                     }
                 }
             }

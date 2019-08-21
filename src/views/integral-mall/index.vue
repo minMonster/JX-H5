@@ -11,7 +11,7 @@
     <div class="integral-convert">
       <img src="../../assets/integral-mall/integral-title@2x.png" alt="" class="title">
       <div class="product-container">
-        <div class="product" v-for="product in products" :key="product.id">
+        <div class="product" @click="$router.push({path: '/integral-mall/detail'})" v-for="product in products" :key="product.id">
           <img :src="product.imgSrc" alt="" class="product-img">
           <span class="product-name">{{product.name}}</span>
           <div class="info">

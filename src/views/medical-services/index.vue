@@ -99,7 +99,7 @@ export default {
         margin-bottom: .14rem;
         align-items: center;
         width: 3.44rem;
-        padding-left: .48rem;
+        padding-left: .2rem;
         height: 1.3rem;
         background-color: #F3F5F6;
         border-radius: .08rem;
@@ -110,14 +110,14 @@ export default {
         }
 
         img {
-          height: .56rem;
-          width: .56rem;
+          height: .8rem;
+          width: .8rem;
           border-radius: 50%;
           margin-right: .16rem;
         }
 
         span {
-          font-size: .24rem;
+          font-size: .26rem;
           color: @T1;
           font-weight: bold;
         }
@@ -139,7 +139,8 @@ export default {
           position: absolute;
           right: .24rem;
           top: 30%;
-          color: #8B9199;
+          font-weight: normal;
+          color: #999999;
         }
       }
 

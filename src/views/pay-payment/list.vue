@@ -90,7 +90,8 @@ export default {
                 companyId: this.$route.query.companyId,
                 dbName: res.dbName,
                 orderId: res.orderId,
-                numMoney: this.numMoney
+                numMoney: this.numMoney,
+                roomName: this.$route.query.roomName
               }
             })
           } else {
