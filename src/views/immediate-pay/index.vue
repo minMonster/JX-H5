@@ -69,8 +69,8 @@ export default {
           if (res.success) {
             this.$vux.loading.hide()
             let that = this
-            let str = 'appid=wx56100d898b8a6665&nonceStr=' + res.data.nonceStr + '&partnerId=' + res.data.partnerId + '&prepayId=' + res.data.prepayId + '&sign=' + res.data.sign + '&timeStamp=' + res.data.timeStamp
-            debugger
+            let aliParam = res.aliParam
+            let str = 'appid=' + aliParam.appid + '&nonceStr=' + aliParam.nonceStr + '&partnerId=' + aliParam.partnerId + '&prepayId=' + aliParam.prepayId + '&sign=' + aliParam.sign + '&timeStamp=' + aliParam.timeStamp
             setupWebViewJavascriptBridge((bridge) => {
               bridge.callHandler('payment', {payType: 2, orderInfo: str}, function (res) {
                 that.$vux.toast.text('支付成功')
