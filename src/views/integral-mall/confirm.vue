@@ -77,14 +77,14 @@
       }
 
       .text {
-        padding-top: .28rem;
+        padding-top: .2rem;
         .name {
           width: 4rem;
           font-size: .36rem;
           font-family: @FM;
           font-weight: 600;
           color: @T1;
-          margin-bottom: .44rem;
+          margin-bottom: .24rem;
           display: -webkit-box;
           overflow: hidden;
           text-overflow: ellipsis;

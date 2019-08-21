@@ -160,7 +160,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: .1rem;
+            margin-top: 2px;
 
             .cost {
               font-size: .2rem;
