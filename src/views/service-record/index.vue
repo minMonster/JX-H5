@@ -23,7 +23,7 @@
           </div>
           <p class="content">{{decodeUnicode(item.content)}}</p>
           <p class="time">{{item.savetime}}</p>
-          <div class="type">{{item.servicetypetext}}</div>
+          <div class="type" :class="{'tousu': item.servicetypetext==='投诉'}">{{item.servicetypetext}}</div>
         </div>
       </div>
     </scroller>
@@ -222,6 +222,7 @@ export default {
     .notice-container {
       background-color: #fff;
       padding: .38rem .24rem .2rem;
+      padding-left: 1rem;
       display: flex;
       align-items: flex-start;
       border-bottom: .02rem solid @L4;
@@ -235,11 +236,11 @@ export default {
         position: relative;
         flex: 1;
 
-        .type {
+        .time {
           position: absolute;
           right: 0;
           top: 0;
-          color: #F05A23;
+          color: @T4;
           font-size: .24rem;
         }
 
@@ -271,14 +272,23 @@ export default {
         line-height: .32rem;
       }
 
-      .time {
-        font-size: .24rem;
+      .type {
+        font-size: .2rem;
+        position: absolute;
+        left: -0.8rem;
+        width: .6rem;
+        height: .6rem;
+        border-radius: 50%;
+        text-align: center;
+        background: rgba(249,147,77,1);
+        top: 0;
         font-weight: 400;
         font-family: @FR;
-        color: @T4;
-        line-height: .24rem;
-        text-align: left;
-        margin-top: .18rem;
+        color: #fff;
+        line-height: .65rem;
+        &.tousu {
+          background: rgba(243,103,109,1);
+        }
       }
     }
 

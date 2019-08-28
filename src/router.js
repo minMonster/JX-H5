@@ -380,6 +380,12 @@ const router = new Router({
       meta: { title: '积分兑换' },
       component: resolve => require(['@/views/integral-mall/confirm'], resolve)
     },
+    {
+      path: '/local-shop/detail',
+      name: 'local-shop/detail',
+      meta: { title: '服务详情' },
+      component: resolve => require(['@/views/localShop/detail'], resolve)
+    },
     // native route
     {
       meta: {title: '政务'},

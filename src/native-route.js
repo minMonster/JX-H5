@@ -32,7 +32,8 @@ let staticRoute = {
   'wallet1': 'wallet1',
   'accessControlManagement': 'no-open',
   'smartDevice': 'no-open',
-  'myIntegration': 'integral-mall' // 积分商城
+  'myIntegration': 'integral-mall', // 积分商城
+  'nearLifeDetail': 'local-shop/detail' // 周边生活-详情
 }
 
 // 动态路由，retern routeName

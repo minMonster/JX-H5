@@ -111,8 +111,8 @@ export default {
         arr = res.data.map(i => {
           let obj = {}
           obj.id = i.id
-          obj.name = i.housenum
-          obj.value = i.housenum
+          obj.name = i.unit + '单元' + i.housenum
+          obj.value = i.unit + '单元' + i.housenum
           return obj
         })
         this.list4 = [arr]

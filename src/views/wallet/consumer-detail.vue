@@ -22,9 +22,9 @@ export default {
   data: function () {
     return {
       queryMode: '1',
-      page: '1',
-      pnBusidate: '2019-06-29',
-      pnRowRecord: '1',
+      page: 1,
+      pnBusidate: '2019-05-01',
+      pnRowRecord: 2,
       list: []
     }
   },
