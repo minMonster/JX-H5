@@ -57,7 +57,6 @@ function dynamicRoute () {
 export function nativeRoute (to) {
   let query = to.query
   let queryData = JSON.parse(query.data)
-  debugger
   let page = queryData.page
   let payload = queryData.payload || {}
   let routeName = staticRoute[page]
