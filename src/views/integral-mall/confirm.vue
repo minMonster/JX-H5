@@ -77,15 +77,14 @@
       }
 
       .text {
-        padding-top: .28rem;
+        padding-top: .2rem;
         .name {
           width: 4rem;
           font-size: .36rem;
           font-family: @FM;
           font-weight: 600;
           color: @T1;
-          line-height: .36rem;
-          margin-bottom: .44rem;
+          margin-bottom: .24rem;
           display: -webkit-box;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -98,7 +97,6 @@
           font-family: @FR;
           font-weight: 400;
           color: @T3;
-          line-height: .2rem;
 
           .red {
             font-size: .32rem;
@@ -134,13 +132,11 @@
           font-family: @FR;
           font-weight: 600;
           color: @C3;
-          line-height: .28rem;
           margin-right: .1rem;
         }
 
         .arrow {
           width: .18rem;
-          margin-top: .02rem;
         }
       }
     }
@@ -180,7 +176,6 @@
             font-family: @FR;
             font-weight: 400;
             color: @T3;
-            line-height: .3rem;
           }
         }
 
@@ -193,13 +188,11 @@
             font-family: @FM;
             font-weight: 600;
             color: @C3;
-            line-height: .28rem;
             margin-right: .2rem;
           }
 
           .arrow {
             width: .18rem;
-            margin-top: .03rem;
           }
         }
       }
@@ -209,7 +202,6 @@
         font-family: @FR;
         font-weight: 400;
         color: @T1;
-        line-height: .24rem;
         margin-right: .4rem;
         display: -webkit-box;
         overflow: hidden;
@@ -236,7 +228,6 @@
       font-weight: 600;
       color: #FFFFFF !important;
       background-color: @C3 !important;
-      line-height: .32rem;
     }
   }
 </style>

@@ -107,7 +107,6 @@
           font-family: @FM;
           font-weight: 600;
           color: @T1;
-          line-height: .32rem;
         }
       }
 
@@ -116,7 +115,6 @@
         font-family: @FM;
         font-weight: 600;
         color: @T3;
-        line-height: .32rem;
       }
     }
 
@@ -147,8 +145,8 @@
           .product-img {
             width: 3.16rem;
             height: 3rem;
-            margin-bottom: .12rem;
             border-bottom: 1px solid @B7;
+            margin-bottom: 2px;
           }
 
           .product-name {
@@ -156,21 +154,19 @@
             font-family: @FR;
             font-weight: 400;
             color: @T1;
-            line-height: .28rem;
           }
 
           .info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: .12rem;
+            margin-top: 2px;
 
             .cost {
               font-size: .2rem;
               font-family: @FR;
               font-weight: 400;
               color: @T3;
-              line-height: .2rem;
 
               .red {
                 color: @C4;
@@ -183,7 +179,6 @@
               font-family: @FR;
               font-weight: 400;
               color: @T3;
-              line-height: .2rem;
             }
           }
         }
