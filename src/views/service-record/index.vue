@@ -23,6 +23,7 @@
           </div>
           <p class="content">{{decodeUnicode(item.content)}}</p>
           <p class="time">{{item.savetime}}</p>
+          <p class="status" :style="{color: item.statusColor}">{{statusInit(item.processstatus)}}</p>
           <div class="type" :class="{'tousu': item.servicetypetext==='投诉'}">{{item.servicetypetext}}</div>
         </div>
       </div>
@@ -68,6 +69,17 @@ export default {
     }
   },
   methods: {
+    statusInit (status) {
+      if (status === 0) {
+        return '新增'
+      } else if (status === 1 || status === 2) {
+        return '进行中'
+      } else if (status === 3 || status === 4) {
+        return '待结项'
+      } else if (status === 5 || status === 6) {
+        return '完成'
+      }
+    },
     refresh (done) {
       this.pageSize = 15
       this.getList(done)
@@ -105,6 +117,19 @@ export default {
       return this.$api.post('/HouseManage/Visit', {...params}).then(res => {
         if (res.success) {
           this.fakeData = res.data
+          this.fakeData = this.fakeData.map((i) => {
+            let status = i.processstatus
+            if (status === 0) {
+              i.statusColor = '#1B8DF6'
+            } else if (status === 1 || status === 2) {
+              i.statusColor = '#f3676d'
+            } else if (status === 3 || status === 4) {
+              i.statusColor = '#f9934d'
+            } else if (status === 5 || status === 6) {
+              i.statusColor = '#999999'
+            }
+            return i
+          })
         }
         if (done) done(true)
       })
@@ -223,10 +248,21 @@ export default {
       background-color: #fff;
       padding: .38rem .24rem .2rem;
       padding-left: 1rem;
+      padding-bottom: .1rem;
+      padding-right: .1rem;
       display: flex;
       align-items: flex-start;
-      border-bottom: .02rem solid @L4;
+      position: relative;
 
+      &:before {
+        content: ' ';
+        background-color: @L4;
+        height: 1px;
+        width: 6.2rem;
+        position: absolute;
+        bottom: 0;
+        left: 1rem;
+      }
       .stateIcon {
         width: .8rem;
         margin-right: .3rem;
@@ -237,11 +273,14 @@ export default {
         flex: 1;
 
         .time {
-          position: absolute;
-          right: 0;
-          top: 0;
           color: @T4;
+          padding-top: .1rem;
           font-size: .24rem;
+        }
+        .status {
+          position: absolute;
+          right: .2rem;
+          top: 0;
         }
 
         .title-box {
