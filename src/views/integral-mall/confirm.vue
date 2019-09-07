@@ -4,7 +4,7 @@
       <img :src="product.pic" alt="" class="pic">
       <div class="text">
         <div class="name">{{product.name}}</div>
-        <div class="cost"><span class="red">-{{product.cost}}</span>积分</div>
+        <div class="cost"><span class="red">-{{product.score}}</span>积分</div>
       </div>
     </div>
     <div class="receive-info default-info" v-if="receiveInfo">
@@ -40,9 +40,9 @@
     data: function () {
       return {
         product: {
-          name: '山东烟台大苹果',
-          cost: 4000,
-          pic: require('../../assets/integral-mall/integral-product@2x.png')
+          // name: '山东烟台大苹果',
+          // cost: 4000,
+          // pic: require('../../assets/integral-mall/integral-product@2x.png')
         },
         receiveInfo: {
           name: '华联百货',
@@ -50,6 +50,25 @@
           address: '山东省 日照市 莒县烟台中路一号713'
         }
       }
+    },
+    methods: {
+      getCommodityInfo () {
+        this.$api.get('/Commodity/' + this.$route.query.id).then(res => {
+          this.product = res.data
+        }).catch(err => {
+          if (err.code) {
+            this.$vux.toast(err.message)
+          } else {
+            this.$vux.toast(err)
+          }
+        })
+      },
+      getReceiveInfo () {
+      
+      }
+    },
+    created () {
+      this.getCommodityInfo()
     }
   }
 </script>
@@ -74,6 +93,7 @@
         width: 2rem;
         height: 2rem;
         margin-right: .36rem;
+        border-radius: .06rem;
       }
 
       .text {

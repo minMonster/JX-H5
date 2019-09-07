@@ -1,15 +1,16 @@
 <template>
   <div class="integral-convert-record">
-    <div class="convert-record-item" v-for="(item, index) in convertList" :key="index">
+    <div class="convert-record-item" v-for="order in convertList" :key="order.id">
       <div class="left">
-        <img :src="item.logo" alt="" class="logo">
-        <div class="name">{{item.name}}</div>
+        <img :src="order.detailList.pic" alt="" class="logo">
+        <div class="name">{{order.detailList.name}}</div>
       </div>
       <div class="right">
-        <span class="red">-{{item.cost}}</span>
+        <span class="red">-{{order.detailList.score}}</span>
         积分
       </div>
     </div>
+    <div class="no-data" v-if="!convertList">暂无记录</div>
   </div>
 </template>
 
@@ -19,33 +20,64 @@
     data: function () {
       return {
         convertList: [
-          {
-            name: '时尚床上用品',
-            cost: 4000,
-            logo: require('../../assets/integral-mall/integral-product@2x.png')
-          },
-          {
-            name: '时尚床上用品',
-            cost: 4000,
-            logo: require('../../assets/integral-mall/integral-product@2x.png')
-          },
-          {
-            name: '时尚床上用品',
-            cost: 4000,
-            logo: require('../../assets/integral-mall/integral-product@2x.png')
-          },
-          {
-            name: '时尚床上用品',
-            cost: 4000,
-            logo: require('../../assets/integral-mall/integral-product@2x.png')
-          },
-          {
-            name: '时尚床上用品',
-            cost: 4000,
-            logo: require('../../assets/integral-mall/integral-product@2x.png')
-          }
-        ]
+          // {
+          //   name: '时尚床上用品',
+          //   cost: 4000,
+          //   logo: require('../../assets/integral-mall/integral-product@2x.png')
+          // },
+          // {
+          //   name: '时尚床上用品',
+          //   cost: 4000,
+          //   logo: require('../../assets/integral-mall/integral-product@2x.png')
+          // },
+          // {
+          //   name: '时尚床上用品',
+          //   cost: 4000,
+          //   logo: require('../../assets/integral-mall/integral-product@2x.png')
+          // },
+          // {
+          //   name: '时尚床上用品',
+          //   cost: 4000,
+          //   logo: require('../../assets/integral-mall/integral-product@2x.png')
+          // },
+          // {
+          //   name: '时尚床上用品',
+          //   cost: 4000,
+          //   logo: require('../../assets/integral-mall/integral-product@2x.png')
+          // }
+        ],
+        pageOptions: {
+          pageIndex: 1,
+          pageSize: 10
+        }
       }
+    },
+    methods: {
+      getOrderList () {
+        let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+        this.$api.get('/Order/List?userId=' + userInfo.id + '&status=UnReceive&pageIndex=' + this.pageOptions.pageIndex + '&pageSize=' + this.pageOptions.pageSize).then(res => {
+          res.data.list.forEach(order => {
+            this.convertList.push(order.detailList)
+          })
+        }).catch(err => {
+          if (err.code) {
+            this.$vux.toast(err.message)
+          } else {
+            this.$vux.toast(err)
+          }
+        })
+      }
+      // getList () {
+      //   this.$api.get('/UserSign/UserList').then(res => {
+      //     console.log(res)
+      //   })
+      // }
+    },
+    created () {
+      this.getOrderList()
+      // this.getList()
+      // console.log(123)
+      // console.log(this.convertList)
     }
   }
 </script>
@@ -105,6 +137,15 @@
           vertical-align: bottom;
         }
       }
+    }
+    
+    .no-data {
+      font-size: .28rem;
+      font-family: @FM;
+      font-weight: 600;
+      color: @T3;
+      text-align: center;
+      margin-top: .36rem;
     }
   }
 </style>

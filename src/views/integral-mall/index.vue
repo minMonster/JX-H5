@@ -11,14 +11,15 @@
     <div class="integral-convert">
       <img src="../../assets/integral-mall/integral-title@2x.png" alt="" class="title">
       <div class="product-container">
-        <div class="product" @click="$router.push({path: '/integral-mall/detail'})" v-for="product in products" :key="product.id">
-          <img :src="product.imgSrc" alt="" class="product-img">
+        <div class="product" @click="$router.push({path: '/integral-mall/detail', query: {id: product.id}})" v-for="product in products" :key="product.id">
+          <img :src="product.pic" alt="" class="product-img">
           <span class="product-name">{{product.name}}</span>
           <div class="info">
-            <div class="cost"><span class="red">{{product.cost}}</span>积分</div>
-            <span class="rest">剩余{{product.rest}}</span>
+            <div class="cost"><span class="red">{{product.price}}</span>积分</div>
+            <span class="rest">剩余{{product.amount}}</span>
           </div>
         </div>
+        <div class="no-data" v-if="!totalCount">暂无商品数据</div>
       </div>
     </div>
   </div>
@@ -29,45 +30,62 @@
     name: 'integral-mall',
     data: function () {
       return {
-        currentIntegral: 880,
+        totalCount: 0,
+        currentIntegral: 0,
         products: [
-          {
-            imgSrc: require('../../assets/store/ic_shop_product_1.png'),
-            name: '时尚床上用品',
-            cost: 4000,
-            rest: 12,
-            path: ''
-          },
-          {
-            imgSrc: require('../../assets/store/ic_shop_product_2.png'),
-            name: '时尚床上用品',
-            cost: 3000,
-            rest: 20,
-            path: ''
-          },
-          {
-            imgSrc: require('../../assets/store/ic_shop_product_2.png'),
-            name: '时尚床上用品',
-            cost: 6666,
-            rest: 0,
-            path: ''
-          },
-          {
-            imgSrc: require('../../assets/store/ic_shop_product_1.png'),
-            name: '时尚床上用品',
-            cost: 7777,
-            rest: 18,
-            path: ''
-          },
+          // {
+          //   imgSrc: require('../../assets/store/ic_shop_product_1.png'),
+          //   name: '时尚床上用品',
+          //   cost: 4000,
+          //   rest: 12,
+          //   path: ''
+          // },
           // {
           //   imgSrc: require('../../assets/store/ic_shop_product_2.png'),
           //   name: '时尚床上用品',
-          //   cost: 1234,
+          //   cost: 3000,
+          //   rest: 20,
+          //   path: ''
+          // },
+          // {
+          //   imgSrc: require('../../assets/store/ic_shop_product_2.png'),
+          //   name: '时尚床上用品',
+          //   cost: 6666,
           //   rest: 0,
           //   path: ''
+          // },
+          // {
+          //   imgSrc: require('../../assets/store/ic_shop_product_1.png'),
+          //   name: '时尚床上用品',
+          //   cost: 7777,
+          //   rest: 18,
+          //   path: ''
           // }
-        ]
+        ],
+        pageOptions: {
+          pageIndex: 1,
+          pageSize: 5
+        }
       }
+    },
+    methods: {
+      getCommodityList () {
+        this.$api.get('/Commodity/List?pageIndex=' + this.pageOptions.pageIndex + '&pageSize=' + this.pageOptions.pageSize).then(res => {
+          this.products = res.data.list
+          this.totalCount = res.data.totalCount
+          // document.title = this.$route.query.title || '莒e通'
+        }).catch(err => {
+          if (err.code) {
+            this.$vux.toast(err.message)
+          } else {
+            this.$vux.toast(err)
+          }
+        })
+      }
+    },
+    created () {
+      this.currentIntegral = JSON.parse(sessionStorage.getItem('userInfo')).totalScore
+      this.getCommodityList()
     }
   }
 </script>
@@ -147,6 +165,7 @@
             height: 3rem;
             border-bottom: 1px solid @B7;
             margin-bottom: 2px;
+            border-radius: .06rem;
           }
 
           .product-name {
@@ -181,6 +200,15 @@
               color: @T3;
             }
           }
+        }
+        
+        .no-data {
+          width: 100%;
+          font-size: .24rem;
+          font-family: @FR;
+          font-weight: 400;
+          color: @T3;
+          text-align: center;
         }
       }
     }

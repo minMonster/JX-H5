@@ -5,15 +5,15 @@
       <div class="left">
         <div class="name">{{product.name}}</div>
         <div class="more">
-          <div class="cost"><span class="red">-{{product.cost}}</span>积分</div>
-          <span class="rest">仅剩{{product.rest}}份</span>
+          <div class="cost"><span class="red">-{{product.score}}</span>积分</div>
+          <span class="rest">仅剩{{product.amount}}份</span>
         </div>
       </div>
-      <x-button class="convert-btn right" @click.native="isConvertAble">兑换</x-button>
+      <x-button class="convert-btn right" @click.native="goConvert">兑换</x-button>
     </div>
     <div class="product-detail">
       <p class="title">商品介绍</p>
-      <div class="detail"></div>
+      <div class="detail">{{detail}}</div>
     </div>
   </div>
 </template>
@@ -27,17 +27,28 @@
     },
     data: function () {
       return {
-        product: {
-          name: '山东烟台大苹果',
-          cost: 4000,
-          rest: 12
-        }
+        product: {},
+        detail: ''
       }
     },
     methods: {
-      isConvertAble () {
-        this.$router.push({path: '/integral-mall/confirm'})
+      goConvert () {
+        let userScore = JSON.parse(sessionStorage.getItem('userInfo')).totalScore
+        if (this.product.score > userScore) {
+          this.$vux.toast.text('积分不足')
+        } else {
+          this.$router.push({path: '/integral-mall/confirm', query: {id: this.product.id}})
+        }
+      },
+      getCommodity () {
+        this.$api.get('/Commodity/' + this.$route.query.id).then(res => {
+          this.product = res.data
+          this.detail = res.data.describe
+        })
       }
+    },
+    created () {
+      this.getCommodity()
     }
   }
 </script>
