@@ -8,7 +8,7 @@
           <span class="big">{{$route.query.numMoney}}</span>
           <!--                    <span class="small decimal">.00</span>-->
         </div>
-<!--        <span class="company">物业公司：{{$route.query.roomName}}</span>-->
+        <!--        <span class="company">物业公司：{{$route.query.roomName}}</span>-->
       </div>
       <div class="coupon-bottom">
         <p class="tip">支付方式</p>
@@ -25,108 +25,112 @@
       </div>
     </div>
     <x-button class="pay-btn" @click.native="pay">立即支付</x-button>
+    <div ref="htstr" v-html="jufubaoHtml"></div>
   </div>
 </template>
 
 <script>
-import { XButton } from 'vux'
-import * as auth from '@/common/auth'
-import { setupWebViewJavascriptBridge } from '@/common/jsbridge'
+  import {XButton} from 'vux'
+  import * as auth from '@/common/auth'
+  import {setupWebViewJavascriptBridge} from '@/common/jsbridge'
 
-export default {
-  name: 'immediate-pay',
-  components: {XButton},
-  data: function () {
-    return {
-      current: 0,
-      info: {
-        address: '仪琳雅竹小区4号楼3单元301',
-        price: 288,
-        company: '欣欣物业'
-      },
-      selections: [
-        {name: '微信', logo: require('../../assets/immediate-pay/logo_1_weixin.png')},
-        {name: '支付宝', logo: require('../../assets/immediate-pay/logo_2_zhifubao.png')},
-        {name: '莒蚨宝', logo: require('../../assets/immediate-pay/logo_3_jufubao.png')}
-      ],
-      payinfo: ''
-    }
-  },
-  methods: {
-    pay () {
-      this.$vux.loading.show()
-      if (this.current === 0) {
-        this.$api.post('/HouseManage/DoPayAndroidWx?orderId=' +
-          this.$route.query.orderId +
-          '&companyId=' +
-          this.$route.query.companyId +
-          '&dbName=' +
-          this.$route.query.dbName +
-          '&token=' +
-          auth.getToken()
-        ).then(res => {
-          this.payinfo = res
-          if (res.success) {
-            this.$vux.loading.hide()
-            let that = this
-            let aliParam = res.aliParam
-            let str = 'appid=' + aliParam.appid + '&nonceStr=' + aliParam.nonceStr + '&partnerId=' + aliParam.partnerId + '&prepayId=' + aliParam.prepayId + '&sign=' + aliParam.sign + '&timeStamp=' + aliParam.timeStamp
-            setupWebViewJavascriptBridge((bridge) => {
-              bridge.callHandler('payment', {payType: 2, orderInfo: str}, function (res) {
-                that.$vux.toast.text('支付成功')
-              })
-            })
-          } else {
-            this.$vux.loading.hide()
-          }
-        })
+  export default {
+    name: 'immediate-pay',
+    components: {XButton},
+    data: function () {
+      return {
+        current: 0,
+        jufubaoHtml: '',
+        info: {
+          address: '仪琳雅竹小区4号楼3单元301',
+          price: 288,
+          company: '欣欣物业'
+        },
+        selections: [
+          {name: '微信', logo: require('../../assets/immediate-pay/logo_1_weixin.png')},
+          {name: '支付宝', logo: require('../../assets/immediate-pay/logo_2_zhifubao.png')},
+          {name: '莒蚨宝', logo: require('../../assets/immediate-pay/logo_3_jufubao.png')}
+        ],
+        payinfo: ''
       }
-      if (this.current === 1) {
-        this.$api.post('/HouseManage/DoPayAndroid?payType=ZFB&orderId=' +
-          this.$route.query.orderId +
-          '&companyId=' +
-          this.$route.query.companyId +
-          '&dbName=' +
-          this.$route.query.dbName +
-          '&token=' +
-          auth.getToken()
-        ).then(res => {
-          this.payinfo = res
-          if (res.success) {
-            this.$vux.loading.hide()
-            let that = this
-            let str = res.aliParam
-            setupWebViewJavascriptBridge((bridge) => {
-              bridge.callHandler('payment', {payType: 1, orderInfo: str}, function (res) {
-                that.$vux.toast.text('支付成功')
+    },
+    methods: {
+      pay () {
+        this.$vux.loading.show()
+        if (this.current === 0) {
+          this.$api.post('/HouseManage/DoPayAndroidWx?orderId=' +
+            this.$route.query.orderId +
+            '&companyId=' +
+            this.$route.query.companyId +
+            '&dbName=' +
+            this.$route.query.dbName +
+            '&token=' +
+            auth.getToken()
+          ).then(res => {
+            this.payinfo = res
+            if (res.success) {
+              this.$vux.loading.hide()
+              let that = this
+              let aliParam = res.aliParam
+              let str = 'appid=' + aliParam.appid + '&nonceStr=' + aliParam.nonceStr + '&partnerId=' + aliParam.partnerId + '&prepayId=' + aliParam.prepayId + '&sign=' + aliParam.sign + '&timeStamp=' + aliParam.timeStamp
+              setupWebViewJavascriptBridge((bridge) => {
+                bridge.callHandler('payment', {payType: 2, orderInfo: str}, function (res) {
+                  that.$vux.toast.text('支付成功')
+                })
               })
-            })
-          } else {
-            this.$vux.loading.hide()
-          }
-        })
-      }
-      if (this.current === 2) {
-        this.$api.post('/HouseManage/AppAccountTransfer?orderId=' +
-          this.$route.query.orderId +
-          '&dbName=' +
-          this.$route.query.dbName +
-          '&token=' + auth.getToken()).then(res => {
-          if (res.success) {
-            this.$vux.toast.text('支付成功')
-          } else {
-            this.$vux.loading.hide()
-            this.$vux.toast.text(res.message)
-          }
-        }).catch(err => {
-          this.$vux.loading.hide()
-          console.log(err)
-          this.$vux.toast.text('支付失败！')
-        })
+            } else {
+              this.$vux.loading.hide()
+            }
+          })
+        }
+        if (this.current === 1) {
+          this.$api.post('/HouseManage/DoPayAndroid?payType=ZFB&orderId=' +
+            this.$route.query.orderId +
+            '&companyId=' +
+            this.$route.query.companyId +
+            '&dbName=' +
+            this.$route.query.dbName +
+            '&token=' +
+            auth.getToken()
+          ).then(res => {
+            this.payinfo = res
+            if (res.success) {
+              this.$vux.loading.hide()
+              let that = this
+              let str = res.aliParam
+              setupWebViewJavascriptBridge((bridge) => {
+                bridge.callHandler('payment', {payType: 1, orderInfo: str}, function (res) {
+                  that.$vux.toast.text('支付成功')
+                })
+              })
+            } else {
+              this.$vux.loading.hide()
+            }
+          })
+        }
+        if (this.current === 2) {
+          this.$api.post('/HouseManage/AppAccountTransfer?orderId=' +
+            this.$route.query.orderId +
+            '&dbName=' +
+            this.$route.query.dbName +
+            '&token=' + auth.getToken()).then(res => {
+            if (res === '') {
+              this.$vux.loading.hide()
+              this.$vux.toast.text('支付失败！')
+            } else {
+              this.jufubaoHtml = res
+              this.$nextTick(() => {
+                let ele = document.createElement('script')
+                ele.innerHTML = 'document.forms[0].submit();'
+                this.$refs.htstr.append(ele)
+              })
+              this.$vux.loading.hide()
+            }
+          })
+        }
       }
     }
   }
-}
 </script>
 
 <style rel="stylesheet/less" lang="less">

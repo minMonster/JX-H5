@@ -78,10 +78,10 @@ export default {
         if (res.success) {
           this.loading = false
           this.mediumId = data
-          this.getAccountBalance()
           this.$api.post('/Icbc/BindingQuery', {
             mediumId: data
           }).then(res => {
+            this.getAccountBalance()
             if (res.data.length > 0) {
               this.bindMedium = res.data
             }
