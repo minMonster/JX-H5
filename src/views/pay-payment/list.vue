@@ -13,6 +13,9 @@
       <div class="money">¥{{card.totalmoney}}</div>
     </div>
     <div class="buttons">
+      <div class="icon-checkbox" @click="checkAll">
+        <icon :type="isCheckAll?'success':'circle'"></icon><span style="color: #0d0d0d">全选</span>
+      </div>
       <div class="money-num-box">应付金额：<span class="num-money">¥{{numMoney}}</span></div>
       <div class="hyper-link" @click="pay">结算</div>
     </div>
@@ -30,6 +33,7 @@ export default {
   data: function () {
     return {
       numMoney: 0,
+      isCheckAll: false,
       lists: [
         {
           title: '1月物业费',
@@ -63,6 +67,22 @@ export default {
     })
   },
   methods: {
+    checkAll () {
+      if (this.isCheckAll) {
+        this.isCheckAll = false
+        this.numMoney = 0
+        this.lists.forEach(i => {
+          i.active = false
+        })
+      } else {
+        this.isCheckAll = true
+        this.numMoney = 0
+        this.lists.forEach(i => {
+          this.numMoney += Number(i.totalmoney)
+          i.active = true
+        })
+      }
+    },
     pay () {
       if (this.numMoney === 0) {
         this.$vux.toast.text('请至少选择一份账单')
@@ -109,6 +129,7 @@ export default {
     },
     select (card, index) {
       if (card.active) {
+        this.isCheckAll = false
         this.numMoney -= Number(this.lists[index].totalmoney)
       } else {
         this.numMoney += Number(this.lists[index].totalmoney)
@@ -176,15 +197,29 @@ export default {
       left: 0;
       font-size: 0.28rem;
       color: #fff;
+      padding-left: .24rem;
       bottom: 0;
+      background-color: #fff;
 
+      .icon-checkbox {
+        height: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .weui-icon {
+        font-size: .3rem;
+      }
+
+      .weui-icon-success {
+        color: #F37D31;
+      }
       .money-num-box {
         flex: 1;
+        padding-left: .2rem;
         display: flex;
         align-items: center;
-        padding-left: .24rem;
         height: 1rem;
-        background-color: #fff;
         color: #333333;
 
         span {

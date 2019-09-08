@@ -4,11 +4,11 @@
               :style="{height: contentHeight, top: 0}" style="width: 100%;">
       <div class="convert-record-item" v-for="order in convertList" :key="order.id">
         <div class="left">
-          <img :src="order.detailList.pic" alt="" class="logo">
-          <div class="name">{{order.detailList.name}}</div>
+          <img :src="order.pic" alt="" class="logo">
+          <div class="name">{{order.name}}</div>
         </div>
         <div class="right">
-          <span class="red">-{{order.detailList.score}}</span>
+          <span class="red">-{{order.score}}</span>
           积分
         </div>
       </div>
@@ -109,6 +109,7 @@
     .convert-record-item {
       height: 1.32rem;
       display: flex;
+      margin-left: .24rem;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid @L4;
@@ -153,7 +154,7 @@
         }
       }
     }
-    
+
     .no-data {
       font-size: .28rem;
       font-family: @FM;

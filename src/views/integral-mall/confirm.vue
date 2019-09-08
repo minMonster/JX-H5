@@ -14,24 +14,26 @@
           <span class="phone">{{receiveInfo.phone}}</span>
         </div>
         <div class="change-address">
-          <span class="tip">更改地址</span>
+          <span class="tip" @click="toAddress">更改地址</span>
           <img src="../../assets/integral-mall/arrow@2x.png" alt="" class="arrow">
         </div>
       </div>
       <p class="address">{{receiveInfo.address}}</p>
     </div>
-    <div class="receive-info empty" v-else>
+    <div class="receive-info empty" @click="toAddress" v-else>
       <div class="write-link">
         <span class="tip">请填写收货信息</span>
         <img src="../../assets/integral-mall/arrow@2x.png" alt="" class="arrow">
       </div>
     </div>
-    <x-button class="confirm-btn">确定</x-button>
+    <x-button class="confirm-btn" @click.native="createScoreOrder">确定</x-button>
   </div>
 </template>
 
 <script>
   import { XButton } from 'vux'
+  import {setupWebViewJavascriptBridge} from '@/common/jsbridge'
+
   export default {
     name: 'integral-convert-confirm',
     components: {
@@ -52,6 +54,11 @@
       }
     },
     methods: {
+      toAddress () {
+        setupWebViewJavascriptBridge((bridge) => {
+          bridge.callHandler('toAddress', {}, function (res) {})
+        })
+      },
       getCommodityInfo () {
         this.$api.get('/Commodity/' + this.$route.query.id).then(res => {
           this.product = res.data
@@ -63,11 +70,55 @@
           }
         })
       },
-      getReceiveInfo () {
-      
+      getAddress () {
+        this.$api.get('/Address/List').then(res => {
+          if (res.data.length === 0) {
+            this.receiveInfo = null
+          } else {
+            res.data.forEach(i => {
+              if (i.isDefault) {
+                this.receiveInfo = {
+                  name: i.receiver,
+                  phone: i.phone,
+                  address: i.area + i.address
+                }
+              }
+            })
+          }
+        })
+      },
+      createScoreOrder () {
+        if (this.receiveInfo === null) {
+          this.$vux.toast.text('请选择收获地址')
+          return
+        }
+        this.$api.post('/Order/CreateScoreOrder', {
+          'userId': sessionStorage.getItem('userInfo').id,
+          'commodityID': this.$route.query.id,
+          'count': 1,
+          'totalScore': this.product.score,
+          'totalMoney': this.product.price,
+          'remark': '',
+          'address': this.receiveInfo.address,
+          'receiverName': this.receiveInfo.name,
+          'receiverPhone': this.receiveInfo.phone
+        }).then(res => {
+          this.$vux.alert.show({
+            title: '兑换成功',
+            content: '点击确定将返回我的页面',
+            onShow () {
+            },
+            onHide () {
+              setupWebViewJavascriptBridge((bridge) => {
+                bridge.callHandler('finish')
+              })
+            }
+          })
+        })
       }
     },
     created () {
+      this.getAddress()
       this.getCommodityInfo()
     }
   }
