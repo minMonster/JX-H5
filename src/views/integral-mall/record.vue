@@ -1,16 +1,19 @@
 <template>
   <div class="integral-convert-record">
-    <div class="convert-record-item" v-for="order in convertList" :key="order.id">
-      <div class="left">
-        <img :src="order.detailList.pic" alt="" class="logo">
-        <div class="name">{{order.detailList.name}}</div>
+    <scroller :on-refresh="refresh" :on-infinite="infinite" noDataText="没有更多数据"
+              :style="{height: contentHeight, top: 0}" style="width: 100%;">
+      <div class="convert-record-item" v-for="order in convertList" :key="order.id">
+        <div class="left">
+          <img :src="order.detailList.pic" alt="" class="logo">
+          <div class="name">{{order.detailList.name}}</div>
+        </div>
+        <div class="right">
+          <span class="red">-{{order.detailList.score}}</span>
+          积分
+        </div>
       </div>
-      <div class="right">
-        <span class="red">-{{order.detailList.score}}</span>
-        积分
-      </div>
-    </div>
-    <div class="no-data" v-if="!convertList">暂无记录</div>
+      <!--<div class="no-data" v-if="!convertList.length">暂无记录</div>-->
+    </scroller>
   </div>
 </template>
 
@@ -19,6 +22,8 @@
     name: 'integral-convert-record',
     data: function () {
       return {
+        contentHeight: '',
+        contentTop: '',
         convertList: [
           // {
           //   name: '时尚床上用品',
@@ -53,13 +58,27 @@
       }
     },
     methods: {
-      getOrderList () {
-        let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
-        this.$api.get('/Order/List?userId=' + userInfo.id + '&status=UnReceive&pageIndex=' + this.pageOptions.pageIndex + '&pageSize=' + this.pageOptions.pageSize).then(res => {
-          res.data.list.forEach(order => {
-            this.convertList.push(order.detailList)
-          })
+      refresh (done) {
+        this.convertList = []
+        this.pageOptions.pageSize = 15
+        this.getOrderList(done)
+      },
+      infinite (done) {
+        this.pageOptions.pageSize += 15
+        this.getOrderList(done)
+      },
+      getOrderList (done) {
+        // let userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+        this.$api.get('/UserScore/ExchangeRecord?' + 'pageIndex=' + this.pageOptions.pageIndex + '&pageSize=' + this.pageOptions.pageSize).then(res => {
+          this.convertList = res.data.list
+          console.log(this.convertList)
+          if (done) {
+            done(true)
+          }
         }).catch(err => {
+          if (done) {
+            done(true)
+          }
           if (err.code) {
             this.$vux.toast(err.message)
           } else {
@@ -67,17 +86,13 @@
           }
         })
       }
-      // getList () {
-      //   this.$api.get('/UserSign/UserList').then(res => {
-      //     console.log(res)
-      //   })
-      // }
+    },
+    mounted () {
+      this.contentHeight = document.documentElement.clientHeight
+      this.contentTop = 0
     },
     created () {
       this.getOrderList()
-      // this.getList()
-      // console.log(123)
-      // console.log(this.convertList)
     }
   }
 </script>

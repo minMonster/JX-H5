@@ -21,7 +21,7 @@
               <span class="rest">剩余{{product.amount}}</span>
             </div>
           </div>
-          <div class="no-data" v-if="!totalCount">暂无商品数据</div>
+          <!--<div class="no-data" v-if="!totalCount">暂无商品数据</div>-->
       </div>
     </div>
     </scroller>
