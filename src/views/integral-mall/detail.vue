@@ -1,6 +1,16 @@
 <template>
   <div class="integral-convert-detail">
-    <div class="carousel"></div>
+    <div class="carousel">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" v-for="item in pics" :key="item.id"><img :src="item" alt=""></div>
+          <!--                <div class="swiper-slide"><img src="../../assets/happy-in-jx/fun-1.jpg" alt=""></div>-->
+          <!--                <div class="swiper-slide"><img src="../../assets/eat-in-jx/food-1.jpg" alt=""></div>-->
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
     <div class="product-info">
       <div class="left">
         <div class="name">{{product.name}}</div>
@@ -19,6 +29,7 @@
 </template>
 
 <script>
+  import Swiper from 'swiper'
   import { XButton } from 'vux'
   export default {
     name: 'integral-convert-detail',
@@ -28,8 +39,33 @@
     data: function () {
       return {
         product: {},
-        detail: ''
+        detail: '',
+        pics: []
       }
+    },
+    mounted () {
+      this.getCommodity().then((res) => {
+        this.product = res.data
+        this.detail = res.data.describe
+        this.pics[0] = res.data.pic
+        if (res.data.pics) {
+          this.pics = JSON.parse(res.data.pics)
+        } else {
+          this.pics[0] = res.data.pic
+        }
+        this.$nextTick(() => {
+          new Swiper('.swiper-container', {
+            loop: true,
+            // 如果需要分页器
+            pagination: '.swiper-pagination',
+            // 如果需要前进后退按钮
+            nextButton: '.swiper-button-next',
+            prevButton: '.swiper-button-prev',
+            // 如果需要滚动条
+            scrollbar: '.swiper-scrollbar',
+          })
+        })
+      })
     },
     methods: {
       goConvert () {
@@ -41,14 +77,8 @@
         }
       },
       getCommodity () {
-        this.$api.get('/Commodity/' + this.$route.query.id).then(res => {
-          this.product = res.data
-          this.detail = res.data.describe
-        })
+        return this.$api.get('/Commodity/' + this.$route.query.id)
       }
-    },
-    created () {
-      this.getCommodity()
     }
   }
 </script>
@@ -59,7 +89,16 @@
 
   .integral-convert-detail {
     background-color: @B7;
-
+    .swiper-container {
+      width: 100vw;
+      height: 3rem;
+      .swiper-slide {
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
     .carousel {
       height: 3rem;
       background-color: #fff;

@@ -1,5 +1,7 @@
 <template>
   <div class="integral-mall">
+    <scroller :on-refresh="refresh" :on-infinite="infinite" noDataText="没有更多数据"
+              :style="{height: contentHeight, top: 0}" style="width: 100%;">
     <img src="../../assets/integral-mall/integral-banner@2x.png" alt="" class="banner">
     <div class="nav">
       <div class="integral">
@@ -11,17 +13,18 @@
     <div class="integral-convert">
       <img src="../../assets/integral-mall/integral-title@2x.png" alt="" class="title">
       <div class="product-container">
-        <div class="product" @click="$router.push({path: '/integral-mall/detail', query: {id: product.id}})" v-for="product in products" :key="product.id">
-          <img :src="product.pic" alt="" class="product-img">
-          <span class="product-name">{{product.name}}</span>
-          <div class="info">
-            <div class="cost"><span class="red">{{product.price}}</span>积分</div>
-            <span class="rest">剩余{{product.amount}}</span>
+          <div class="product" @click="$router.push({path: '/integral-mall/detail', query: {id: product.id}})" v-for="product in products" :key="product.id">
+            <img :src="product.pic" alt="" class="product-img">
+            <span class="product-name">{{product.name}}</span>
+            <div class="info">
+              <div class="cost"><span class="red">{{product.score}}</span>积分</div>
+              <span class="rest">剩余{{product.amount}}</span>
+            </div>
           </div>
-        </div>
-        <div class="no-data" v-if="!totalCount">暂无商品数据</div>
+          <div class="no-data" v-if="!totalCount">暂无商品数据</div>
       </div>
     </div>
+    </scroller>
   </div>
 </template>
 
@@ -32,6 +35,8 @@
       return {
         totalCount: 0,
         currentIntegral: 0,
+        contentHeight: '', // 容器高度
+        contentTop: '',
         products: [
           // {
           //   imgSrc: require('../../assets/store/ic_shop_product_1.png'),
@@ -64,17 +69,36 @@
         ],
         pageOptions: {
           pageIndex: 1,
-          pageSize: 5
+          pageSize: 100
         }
       }
     },
+    mounted () {
+      this.contentHeight = document.documentElement.clientHeight
+      this.contentTop = 0
+    },
     methods: {
-      getCommodityList () {
+      refresh (done) {
+        this.foods = []
+        this.pageOptions.pageSize = 15
+        this.getCommodityList(done)
+      },
+      infinite (done) {
+        this.pageOptions.pageSize += 15
+        this.getCommodityList(done)
+      },
+      getCommodityList (done) {
         this.$api.get('/Commodity/List?pageIndex=' + this.pageOptions.pageIndex + '&pageSize=' + this.pageOptions.pageSize).then(res => {
           this.products = res.data.list
           this.totalCount = res.data.totalCount
           // document.title = this.$route.query.title || '莒e通'
+          if (done) {
+            done(true)
+          }
         }).catch(err => {
+          if (done) {
+            done(true)
+          }
           if (err.code) {
             this.$vux.toast(err.message)
           } else {
@@ -96,6 +120,9 @@
 
   .integral-mall {
     min-height: 100vh;
+    ._v-container {
+      background-color: #F3F5F6;
+    }
     display: flex;
     flex-direction: column;
     .banner {
@@ -201,7 +228,7 @@
             }
           }
         }
-        
+
         .no-data {
           width: 100%;
           font-size: .24rem;
