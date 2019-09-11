@@ -381,6 +381,12 @@ const router = new Router({
       component: resolve => require(['@/views/integral-mall/confirm'], resolve)
     },
     {
+      path: '/integral-mall/order-list',
+      name: 'integral-mall/order-list',
+      meta: { title: '我的订单' },
+      component: resolve => require(['@/views/integral-mall/order-list'], resolve)
+    },
+    {
       path: '/local-shop/detail',
       name: 'local-shop/detail',
       meta: { title: '服务详情' },
