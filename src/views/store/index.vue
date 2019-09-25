@@ -137,6 +137,8 @@
         // this.$router.push({path: '/entertainment'})
         if (index === 0) {
           this.$router.push({path: '/store-list'})
+        } else {
+          this.$vux.toast.text('功能暂未开放')
         }
       },
       getCommodityList (done) {
