@@ -134,9 +134,8 @@
         //     that.$vux.toast.text('支付成功')
         //   })
         // })
-        // this.$router.push({path: '/entertainment'})
         if (index === 0) {
-          this.$router.push({path: '/store-list'})
+          this.$router.push({path: '/business-list'})
         } else {
           this.$vux.toast.text('功能暂未开放')
         }

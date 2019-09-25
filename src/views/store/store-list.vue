@@ -1,7 +1,7 @@
 <template>
   <div class="store-list">
     <ul class="tabs">
-      <li v-for="item in 10">
+      <li v-for="item in shops">
         <img src="" alt="">
         <p>商品描述</p>
       </li>
@@ -39,6 +39,19 @@
     name: 'store-list',
     components: {
       Icon
+    },
+    data: function () {
+      return {
+        shops: []
+      }
+    },
+    methods: {
+      getShopCategory () {
+        this.$api.get('/ShopCategory/GetCategory')
+      }
+    },
+    created () {
+      this.getShopCategory()
     }
   }
 </script>
