@@ -116,7 +116,7 @@
         let url = 'entertainment'
         setupWebViewJavascriptBridge((bridge) => {
           bridge.callHandler('openH5', {
-            path: 'entertainment'
+            path: url
           }, function () {
             that.$vux.toast.text('支付成功')
           })

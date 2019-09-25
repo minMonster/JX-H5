@@ -404,6 +404,12 @@ const router = new Router({
       meta: { title: '购物车' },
       component: resolve => require(['@/views/store/shopping-cart'], resolve)
     },
+    {
+      path: '/store-detail',
+      name: 'store-detail',
+      meta: { title: '商品详情' },
+      component: resolve => require(['@/views/store/store-detail'], resolve)
+    },
     // native route
     {
       meta: {title: '政务'},
