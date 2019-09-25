@@ -15,7 +15,7 @@
       <div class="left">
         <div class="name">{{product.name}}</div>
         <div class="more">
-          <div class="cost"><span class="red">-{{product.score}}</span>积分</div>
+          <div class="cost"><span class="red">{{product.score}}</span>积分</div>
           <span class="rest">仅剩{{product.amount}}份</span>
         </div>
       </div>
@@ -71,7 +71,7 @@
       goConvert () {
         let userScore = JSON.parse(sessionStorage.getItem('userInfo')).totalScore
         if (this.product.score > userScore) {
-          this.$vux.toast.text('积分不足')
+          this.$vux.toast.text('积分不足，暂时无法兑换')
         } else {
           this.$router.push({path: '/integral-mall/confirm', query: {id: this.product.id}})
         }

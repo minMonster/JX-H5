@@ -7,13 +7,14 @@
         <!--            <img :src="iconSrc" class="stateIcon" />-->
         <div class="notice">
           <div class="title-box">
-            <span class="title">{{item.name}}</span>
+            <span class="title">{{item.detailList[0].name}}</span>
             <!--                    <span class="area-name">({{item.areaName}})</span>-->
           </div>
-          <p class="content">content</p>
+          <p class="content">{{item.address}}</p>
+          <p class="content">数量: {{item.count}}</p>
           <p class="time">{{item.payDate}}</p>
-          <p class="status">status</p>
-          <div class="type">积分</div>
+          <p class="status">{{item.status}}</p>
+          <div class="type" :style="{background: item.name === '积分商城'?'':'#067bf8'}">{{item.name === '积分商城'? '积分': '超市'}}</div>
         </div>
       </div>
     </scroller>
@@ -44,11 +45,18 @@
       },
       getList (done) {
         done(true)
+        let params = {
+          UserId: JSON.parse(sessionStorage.getItem('userInfo')).id,
+            PageSize: this.pageSize,
+            PageIndex: 1
+        }
+        if (this.$route.query.status) {
+          params.status = this.$route.query.status
+        }
+        // status，待付款：UnPay,待发货：UnDelivery,待收货：UnReceive,售后：AfterSale；不传值表示全部。
         this.$api.get('/Order/List', {
           params: {
-            UserId: JSON.parse(sessionStorage.getItem('userInfo')).id,
-            PageSize: 100,
-            PageIndex: 1
+           ...params
           }
         }).then(res => {
           this.lists = res.data.list

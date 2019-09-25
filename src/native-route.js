@@ -33,7 +33,10 @@ let staticRoute = {
   'accessControlManagement': 'no-open',
   'smartDevice': 'no-open',
   'myIntegration': 'integral-mall', // 积分商城
-  'nearLifeDetail': 'local-shop/detail' // 周边生活-详情
+  'nearLifeDetail': 'local-shop/detail', // 周边生活-详情
+  'orderList': 'integral-mall/order-list',
+  'shoppingCart': 'shopping-cart',
+  'entertainment': 'entertainment' // 商家列表页
 }
 
 // 动态路由，retern routeName

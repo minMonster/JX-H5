@@ -1,7 +1,7 @@
 <!-- crated：2019-07-11  author：Monster  -->
 <template>
     <div class='medical-services-detail' >
-        <img :src="HospitalDetail.photo" alt="">
+      <img :src="HospitalDetail.photo" alt="">
         <p v-html="HospitalDetail.introduce"></p>
         <div class="buttons">
             <div class="phone" @click="callPhone(HospitalDetail.phone)"><img src="../../assets/medical-services/phone-icon.png" alt="">电话联系</div>

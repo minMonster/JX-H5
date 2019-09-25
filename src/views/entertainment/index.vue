@@ -6,7 +6,7 @@
         <div class="triangle"></div>
       </div>
     </div>
-    <div class="entertainment-project" v-for="(item, index) in lists" :key="index">
+    <div class="entertainment-project" @click="$router.push({path: '/store-list'})" v-for="(item, index) in lists" :key="index">
       <img :src="item.pic" alt="" class="pic">
       <div class="info-container">
         <p class="name">{{item.name}}</p>
@@ -80,6 +80,9 @@ export default {
         }
       ]
     }
+  },
+  created () {
+    this.$api.get('/Shop/List')
   }
 }
 </script>

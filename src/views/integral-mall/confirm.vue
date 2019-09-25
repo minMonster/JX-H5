@@ -4,29 +4,29 @@
       <img :src="product.pic" alt="" class="pic">
       <div class="text">
         <div class="name">{{product.name}}</div>
-        <div class="cost"><span class="red">-{{product.score}}</span>积分</div>
+        <div class="cost"><span class="red">{{product.score}}</span>积分</div>
       </div>
     </div>
-    <div class="receive-info default-info" v-if="receiveInfo">
+    <div class="receive-info default-info" @click="selectAddress = index" :class="{active: index === selectAddress}" :key="item.id" v-for="(item, index) in receiveInfoList">
       <div class="flex-box">
         <div class="left">
-          <span class="name">{{receiveInfo.name}}</span>
-          <span class="phone">{{receiveInfo.phone}}</span>
+          <span class="name">{{item.name}}</span>
+          <span class="phone">{{item.phone}}</span>
         </div>
         <div class="change-address">
-          <span class="tip" @click="toAddress">更改地址</span>
+          <span class="tip" @click="toAddress">修改地址</span>
           <img src="../../assets/integral-mall/arrow@2x.png" alt="" class="arrow">
         </div>
       </div>
-      <p class="address">{{receiveInfo.address}}</p>
+      <p class="address">{{item.address}}</p>
     </div>
-    <div class="receive-info empty" @click="toAddress" v-else>
+    <div class="receive-info empty" @click="toAddress" v-if="receiveInfoList.length === 0">
       <div class="write-link">
         <span class="tip">请填写收货信息</span>
         <img src="../../assets/integral-mall/arrow@2x.png" alt="" class="arrow">
       </div>
     </div>
-    <x-button class="confirm-btn" @click.native="createScoreOrder">确定</x-button>
+    <x-button class="confirm-btn" @click.native="createScoreOrder">立即兑换</x-button>
   </div>
 </template>
 
@@ -46,11 +46,8 @@
           // cost: 4000,
           // pic: require('../../assets/integral-mall/integral-product@2x.png')
         },
-        receiveInfo: {
-          name: '华联百货',
-          phone: '18709890754',
-          address: '山东省 日照市 莒县烟台中路一号713'
-        }
+        receiveInfoList: [],
+        selectAddress: 0
       }
     },
     methods: {
@@ -75,14 +72,16 @@
           if (res.data.length === 0) {
             this.receiveInfo = null
           } else {
-            res.data.forEach(i => {
+            this.receiveInfoList = res.data.map((i, index) => {
               if (i.isDefault) {
-                this.receiveInfo = {
-                  name: i.receiver,
-                  phone: i.phone,
-                  address: i.area + i.address
-                }
+                this.selectAddress = index
               }
+              return {
+               name: i.receiver,
+               active: false,
+               phone: i.phone,
+               address: i.area + i.address
+             }
             })
           }
         })
@@ -92,28 +91,38 @@
           this.$vux.toast.text('请选择收获地址')
           return
         }
-        this.$api.post('/Order/CreateScoreOrder', {
-          'userId': sessionStorage.getItem('userInfo').id,
-          'commodityID': this.$route.query.id,
-          'count': 1,
-          'totalScore': this.product.score,
-          'totalMoney': this.product.price,
-          'remark': '',
-          'address': this.receiveInfo.address,
-          'receiverName': this.receiveInfo.name,
-          'receiverPhone': this.receiveInfo.phone
-        }).then(res => {
-          this.$vux.alert.show({
-            title: '兑换成功',
-            content: '点击确定将返回我的页面',
-            onShow () {
-            },
-            onHide () {
-              setupWebViewJavascriptBridge((bridge) => {
-                bridge.callHandler('finish')
+        let that = this
+        this.$vux.confirm.show({
+          title: '本次兑换您需扣除' + this.product.score + '积分，是否继续兑换？',
+          content: '',
+          onConfirm  () {
+            that.$api.post('/Order/CreateScoreOrder', {
+              'userId': sessionStorage.getItem('userInfo').id,
+              'commodityID': that.$route.query.id,
+              'count': 1,
+              'totalScore': that.product.score,
+              'totalMoney': that.product.price,
+              'remark': '',
+              'address': that.receiveInfoList[that.selectAddress].address,
+              'receiverName': that.receiveInfoList[that.selectAddress].name,
+              'receiverPhone': that.receiveInfoList[that.selectAddress].phone
+            }).then(res => {
+              that.$vux.alert.show({
+                title: '兑换成功',
+                content: '点击确定将返回积分商城首页',
+                onShow () {
+                },
+                onHide () {
+                  that.$router.go(-2)
+                  // setupWebViewJavascriptBridge((bridge) => {
+                  //   bridge.callHandler('finish')
+                  // })
+                }
               })
-            }
-          })
+            })
+          },
+          onCancel  () {
+          }
         })
       }
     },
@@ -218,7 +227,21 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-
+      position: relative;
+      &.active {
+        background-color: rgba(243, 125, 49, 0.1);
+      }
+      &.active:before {
+        content: ' ';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 0;
+        height: 0;
+        border-width: 0 15px 15px;
+        border-style: solid;
+        border-color: #F37D31 transparent transparent #F37D31;
+      }
       .flex-box {
         display: flex;
         justify-content: space-between;

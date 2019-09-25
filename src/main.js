@@ -2,8 +2,9 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import api from '@/api';
-import { ToastPlugin } from 'vux';
+import { ToastPlugin, ConfirmPlugin } from 'vux';
 import VueScroller from 'vue-scroller'
+import './icons'
 
 /* Style */
 import '@/styles/reset.css';
@@ -20,6 +21,7 @@ Vue.use(LoadingPlugin);
 Vue.config.productionTip = false;
 Object.defineProperty(Vue.prototype, '$api', {value: api});
 Vue.use(ToastPlugin);
+Vue.use(ConfirmPlugin)
 
 new Vue({
   router,

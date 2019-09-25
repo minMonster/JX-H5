@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="8px" viewBox="0 0 50 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.1 (67048) - http://www.bohemiancoding.com/sketch -->
+    <title>icon_more</title>
+    <desc>Created with Sketch.</desc>
+    <g id="【首页-忧虑与信念】" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="忧虑与信念/列表页" transform="translate(-660.000000, -771.000000)" fill="#9CBDFF">
+            <g id="Group-7">
+                <g id="Group-2-Copy" transform="translate(0.000000, 488.000000)">
+                    <g id="Group-5-Copy">
+                        <g id="Group-12" transform="translate(0.000000, 125.000000)">
+                            <g id="Group-4" transform="translate(0.000000, 2.000000)">
+                                <path d="M664,164 C661.790861,164 660,162.209139 660,160 C660,157.790861 661.790861,156 664,156 C666.209139,156 668,157.790861 668,160 C668,162.209139 666.209139,164 664,164 Z M685,164 C682.790861,164 681,162.209139 681,160 C681,157.790861 682.790861,156 685,156 C687.209139,156 689,157.790861 689,160 C689,162.209139 687.209139,164 685,164 Z M706,164 C703.790861,164 702,162.209139 702,160 C702,157.790861 703.790861,156 706,156 C708.209139,156 710,157.790861 710,160 C710,162.209139 708.209139,164 706,164 Z" id="icon_more"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
