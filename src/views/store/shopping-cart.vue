@@ -5,17 +5,17 @@
           <div class="icon-checkbox" @click="select(index)">
             <icon :type="item.active?'success':'circle'"></icon>
           </div>
-          <img class="good-img" src="../../assets/on-site-repair/unlock.png" alt="">
+          <img class="good-img" :src="item.shoppingItem.pic" alt="">
           <div class="info">
-            <div class="title">{{item.name}}</div>
-            <div class="timer">{{item.des}}</div>
+            <div class="title">{{item.shoppingItem.name}}</div>
+            <div class="timer">{{item.shoppingItem.des}}</div>
           </div>
           <div class="good-setting">
             <x-icon type="ios-minus" @click.native="minusGood(index)" size="30"></x-icon>
-            <div class="money-setting">{{item.num}}</div>
+            <div class="money-setting">{{item.shoppingItem.amount}}</div>
             <x-icon type="ios-plus-outline" @click.native="addGood(index)" size="30"></x-icon>
           </div>
-          <div class="money">¥{{item.money * item.num}}</div>
+          <div class="money">¥{{item.shoppingItem.price * item.shoppingItem.amount}}</div>
         </li>
       </ul>
       <footer>
@@ -39,39 +39,46 @@
     data: function () {
       return {
         numberMoney: 0,
-        list: [
-          {
-            num: 1,
-            active: true,
-            name: '商品1',
-            des: '描述',
-            money: 123
-          },
-          {
-            num: 1,
-            active: true,
-            name: '商品2',
-            des: '描述',
-            money: 123
-          },
-          {
-            num: 1,
-            active: false,
-            name: '商品3',
-            des: '描述',
-            money: 123
-          },
-          {
-            num: 1,
-            active: true,
-            name: '商品4',
-            des: '描述',
-            money: 123
-          }
-        ]
+        list: []
+        // list: [
+        //   {
+        //     num: 1,
+        //     active: true,
+        //     name: '商品1',
+        //     des: '描述',
+        //     money: 123
+        //   },
+        //   {
+        //     num: 1,
+        //     active: true,
+        //     name: '商品2',
+        //     des: '描述',
+        //     money: 123
+        //   },
+        //   {
+        //     num: 1,
+        //     active: false,
+        //     name: '商品3',
+        //     des: '描述',
+        //     money: 123
+        //   },
+        //   {
+        //     num: 1,
+        //     active: true,
+        //     name: '商品4',
+        //     des: '描述',
+        //     money: 123
+        //   }
+        // ]
       }
     },
     methods: {
+      getCarList () {
+        this.$api.get('/ShoppingCar/List').then(res => {
+          // this.list = res.data
+          console.log(res)
+        })
+      },
       select (index) {
         this.list[index].active = !this.list[index].active
         this.initNumberMoney()
@@ -86,16 +93,17 @@
       },
       minusGood (index) {
         if (this.list[index].num > 0) {
-          this.list[index].num --
+          this.list[index].num--
           this.initNumberMoney()
         }
       },
       addGood (index) {
-        this.list[index].num ++
+        this.list[index].num++
         this.initNumberMoney()
       }
     },
     created () {
+      this.getCarList()
       this.initNumberMoney()
     }
   }
