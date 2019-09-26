@@ -34,14 +34,14 @@
       </div>
     </div>
     <div class="good-operation">
-      <div class="buttons">
+      <div class="buttons" @click="$router.push({path: '/shopping-cart'})">
         <div>
           <svg-icon icon-class="_ionicons_svg_md-cart" class="icon-close"></svg-icon>
           <p>购物车</p>
         </div>
       </div>
       <button class="button-good yellow">立即购买</button>
-      <button class="button-good orange">加入购物车</button>
+      <button class="button-good orange" @click="addToCar">加入购物车</button>
     </div>
   </div>
 </template>
@@ -62,6 +62,25 @@
       getCommodity () {
         this.$api.get('/Commodity/' + this.$route.query.id).then(res => {
           this.goodDetail = res.data
+        })
+      },
+      addToCar () {
+        debugger
+        this.$api.post('/ShoppingCar/Add', {
+          shopID: this.goodDetail.shopID,
+          commodityID: this.goodDetail.id,
+          amount: this.goodDetail.amount,
+          price: this.goodDetail.price,
+          useScore: 0,
+          name: this.goodDetail.name,
+          pic: this.goodDetail.pic,
+          versionID: this.goodDetail.versionID
+        }).then(res => {
+          if (res.success) {
+            this.$vux.toast.text('加入购物车成功')
+          }
+        }).catch(() => {
+          this.$vux.toast.text('提交失败')
         })
       }
     },
