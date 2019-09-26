@@ -1,31 +1,34 @@
 <!-- crated：2019-06-23  author：Monster  -->
 <template>
   <div class='store'>
-    <div class="swiper-container">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide"><img src="../../assets/shopping-in-jx/product.png" alt=""></div>
-        <!--                <div class="swiper-slide"><img src="../../assets/happy-in-jx/fun-1.jpg" alt=""></div>-->
-        <!--                <div class="swiper-slide"><img src="../../assets/eat-in-jx/food-1.jpg" alt=""></div>-->
-      </div>
-      <!-- 如果需要分页器 -->
-      <div class="swiper-pagination"></div>
-    </div>
-    <div class="tab-container">
-      <div class="tab" @click="toList" v-for="tab in tabs" :key="tab.id">
-        <img :src="tab.imgSrc" alt="" class="tab-img">
-        <span class="tab-name">{{tab.name}}</span>
-      </div>
-    </div>
-    <div class="product-container">
-      <div class="product" v-for="product in products" :key="product.id">
-        <img :src="product.imgSrc" alt="" class="product-img">
-        <div class="desc">
-          <span class="product-name">{{product.name}}</span>
-          <span class="product-price">￥{{product.price}}</span>
+    <scroller :on-refresh="refresh" :on-infinite="infinite" noDataText="没有更多数据"
+              :style="{height: contentHeight, top: contentTop}" style="width: 100%;">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><img src="../../assets/shopping-in-jx/product.png" alt=""></div>
+          <!--                <div class="swiper-slide"><img src="../../assets/happy-in-jx/fun-1.jpg" alt=""></div>-->
+          <!--                <div class="swiper-slide"><img src="../../assets/eat-in-jx/food-1.jpg" alt=""></div>-->
         </div>
-        <span class="sold-count">已售{{product.sold}}</span>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
       </div>
-    </div>
+      <div class="tab-container">
+        <div class="tab" @click="toList(index)" v-for="(tab, index) in tabs" :key="tab.id">
+          <img :src="tab.imgSrc" alt="" class="tab-img">
+          <span class="tab-name">{{tab.name}}</span>
+        </div>
+      </div>
+      <div class="product-container">
+        <div @click="toDetail(product)" class="product" v-for="product in products" :key="product.id">
+          <img :src="product.pic" alt="" class="product-img">
+          <div class="desc">
+            <span class="product-name">{{product.name}}</span>
+            <span class="product-price">￥{{product.price}}</span>
+          </div>
+          <span class="sold-count">已售{{product.amount}}</span>
+        </div>
+      </div>
+    </scroller>
   </div>
 </template>
 
@@ -37,6 +40,8 @@
     name: 'store',
     data: function () {
       return {
+        contentHeight: '',
+        contentTop: '',
         tabs: [
           {
             imgSrc: require('../../assets/store/ic_shop_market.png'),
@@ -59,43 +64,49 @@
             path: 'entertainment'
           }
         ],
-        products: [
-          {
-            imgSrc: require('../../assets/store/ic_shop_product_1.png'),
-            name: '时尚床上用品',
-            price: 399.9,
-            sold: 1234,
-            path: ''
-          },
-          {
-            imgSrc: require('../../assets/store/ic_shop_product_2.png'),
-            name: '时尚床上用品',
-            price: 399.9,
-            sold: 1234,
-            path: ''
-          },
-          {
-            imgSrc: require('../../assets/store/ic_shop_product_2.png'),
-            name: '时尚床上用品',
-            price: 399.9,
-            sold: 1234,
-            path: ''
-          },
-          {
-            imgSrc: require('../../assets/store/ic_shop_product_1.png'),
-            name: '时尚床上用品',
-            price: 399.9,
-            sold: 1234,
-            path: ''
-          },
-          {
-            imgSrc: require('../../assets/store/ic_shop_product_2.png'),
-            name: '时尚床上用品',
-            price: 399.9,
-            sold: 1234,
-            path: ''
-          }
-        ]
+        products: [],
+        // products: [
+        //   {
+        //     imgSrc: require('../../assets/store/ic_shop_product_1.png'),
+        //     name: '时尚床上用品',
+        //     price: 399.9,
+        //     sold: 1234,
+        //     path: ''
+        //   },
+        //   {
+        //     imgSrc: require('../../assets/store/ic_shop_product_2.png'),
+        //     name: '时尚床上用品',
+        //     price: 399.9,
+        //     sold: 1234,
+        //     path: ''
+        //   },
+        //   {
+        //     imgSrc: require('../../assets/store/ic_shop_product_2.png'),
+        //     name: '时尚床上用品',
+        //     price: 399.9,
+        //     sold: 1234,
+        //     path: ''
+        //   },
+        //   {
+        //     imgSrc: require('../../assets/store/ic_shop_product_1.png'),
+        //     name: '时尚床上用品',
+        //     price: 399.9,
+        //     sold: 1234,
+        //     path: ''
+        //   },
+        //   {
+        //     imgSrc: require('../../assets/store/ic_shop_product_2.png'),
+        //     name: '时尚床上用品',
+        //     price: 399.9,
+        //     sold: 1234,
+        //     path: ''
+        //   }
+        // ]
+        pageOptions: {
+          pageIndex: 1,
+          pageSize: 20,
+          id: 0
+        }
       }
     },
     mounted () {
@@ -109,20 +120,51 @@
         // 如果需要滚动条
         scrollbar: '.swiper-scrollbar',
       })
+      this.contentHeight = document.documentElement.clientHeight
+      this.contentTop = 0
     },
     methods: {
-      toList () {
+      toDetail (item) {
         let that = this
-        let url = 'entertainment'
+        let url = 'storeDetail'
         setupWebViewJavascriptBridge((bridge) => {
           bridge.callHandler('openH5', {
             path: url
-          }, function () {
-            that.$vux.toast.text('支付成功')
-          })
+          }, function () {})
         })
-        this.$router.push({path: '/entertainment'})
+      },
+      toList (index) {
+        // let that = this
+        // let url = 'entertainment'
+        // setupWebViewJavascriptBridge((bridge) => {
+        //   bridge.callHandler('openH5', {
+        //     path: url
+        //   }, function () {})
+        // })
+        if (index === 0) {
+          this.$router.push({path: '/business-list'})
+        } else {
+          this.$vux.toast.text('功能暂未开放')
+        }
+      },
+      getCommodityList (done) {
+        this.$api.get('/Commodity/All?pageIndex=' + this.pageOptions.pageIndex + '&pageSize=' + this.pageOptions.pageSize).then(res => {
+          this.products = res.data.list
+          if (done) done(true)
+        })
+      },
+      refresh (done) {
+        this.products = []
+        this.pageOptions.pageSize = 15
+        this.getCommodityList(done)
+      },
+      infinite (done) {
+        this.pageOptions.pageSize += 15
+        this.getCommodityList(done)
       }
+    },
+    created () {
+      this.getCommodityList()
     }
   }
 </script>

@@ -351,10 +351,10 @@ const router = new Router({
       component: resolve => require(['@/views/my-property/add-my-property.vue'], resolve)
     },
     {
-      path: '/entertainment',
-      name: 'entertainment',
-      meta: { title: '娱乐' },
-      component: resolve => require(['@/views/entertainment/index.vue'], resolve)
+      path: '/business-list',
+      name: 'business-list',
+      meta: { title: '超市' },
+      component: resolve => require(['@/views/store/business-list.vue'], resolve)
     },
     {
       path: '/integral-mall',

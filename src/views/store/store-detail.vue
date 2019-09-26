@@ -1,12 +1,14 @@
 <template>
-  <div class="store-detail">
+  <div class="store-detail" v-if="goodDetail">
     <div class="good-img">
-      <img src="../../assets/logo.png" alt="">
+      <img :src="goodDetail.pic" alt="">
     </div>
     <div class="good-info">
-      <div class="money">￥100</div>
-      <p class="good-name">商品名称</p>
-      <p class="good-des"></p>
+      <div class="money">￥{{goodDetail.price}}/{{goodDetail.standard}}</div>
+      <p class="good-name">{{goodDetail.name}}</p>
+      <p class="good-des">{{goodDetail.describe}}</p>
+      <p class="good-amount">剩余 {{goodDetail.amount}}/{{goodDetail.standard}}</p>
+      <p class="good-amount">已售 {{goodDetail.saleAmount}}/{{goodDetail.standard}}</p>
     </div>
     <div class="good-det">
       <div class="label">商品参数</div>
@@ -50,6 +52,21 @@
     name: 'store-detail',
     components: {
       XButton
+    },
+    data: function () {
+      return {
+        goodDetail: {}
+      }
+    },
+    methods: {
+      getCommodity () {
+        this.$api.get('/Commodity/' + this.$route.query.id).then(res => {
+          this.goodDetail = res.data
+        })
+      }
+    },
+    created () {
+      this.getCommodity()
     }
   }
 </script>

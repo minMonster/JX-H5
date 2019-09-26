@@ -1,26 +1,31 @@
 <template>
   <div class="store-list">
-    <ul class="tabs">
-      <li v-for="item in 10">
-        <img src="" alt="">
-        <p>商品描述</p>
-      </li>
-    </ul>
-    <ul class="goods">
-      <li v-for="item in 100">
-        <img class="good-img" src="../../assets/Uncertified.png" alt="">
-        <p class="good-name">商品名称</p>
-        <p class="good-des">商品描述</p>
-        <div class="good-operation">
-          <div class="pay">
-            <span>￥</span>62
+    <scroller :on-refresh="refresh" :on-infinite="infinite" noDataText="没有更多数据"
+              :style="{height: contentHeight, top: contentTop}" style="width: 100%;">
+      <ul class="tabs">
+        <li :class="{active: item.id === pageOptions.typeId}" @click="selectType(item.id)" v-for="item in shops" :key="item.id">
+          <img src="" alt="">
+          <p>{{item.name}}</p>
+        </li>
+      </ul>
+      <ul class="goods">
+        <li @click="$router.push({path: 'store-detail', query: {id: item.id}})" v-for="item in commodityList" :key="item.id">
+          <div class="good-img-box">
+            <img class="good-img" :src="item.pic" alt="">
           </div>
-          <div class="add-cart">
-            <svg-icon icon-class="_ionicons_svg_md-add" class="icon-close"></svg-icon>
+          <p class="good-name">{{item.name}}</p>
+          <p class="good-des ell2">{{item.describe}}</p>
+          <div class="good-operation">
+            <div class="pay">
+              <span>￥</span>{{item.price}}/{{item.standard}}
+            </div>
+            <div class="add-cart">
+              <svg-icon icon-class="_ionicons_svg_md-add" class="icon-close"></svg-icon>
+            </div>
           </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </scroller>
     <footer>
       <div class="money">
         <svg-icon icon-class="_ionicons_svg_md-cart" class="cart_ionicons_svg_md"></svg-icon>
@@ -39,11 +44,73 @@
     name: 'store-list',
     components: {
       Icon
+    },
+    data: function () {
+      return {
+        shops: [],
+        contentHeight: 0,
+        contentTop: 0,
+        commodityList: [],
+        pageOptions: {
+          pageIndex: 1,
+          pageSize: 20,
+          typeId: 0,
+          shopId: 1
+        }
+      }
+    },
+    mounted () {
+      this.contentHeight = document.documentElement.clientHeight + 'px'
+      this.contentTop = 0
+      document.documentElement.scrollTop = document.body.scrollTop = 0
+    },
+    methods: {
+      selectType (type) {
+        if (this.pageOptions.typeId === type) {
+          this.pageOptions.typeId = 0
+        } else {
+          this.pageOptions.typeId = type
+        }
+        this.pageOptions.pageSize = 15
+        this.getCommodityList()
+      },
+      refresh (done) {
+        this.lists = []
+        this.pageOptions.typeId = 0
+        this.pageOptions.pageSize = 15
+        this.getCommodityList(done)
+      },
+      infinite (done) {
+        this.pageOptions.pageSize += 15
+        this.getCommodityList(done)
+      },
+      getCommodityList (done) {
+        this.$api.get('/Commodity/ListByType', {
+          params: {
+            ...this.pageOptions
+          }
+        }).then(res => {
+          this.commodityList = res.data.list
+          if (done) done(true)
+        })
+      },
+      getShopCategory () {
+        this.$api.get('/ShopCategory/GetCategory?shopID=' + this.pageOptions.shopId).then(res => {
+          this.shops = res.data
+        })
+      }
+    },
+    created () {
+      this.pageOptions.shopId = this.$route.query.id
+      this.getShopCategory()
     }
   }
 </script>
 
 <style rel="stylesheet/less" lang="less">
+  @import "../../styles/index.less";
+  @import "../../styles/variable";
+
   .store-list {
     background-color: #F3F5F6;
     height: 100vh;
@@ -60,6 +127,9 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        &.active {
+          background: rgba(240, 90, 35, 0.1);
+        }
         img {
           width: .8rem;
           height: .8rem;
@@ -90,8 +160,18 @@
         &:nth-child(even) {
           margin-left: 0;
         }
-        .good-img {
+        .good-img-box {
           width: 3rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          max-height: 2.8rem;
+          min-height: 2.8rem;
+          overflow: hidden;
+          img {
+            height: auto;
+            width: 100%;
+          }
         }
         p.good-name {
           padding-top: .2rem;
