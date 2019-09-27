@@ -65,20 +65,17 @@
         })
       },
       addToCar () {
-        debugger
         this.$api.post('/ShoppingCar/Add', {
           shopID: this.goodDetail.shopID,
           commodityID: this.goodDetail.id,
-          amount: this.goodDetail.amount,
+          amount: 1,
           price: this.goodDetail.price,
           useScore: 0,
           name: this.goodDetail.name,
           pic: this.goodDetail.pic,
           versionID: this.goodDetail.versionID
-        }).then(res => {
-          if (res.success) {
-            this.$vux.toast.text('加入购物车成功')
-          }
+        }).then(() => {
+          this.$vux.toast.text('加入购物车成功')
         }).catch(() => {
           this.$vux.toast.text('提交失败')
         })

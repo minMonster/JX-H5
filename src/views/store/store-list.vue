@@ -9,7 +9,8 @@
         </li>
       </ul>
       <ul class="goods">
-        <li @click="$router.push({path: 'store-detail', query: {id: item.id}})" v-for="item in commodityList" :key="item.id">
+        <!--<li @click="$router.push({path: 'store-detail', query: {id: item.id}})" v-for="(item, index) in commodityList" :key="index">-->
+        <li v-for="(item, index) in commodityList" :key="index">
           <div class="good-img-box">
             <img class="good-img" :src="item.pic" alt="">
           </div>
@@ -19,7 +20,7 @@
             <div class="pay">
               <span>￥</span>{{item.price}}/{{item.standard}}
             </div>
-            <div class="add-cart">
+            <div class="add-cart" @click.prevent="addToCar(index)">
               <svg-icon icon-class="_ionicons_svg_md-add" class="icon-close"></svg-icon>
             </div>
           </div>
@@ -28,11 +29,11 @@
     </scroller>
     <footer>
       <div class="money">
-        <svg-icon icon-class="_ionicons_svg_md-cart" class="cart_ionicons_svg_md"></svg-icon>
+        <svg-icon @click.native="$router.push({path: '/shopping-cart'})" icon-class="_ionicons_svg_md-cart" class="cart_ionicons_svg_md"></svg-icon>
         <span class="pay">￥123元</span>
         <span class="des">100元起送</span>
       </div>
-      <div class="submit">结算</div>
+      <div class="submit" @click="$router.push({path: '/shopping-cart'})">结算</div>
     </footer>
   </div>
 </template>
@@ -97,6 +98,22 @@
       getShopCategory () {
         this.$api.get('/ShopCategory/GetCategory?shopID=' + this.pageOptions.shopId).then(res => {
           this.shops = res.data
+        })
+      },
+      addToCar (index) {
+        this.$api.post('/ShoppingCar/Add', {
+          shopID: this.$route.query.id,
+          commodityID: this.commodityList[index].id,
+          amount: 1,
+          price: this.commodityList[index].price,
+          useScore: 0,
+          name: this.commodityList[index].name,
+          pic: this.commodityList[index].pic
+          // versionID: this.commodityList[index].versionID
+        }).then(() => {
+          this.$vux.toast.text('加入购物车成功')
+        }).catch(() => {
+          this.$vux.toast.text('提交失败')
         })
       }
     },
