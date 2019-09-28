@@ -2,8 +2,9 @@
     <div class="shopping-cart">
       <ul class="goods">
         <li class="pay-card" v-for="(shop, shopIndex) in list" :key="shopIndex">
-          <div class="shop" @click="$router.push({path: '/store-list', query: {id: shop.shopID}})">
-            <span class="shop-name">{{shop.shopName}} ></span>
+          <div class="shop">
+            <icon class="shop-icon" @click.native='selectShop(shopIndex)' :type="shop.active ? 'success' : 'circle'"></icon>
+            <span class="shop-name"  @click="$router.push({path: '/store-list', query: {id: shop.shopID}})">{{shop.shopName}} ></span>
           </div>
           <div class="flex-box" v-for="(item, itemIndex) in shop.shoppingItem" :key="itemIndex">
             <div class="icon-checkbox" @click="select(shopIndex, itemIndex)">
@@ -35,7 +36,7 @@
 
 <script>
   import { Icon } from 'vux'
-
+  import Vue from 'vue'
   export default {
     name: 'shopping-cart',
     components: {
@@ -43,38 +44,9 @@
     },
     data: function () {
       return {
-        numberMoney: 0,
+        selectShopIndex: null,
+        numberMoney: 1909,
         list: []
-        // list: [
-        //   {
-        //     num: 1,
-        //     active: true,
-        //     name: '商品1',
-        //     des: '描述',
-        //     money: 123
-        //   },
-        //   {
-        //     num: 1,
-        //     active: true,
-        //     name: '商品2',
-        //     des: '描述',
-        //     money: 123
-        //   },
-        //   {
-        //     num: 1,
-        //     active: false,
-        //     name: '商品3',
-        //     des: '描述',
-        //     money: 123
-        //   },
-        //   {
-        //     num: 1,
-        //     active: true,
-        //     name: '商品4',
-        //     des: '描述',
-        //     money: 123
-        //   }
-        // ]
       }
     },
     methods: {
@@ -82,18 +54,36 @@
         this.$api.get('/ShoppingCar/List').then(res => {
           this.list = res.data
           if (this.list) {
-            for (let shop of this.list) {
-              for (let item of shop.shoppingItem) {
-                item.active = false
-              }
-            }
+            this.list.forEach(i => {
+              i.active = false
+              i.shoppingItem.forEach(k => {
+                k.active = false
+              })
+            })
           }
         })
       },
+      selectShop (index) {
+        if (!this.list[index].active) {
+          this.list[index].shoppingItem = this.list[index].shoppingItem.map(i => {
+            i.active = true
+            return i
+          })
+        } else {
+          this.list[index].shoppingItem = this.list[index].shoppingItem.map(i => {
+            i.active = false
+            return i
+          })
+        }
+        this.list[index].active = !this.list[index].active
+        let obj = JSON.parse(JSON.stringify(this.list[index]))
+        Vue.set(this.list, index, obj)
+        this.initShopNumberMoney(index)
+      },
       select (shopIndex, itemIndex) {
-        this.list[shopIndex].shoppingItem[itemIndex].active = !this.list[shopIndex].shoppingItem[itemIndex].active
-        console.log(this.list[shopIndex].shoppingItem[itemIndex].active)
-        // this.initNumberMoney(index)
+        let obj = JSON.parse(JSON.stringify(this.list[shopIndex]))
+        obj.shoppingItem[itemIndex].active = !obj.shoppingItem[itemIndex].active
+        Vue.set(this.list, shopIndex, obj)
         this.initShopNumberMoney(shopIndex)
       },
       // initNumberMoney (index) {
@@ -114,7 +104,7 @@
         return shopNumberMoney
       },
       minusGood (shopIndex, itemIndex) {
-        if (this.list[shopIndex].shoppingItem[itemIndex].amount > 0) {
+        if (this.list[shopIndex].shoppingItem[itemIndex].amount > 1) {
           this.list[shopIndex].shoppingItem[itemIndex].amount--
           // this.initNumberMoney(itemIndex)
           this.initShopNumberMoney(shopIndex)
@@ -141,6 +131,9 @@
     .goods {
       min-height: 100vh;
     }
+    .shop-icon.weui_icon_success {
+      color: #F37D31;
+    }
     .pay-card {
       margin: .2rem;
       position: relative;
@@ -150,22 +143,22 @@
       display: flex;
       flex-direction: column;
       border-radius: .2rem;
-      
+
       .shop {
         padding: 0 0 .24rem;
         border-bottom: 1px solid #ccc;
-        
+
         .shop-name {
           font-size: .28rem;
           font-weight: 600;
           color: #333;
         }
       }
-      
+
       .flex-box {
         display: flex;
         padding: .2rem;
-        
+
         .good-setting {
           display: flex;
           align-items: center;
@@ -181,7 +174,7 @@
         .icon-checkbox {
           padding-top: .6rem;
         }
-  
+
         img.good-img {
           border-radius: .2rem;
           height: 1.6rem;
@@ -189,22 +182,23 @@
           width: 1.6rem;
           margin-right: .2rem;
         }
-  
+
         .info {
           flex: 1;
-    
+
           .title {
             color: #353535;
             font-size: .36rem;
+            padding-top: .24rem;
             padding-bottom: .24rem;
           }
-    
+
           .timer {
             color: #999999;
             font-size: .28rem;
           }
         }
-  
+
         .money {
           position: absolute;
           bottom: .2rem;
@@ -212,11 +206,11 @@
           color: #F37D31;
           font-size: .36rem;
         }
-  
+
         .weui-icon {
           font-size: .4rem;
         }
-  
+
         .weui-icon-success {
           color: #F37D31;
         }
