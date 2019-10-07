@@ -134,15 +134,15 @@
         })
       },
       toList (index) {
-        // let that = this
-        // let url = 'entertainment'
-        // setupWebViewJavascriptBridge((bridge) => {
-        //   bridge.callHandler('openH5', {
-        //     path: url
-        //   }, function () {})
-        // })
-        if (index === 0) {
-          this.$router.push({path: '/business-list'})
+            if (index === 0) {
+          let that = this
+          let url = 'businessList'
+          setupWebViewJavascriptBridge((bridge) => {
+            bridge.callHandler('openH5', {
+              path: url
+            }, function () {})
+          })
+          // this.$router.push({path: '/business-list'})
         } else {
           this.$vux.toast.text('功能暂未开放')
         }

@@ -3,11 +3,11 @@
   <div class='order-list'>
     <scroller :on-refresh="refresh" :on-infinite="infinite" noDataText="没有更多数据"
               :style="{height: contentHeight, top: contentTop}" style="width: 100%;">
-      <div class="notice-container"  v-for="item in lists" :key="item.id">
+      <div class="notice-container" v-for="item in lists" :key="item.id">
         <!--            <img :src="iconSrc" class="stateIcon" />-->
         <div class="notice">
           <div class="title-box">
-            <span class="title">{{item.detailList[0].name}}</span>
+            <span class="title" v-if="item.detailList[0]">{{item.detailList[0].name}}</span>
             <!--                    <span class="area-name">({{item.areaName}})</span>-->
           </div>
           <p class="content">{{item.address}}</p>

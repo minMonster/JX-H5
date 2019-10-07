@@ -410,6 +410,18 @@ const router = new Router({
       meta: { title: '商品详情' },
       component: resolve => require(['@/views/store/store-detail'], resolve)
     },
+    {
+      path: '/store-created-order',
+      name: 'store-created-order',
+      meta: { title: '创建订单' },
+      component: resolve => require(['@/views/store/createdOrder'], resolve)
+    },
+    {
+      path: '/store-pay',
+      name: 'store-pay',
+      meta: { title: '支付' },
+      component: resolve => require(['@/views/store/pay'], resolve)
+    },
     // native route
     {
       meta: {title: '政务'},

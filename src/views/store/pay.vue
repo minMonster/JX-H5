@@ -1,0 +1,284 @@
+<template>
+  <div class="shopping-pay">
+    <div class="coupon">
+      <div class="coupon-top">
+        <span class="address">{{$route.query.goodName}}</span>
+        <div class="price">
+          <span class="small symbol">¥</span>
+          <span class="big">{{$route.query.goodMoney}}</span>
+          <!--                    <span class="small decimal">.00</span>-->
+        </div>
+        <!--        <span class="company">物业公司：{{$route.query.roomName}}</span>-->
+      </div>
+      <div class="coupon-bottom">
+        <p class="tip">支付方式</p>
+        <div class="selection" v-for="(item, index) in selections" :key="index" @click="current=index">
+          <div class="left">
+            <img :src="item.logo" alt="" class="logo">
+            <span class="pay-type">{{item.name}}</span>
+          </div>
+          <div class="right">
+            <img src="../../assets/immediate-pay/checked.png" alt="" class="checkbox checked" v-if="current==index">
+            <img src="../../assets/immediate-pay/unchecked.png" alt="" class="checkbox unchecked" v-else>
+          </div>
+        </div>
+      </div>
+    </div>
+    <x-button class="pay-btn" @click.native="pay">立即支付</x-button>
+    <div ref="htstr" v-html="jufubaoHtml"></div>
+  </div>
+</template>
+
+<script>
+  import {XButton} from 'vux'
+  import * as auth from '@/common/auth'
+  import {setupWebViewJavascriptBridge} from '@/common/jsbridge'
+
+  export default {
+    name: 'immediate-pay',
+    components: {XButton},
+    data: function () {
+      return {
+        current: 0,
+        jufubaoHtml: '',
+        info: {
+          address: '仪琳雅竹小区4号楼3单元301',
+          price: 288,
+          company: '欣欣物业'
+        },
+        selections: [
+          {name: '微信', logo: require('../../assets/immediate-pay/logo_1_weixin.png')},
+          {name: '支付宝', logo: require('../../assets/immediate-pay/logo_2_zhifubao.png')},
+          {name: '莒蚨宝', logo: require('../../assets/immediate-pay/logo_3_jufubao.png')}
+        ],
+        payinfo: ''
+      }
+    },
+    methods: {
+      pay () {
+        this.$vux.loading.show()
+        if (this.current === 0) {
+          this.$api.post('/Pay/Pay/WX', {
+              'orderId': this.$route.query.orderId,
+              'feeName': this.$route.query.goodName,
+              'feeMoney': this.$route.query.goodMoney
+          }).then(res => {
+            this.payinfo = res
+            if (res.success) {
+              this.$vux.loading.hide()
+              let that = this
+              let aliParam = res.aliParam
+              let str = 'appid=' + aliParam.appid + '&nonceStr=' + aliParam.nonceStr + '&partnerId=' + aliParam.partnerId + '&prepayId=' + aliParam.prepayId + '&sign=' + aliParam.sign + '&timeStamp=' + aliParam.timeStamp
+              setupWebViewJavascriptBridge((bridge) => {
+                bridge.callHandler('payment', {payType: 2, orderInfo: str}, function (res) {
+                  that.$vux.toast.text('支付成功')
+                })
+              })
+            } else {
+              this.$vux.loading.hide()
+            }
+          })
+        }
+        if (this.current === 1) {
+          this.$api.post('/Pay/Pay/ZFB', {
+            'orderId': this.$route.query.orderId,
+            'feeName': this.$route.query.goodName,
+            'feeMoney': this.$route.query.goodMoney
+          }).then(res => {
+            this.payinfo = res
+            if (res.success) {
+              this.$vux.loading.hide()
+              let that = this
+              let str = res.aliParam
+              setupWebViewJavascriptBridge((bridge) => {
+                bridge.callHandler('payment', {payType: 1, orderInfo: str}, function (res) {
+                  that.$vux.toast.text('支付成功')
+                })
+              })
+            } else {
+              this.$vux.loading.hide()
+            }
+          })
+        }
+        if (this.current === 2) {
+          this.$api.post('/HouseManage/AppAccountTransfer?orderId=' +
+            this.$route.query.orderId +
+            '&dbName=' +
+            this.$route.query.dbName +
+            '&token=' + auth.getToken()).then(res => {
+            if (res === '') {
+              this.$vux.loading.hide()
+              this.$vux.toast.text('支付失败！')
+            } else {
+              this.jufubaoHtml = res
+              this.$nextTick(() => {
+                let ele = document.createElement('script')
+                ele.innerHTML = 'document.forms[0].submit();'
+                this.$refs.htstr.append(ele)
+              })
+              this.$vux.loading.hide()
+            }
+          })
+        }
+      }
+    }
+  }
+</script>
+
+<style rel="stylesheet/less" type="text/less" lang="less">
+  @import "../../styles/index.less";
+  @import "../../styles/variable";
+
+  .shopping-pay {
+    background-color: #F5F6F8;
+    padding: .26rem .24rem .3rem;
+    min-height: 100vh;
+
+    .coupon {
+      background-color: #F5F6F8;
+      padding: 0 .24rem;
+      background-image: radial-gradient(circle at .08rem 2.40rem, transparent .08rem, #fff 0, #fff 0, #fff 100%);
+      background-position: -0.08rem .08rem;
+      background-size: 100% 100%;
+      margin-bottom: .6rem;
+
+      .coupon-top {
+        height: 2.50rem;
+        padding-top: .4rem;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &::after {
+          position: absolute;
+          content: '';
+          bottom: 0;
+          left: -.08rem;
+          right: -.08rem;
+          height: 2px;
+          background-image: linear-gradient(to right, @T6 0%, @T6 50%, transparent 50%);
+          background-size: .15rem 1px;
+          background-repeat: repeat-x;
+        }
+
+        .address {
+          font-size: .24rem;
+          font-family: @FM;
+          font-weight: bold;
+          color: #595961;
+          line-height: .24rem;
+          margin-bottom: .3rem;
+        }
+
+        .price {
+          .small {
+            font-size: .30rem;
+            color: @T1;
+            line-height: .3rem;
+          }
+
+          .symbol {
+            font-family: DINAlternate-Bold;
+            font-weight: bold;
+          }
+
+          .decimal {
+            font-family: PingFangSC-Semibold;
+            font-weight: bold;
+          }
+
+          .big {
+            font-size: .84rem;
+            font-family: DINAlternate-Bold;
+            font-weight: bold;
+            color: @T1;
+            line-height: .84rem;
+          }
+        }
+
+        .company {
+          font-size: .24rem;
+          font-family: @FM;
+          font-weight: bold;
+          color: #595961;
+          line-height: .24rem;
+          margin-top: .22rem;
+        }
+      }
+
+      .coupon-bottom {
+        padding: .28rem 0 .42rem;
+
+        .tip {
+          font-size: .24rem;
+          font-family: @FM;
+          font-weight: bold;
+          color: #595961;
+          line-height: .24rem;
+          margin-bottom: .36rem;
+        }
+
+        .selection {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: .46rem;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          .left {
+            display: flex;
+            align-items: center;
+
+            .logo {
+              width: .32rem;
+              height: .32rem;
+              margin-right: .16rem;
+            }
+
+            .pay-type {
+              font-size: .28rem;
+              font-family: @FM;
+              font-weight: bold;
+              color: #595961;
+              line-height: .28rem;
+            }
+          }
+
+          .right {
+            .checkbox {
+              width: .24rem;
+              height: .24rem;
+            }
+
+            .checked {
+
+            }
+          }
+        }
+      }
+    }
+
+    .weui-btn {
+      height: .84rem;
+      background: linear-gradient(178deg, rgba(74, 180, 254, 1) 0%, rgba(27, 141, 246, 1) 64%, rgba(6, 123, 248, 1) 100%);
+      border-radius: .06rem;
+
+      &.weui-btn_default {
+        box-shadow: none;
+      }
+    }
+
+    .pay-btn {
+      font-size: .28rem;
+      font-family: @FM;
+      font-weight: bold;
+      line-height: .28rem;
+      color: #fff !important;
+    }
+  }
+
+</style>

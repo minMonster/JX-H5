@@ -4,20 +4,20 @@
               :style="{height: contentHeight, top: contentTop}" style="width: 100%;">
       <ul class="tabs">
         <li :class="{active: item.id === pageOptions.typeId}" @click="selectType(item.id)" v-for="item in shops" :key="item.id">
-          <img src="" alt="">
+          <img :src="item.pic" alt="">
           <p>{{item.name}}</p>
         </li>
       </ul>
       <ul class="goods">
         <!--<li @click="$router.push({path: 'store-detail', query: {id: item.id}})" v-for="(item, index) in commodityList" :key="index">-->
         <li v-for="(item, index) in commodityList" :key="index">
-          <div class="good-img-box">
+          <div class="good-img-box" @click="$router.push({path: 'store-detail', query: {id: item.id}})">
             <img class="good-img" :src="item.pic" alt="">
           </div>
-          <p class="good-name">{{item.name}}</p>
-          <p class="good-des ell2">{{item.describe}}</p>
+          <p class="good-name" @click="$router.push({path: 'store-detail', query: {id: item.id}})">{{item.name}}</p>
+          <p class="good-des ell2" @click="$router.push({path: 'store-detail', query: {id: item.id}})">{{item.describe}}</p>
           <div class="good-operation">
-            <div class="pay">
+            <div class="pay" @click="$router.push({path: 'store-detail', query: {id: item.id}})">
               <span>￥</span>{{item.price}}/{{item.standard}}
             </div>
             <div class="add-cart" @click.prevent="addToCar(index)">
@@ -29,11 +29,14 @@
     </scroller>
     <footer>
       <div class="money">
-        <svg-icon @click.native="$router.push({path: '/shopping-cart'})" icon-class="_ionicons_svg_md-cart" class="cart_ionicons_svg_md"></svg-icon>
-        <span class="pay">￥123元</span>
+        <!--<svg-icon @click.native="$router.push({path: '/shopping-cart'})" icon-class="_ionicons_svg_md-cart" class="cart_ionicons_svg_md"></svg-icon>-->
+        <!--<span class="pay">￥123元</span>-->
         <span class="des">100元起送</span>
       </div>
-      <div class="submit" @click="$router.push({path: '/shopping-cart'})">结算</div>
+      <div class="submit" @click="$router.push({path: '/shopping-cart'})">
+        <svg-icon icon-class="_ionicons_svg_md-cart" class="cart_ionicons_svg_md"></svg-icon>
+        购物车
+      </div>
     </footer>
   </div>
 </template>
