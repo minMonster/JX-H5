@@ -1,25 +1,28 @@
 <template>
   <div class="created-order">
-    <div class="product-detail" v-for="item in product.shoppingItems" :key="item.id">
-      <img :src="item.pic" alt="" class="pic">
-      <div class="text">
-        <div class="name">{{item.name}}</div>
-        <div class="cost">单价：<span class="red">{{item.price}}</span>元</div>
-        <div class="cost">数量：<span class="red">{{item.amount}}</span></div>
-      </div>
-    </div>
-    <div class="receive-info default-info" @click="selectAddress = index" :class="{active: index === selectAddress}" :key="item.id" v-for="(item, index) in receiveInfoList">
-      <div class="flex-box">
-        <div class="left">
-          <span class="name">{{item.name}}</span>
-          <span class="phone">{{item.phone}}</span>
-        </div>
-        <div class="change-address">
-          <span class="tip" @click="toAddress">修改地址</span>
-          <img src="../../assets/integral-mall/arrow@2x.png" alt="" class="arrow">
+    <div style="margin: .2rem;padding-top: .2rem;margin-top: 0;">
+      <div class="stop-name">{{product.shopName}}</div>
+      <div class="product-detail" v-for="item in product.shoppingItems" :key="item.id">
+        <img :src="item.pic" alt="" class="pic">
+        <div class="text">
+          <div class="name">{{item.name}}</div>
+          <div class="cost">单价：<span class="red">{{item.price}}</span>元</div>
+          <div class="cost">数量：<span class="red">{{item.amount}}</span></div>
         </div>
       </div>
-      <p class="address">{{item.address}}</p>
+      <div class="receive-info default-info" @click="selectAddress = index" :class="{active: index === selectAddress}" :key="item.id" v-for="(item, index) in receiveInfoList">
+        <div class="flex-box">
+          <div class="left">
+            <span class="name">{{item.name}}</span>
+            <span class="phone">{{item.phone}}</span>
+          </div>
+          <div class="change-address">
+            <span class="tip" @click="toAddress">修改地址</span>
+            <img src="../../assets/integral-mall/arrow@2x.png" alt="" class="arrow">
+          </div>
+        </div>
+        <p class="address">{{item.address}}</p>
+      </div>
     </div>
     <div class="receive-info empty" @click="toAddress" v-if="receiveInfoList.length === 0">
       <div class="write-link">
@@ -27,7 +30,7 @@
         <img src="../../assets/integral-mall/arrow@2x.png" alt="" class="arrow">
       </div>
     </div>
-    <x-button class="confirm-btn" @click.native="createScoreOrder">立即购买</x-button>
+    <x-button class="confirm-btn" @click.native="createScoreOrder">创建订单</x-button>
   </div>
 </template>
 
@@ -102,23 +105,13 @@
               'receiverName': that.receiveInfoList[that.selectAddress].name,
               'receiverPhone': that.receiveInfoList[that.selectAddress].phone
             }).then(res => {
-              that.$vux.alert.show({
-                title: '兑换成功',
-                content: '点击确定将返回积分商城首页',
-                onShow () {
-                },
-                onHide () {
-                  console.log(res)
-                  that.$router.push({path: 'store-pay', query: {
-                      goodName: that.product.shopName,
-                      goodMoney: Number(that.product.totalMoney),
-                      orderId: res.data.orderID
-                  }})
-                  // setupWebViewJavascriptBridge((bridge) => {
-                  //   bridge.callHandler('finish')
-                  // })
-                }
-              })
+              that.$router.replace({path: 'store-order', query: {
+                          goodName: that.product.shopName,
+                          goodMoney: Number(that.product.totalMoney),
+                          orderId: res.data.orderID
+              }})
+            }).catch(e => {
+              that.$vux.toast.text(e.message)
             })
           },
           onCancel  () {
@@ -140,14 +133,22 @@
   .created-order {
     min-height: 100vh;
     background-color: @B7;
-    padding-top: .26rem;
+
+    .stop-name {
+      width: 100vw;
+      height: .6rem;
+      padding-left: .2rem;
+      font-size: .32rem;
+      background-color: #fff;
+      line-height: .6rem;
+      margin-bottom: 1px;
+    }
 
     .product-detail {
       height: 2.48rem;
       background-color: #fff;
       padding: .24rem;
       display: flex;
-      margin-bottom: .12rem;
 
       .pic {
         width: 2rem;
@@ -194,7 +195,7 @@
     .receive-info {
       padding: 0 .24rem;
       background-color: #fff;
-      margin-bottom: .4rem;
+      margin-top: .2rem;
     }
 
     .empty {
@@ -321,6 +322,7 @@
       font-family: @FM;
       font-weight: 600;
       color: #FFFFFF !important;
+      margin-bottom: .4rem;
       background-color: @C3 !important;
     }
   }

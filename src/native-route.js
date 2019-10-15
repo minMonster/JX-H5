@@ -58,12 +58,31 @@ function dynamicRoute () {
   // }
 }
 
+function getParamsFromUrl (url) {
+  if (url.indexOf('?') !== -1) {
+    let index = url.indexOf('?') + 1
+    // 得到？后的字符串
+    let str = url.substr(index)
+    var paramsObj = {}
+    // 字符串通过&标识，转为数组
+    let arrs = str.split('&')
+    for (let i = 0; i < arrs.length; i++) {
+      paramsObj[arrs[i].split('=')[0]] = arrs[i].split('=')[1]
+    }
+  }
+  return paramsObj
+}
+
 export function nativeRoute (to) {
   let query = to.query
   let queryData = JSON.parse(query.data)
   let page = queryData.page
   let payload = queryData.payload || {}
   let routeName = staticRoute[page]
+  if (page.indexOf('?') !== -1) {
+    payload = getParamsFromUrl(page)
+    routeName = staticRoute[page.split('?')[0]]
+  }
   if (!routeName) {
     routeName = dynamicRoute(page, payload)
   }

@@ -422,6 +422,12 @@ const router = new Router({
       meta: { title: '支付' },
       component: resolve => require(['@/views/store/pay'], resolve)
     },
+    {
+      path: '/store-order',
+      name: 'store-order',
+      meta: { title: '订单' },
+      component: resolve => require(['@/views/store/order'], resolve)
+    },
     // native route
     {
       meta: {title: '政务'},

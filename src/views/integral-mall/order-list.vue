@@ -5,15 +5,16 @@
               :style="{height: contentHeight, top: contentTop}" style="width: 100%;">
       <div class="notice-container" v-for="item in lists" :key="item.id">
         <!--            <img :src="iconSrc" class="stateIcon" />-->
-        <div class="notice">
+        <div class="notice" @click="toDetail(item)">
           <div class="title-box">
-            <span class="title" v-if="item.detailList[0]">{{item.detailList[0].name}}</span>
+            <span class="title" v-if="item.name === '积分商城' && item.detailList[0]">{{item.detailList[0].name}}</span>
+            <span class="title" v-if="item.name !== '积分商城'">{{item.name}}</span>
             <!--                    <span class="area-name">({{item.areaName}})</span>-->
           </div>
           <p class="content">{{item.address}}</p>
           <p class="content">数量: {{item.count}}</p>
           <p class="time">{{item.payDate}}</p>
-          <p class="status">{{item.status}}</p>
+          <p class="status">{{item.statusDescribe}}</p>
           <div class="type" :style="{background: item.name === '积分商城'?'':'#067bf8'}">{{item.name === '积分商城'? '积分': '超市'}}</div>
         </div>
       </div>
@@ -31,7 +32,18 @@
         contentTop: 0,
         lists: [],
         loading: true,
-        pageSize: 15
+        pageSize: 15,
+        statusOptions: {
+          '0': '正常',
+          '1': '已付款',
+          '2': '已接单（待发货）',
+          '4': '已发货（待收货）',
+          '8': '用户确认收货',
+          '16': '已完结',
+          '32': '售后/退款',
+          '64': '后台拒单',
+          '128': '客户删除',
+        }
       }
     },
     methods: {
@@ -42,6 +54,13 @@
       infinite (done) {
         this.pageSize += 15
         this.getList(done)
+      },
+      toDetail (item) {
+        this.$router.push({path: '/store-order', query: {
+            goodName: item.shopName,
+            goodMoney: item.totalMoney,
+            orderId: item.id
+          }})
       },
       getList (done) {
         done(true)

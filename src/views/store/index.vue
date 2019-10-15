@@ -126,20 +126,25 @@
     methods: {
       toDetail (item) {
         let that = this
-        let url = 'storeDetail'
+        localStorage.setItem('storeDetail', JSON.stringify({
+          id: item.id
+        }))
+        let url = 'native-route?data={"page": "storeDetail"}'
+        // this.$router.push({path: url})
         setupWebViewJavascriptBridge((bridge) => {
           bridge.callHandler('openH5', {
-            path: url
+            path: 'storeDetail'
           }, function () {})
         })
       },
       toList (index) {
-            if (index === 0) {
+        if (index === 0) {
           let that = this
-          let url = 'businessList'
+          let url = 'native-route?data={"page": "businessList"}'
+          // this.$router.push({path: url})
           setupWebViewJavascriptBridge((bridge) => {
             bridge.callHandler('openH5', {
-              path: url
+              path: 'businessList'
             }, function () {})
           })
           // this.$router.push({path: '/business-list'})

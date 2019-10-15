@@ -1,15 +1,15 @@
 <template>
     <div class="shopping-cart">
       <ul class="goods">
-        <li class="pay-card" v-for="(shop, shopIndex) in list" :key="shopIndex">
+        <li class="pay-card" v-for="(shop, shopIndex) in list" :key="shop.id">
           <div class="shop">
-            <icon class="shop-icon" @click.native='selectShop(shopIndex)' :type="shopIndex ===  selectGood.shop? 'success' : 'circle'"></icon>
+            <icon class="shop-icon" @click.native='selectShop(shopIndex)' :type="shop.active? 'success' : 'circle'"></icon>
             <span class="shop-name" >{{shop.shopName}}</span>
             <span class="to-shop"  @click="$router.push({path: '/store-list', query: {id: shop.shopID}})">进入店铺</span>
           </div>
-          <div class="flex-box" v-for="(item, itemIndex) in shop.shoppingItem" :key="itemIndex">
+          <div class="flex-box" v-for="(item, itemIndex) in shop.shoppingItem" :key="item.id">
             <div class="icon-checkbox" @click="select(itemIndex, shopIndex)">
-              <icon :type="shopIndex ===  selectGood.shop && selectGood.goods.indexOf(itemIndex) !== -1? 'success' : 'circle'"></icon>
+              <icon :type="item.active? 'success' : 'circle'"></icon>
             </div>
             <img class="good-img" :src="item.pic" alt="">
             <div class="info">
@@ -41,7 +41,6 @@
 
 <script>
   import { Icon } from 'vux'
-  import Vue from 'vue'
   export default {
     name: 'shopping-cart',
     components: {
@@ -55,12 +54,17 @@
           shop: null,
           goods: []
         },
-        list: []
+        list: [],
+        numMoney: 0
       }
     },
     methods: {
       delGoods (shopIndex, itemIndex) {
         this.$vux.loading.show()
+        if(this.selectGood.shop === shopIndex) {
+          let goodsIndex = this.selectGood.goods.indexOf(itemIndex)
+          this.selectGood.goods.splice(goodsIndex, 1)
+        }
         this.$api.post('/ShoppingCar/Delete', {
           shoppingCarID: this.list[shopIndex].shoppingItem[itemIndex].id
         }).then(() => {
@@ -83,30 +87,40 @@
       },
       selectShop (index) {
         this.selectGood.shop = index
-        this.selectGood.goods = []
-        for(let i = 0; i < this.list[index].shoppingItem.length; i++) {
-          this.selectGood.goods.push(i)
-        }
+        this.list.forEach((i, listIndex) => {
+          if (index === listIndex) {
+            this.list[index].active = !i.active
+            i.shoppingItem.forEach(e => {
+              e.active = i.active
+            })
+            this.$set(this.list, listIndex, this.list[index]);
+          } else {
+            i.active = false
+            i.shoppingItem.forEach(e => {
+              e.active = false
+            })
+            this.$set(this.list, listIndex, i);
+          }
+        })
+        this.computedMoney()
       },
       select (index, shopIndex) {
-        if (shopIndex !== this.selectGood.shop) {
-          if (this.selectGood.shop === null) {
-            this.selectGood.shop = shopIndex
-            this.selectGood.goods.push(index)
-          } else {
-            this.$vux.toast.text('请选择超市')
+        if (this.list[shopIndex].active) {
+          let swSelct = false
+          this.list[shopIndex].shoppingItem[index].active = !this.list[shopIndex].shoppingItem[index].active
+          this.list[shopIndex].shoppingItem.forEach(e => {
+            if (e.active) {
+              swSelct = true
+            }
+          })
+          if (!swSelct) {
+            this.list[shopIndex].active = false
           }
-          return
-        }
-        let arr = this.selectGood.goods
-        if (arr.indexOf(index) !== -1) {
-          arr.splice(arr.indexOf(index), 1)
+          this.$set(this.list, shopIndex, this.list[shopIndex]);
         } else {
-          arr.push(index)
+          this.$vux.toast.text('请选择超市')
         }
-        if (arr.length === 0) {
-          this.selectGood.shop = null
-        }
+        this.computedMoney()
       },
       minusGood (shopIndex, itemIndex) {
         if (this.list[shopIndex].shoppingItem[itemIndex].amount > 1) {
@@ -131,33 +145,43 @@
         })
       },
       toCreatedOrder () {
-        if (this.selectGood.shop !== null && this.numMoney > 0) {
+        let swReturn = null
+        this.list.forEach(i => {
+          if (i.active) {
+            swReturn = i
+          }
+        })
+        if (swReturn === null) {
+          this.$vux.toast.text('至少选择一件商品')
+        } else {
           let goods = {}
-          goods.shopId = this.list[this.selectGood.shop].shopId
-          let arr = this.selectGood.goods
+          goods.shopId = swReturn.shopId
+          let arr = swReturn.shoppingItem
           goods.shoppingItems = []
           arr.forEach(i => {
-            goods.shoppingItems.push(this.list[this.selectGood.shop].shoppingItem[i])
+            if (i.active) {
+              goods.shoppingItems.push(i)
+            }
           })
           goods.totalMoney = this.numMoney
-          goods.shopName = this.list[this.selectGood.shop].shopName
+          goods.shopName = swReturn.shopName
           localStorage.setItem('goods', JSON.stringify(goods))
-          this.$router.push({path: '/store-created-order'})
-        } else {
-          this.$vux.toast.text('至少选择一件商品')
+          console.log(goods)
+          this.$router.replace({path: '/store-created-order'})
         }
-      }
-    },
-    computed: {
-      numMoney () {
+      },
+      computedMoney () {
         let num = 0
-        if (this.selectGood.shop !== null) {
-          let arr = this.selectGood.goods
-          arr.forEach(i => {
-            num += this.list[this.selectGood.shop].shoppingItem[i].price *this.list[this.selectGood.shop].shoppingItem[i].amount
-          })
-        }
-        return num.toFixed(2)
+        this.list.forEach((i) => {
+          if (i.active) {
+            i.shoppingItem.forEach(e => {
+              if (e.active) {
+                num += e.price * e.amount
+              }
+            })
+          }
+        })
+        this.numMoney = num
       }
     },
     created () {

@@ -10,27 +10,27 @@
       <p class="good-amount">剩余 {{goodDetail.amount}}/{{goodDetail.standard}}</p>
       <p class="good-amount">已售 {{goodDetail.saleAmount}}/{{goodDetail.standard}}</p>
     </div>
-    <div class="good-det">
-      <div class="label">商品参数</div>
-      <div class="params">
-        <span class="label-params">大小</span>
-        <span class="label-des">156mm*120mm</span>
-      </div>
-      <div class="params">
-        <span class="label-params">大小</span>
-        <span class="label-des">156mm*120mm</span>
-      </div>
-    </div>
+    <!--<div class="good-det">-->
+      <!--<div class="label">商品参数</div>-->
+      <!--<div class="params">-->
+        <!--<span class="label-params">大小</span>-->
+        <!--<span class="label-des">156mm*120mm</span>-->
+      <!--</div>-->
+      <!--<div class="params">-->
+        <!--<span class="label-params">大小</span>-->
+        <!--<span class="label-des">156mm*120mm</span>-->
+      <!--</div>-->
+    <!--</div>-->
     <div class="good-det">
       <div class="label">商品详情</div>
-      <div class="good-html">
-        图文详情's'd
-        图文详情's'd
-        图文详情's'd
-        图文详情's'd
-        <img src="../../assets/logo.png" alt="">
-        图文详情's'd
-        <img src="../../assets/logo.png" alt="">
+      <div class="good-html" v-html="goodDetail.describe">
+        <!--图文详情's'd-->
+        <!--图文详情's'd-->
+        <!--图文详情's'd-->
+        <!--图文详情's'd-->
+        <!--<img src="../../assets/logo.png" alt="">-->
+        <!--图文详情's'd-->
+        <!--<img src="../../assets/logo.png" alt="">-->
       </div>
     </div>
     <div class="good-operation">
@@ -40,7 +40,7 @@
           <p>购物车</p>
         </div>
       </div>
-      <button class="button-good yellow">立即购买</button>
+      <button class="button-good yellow" @click="payShop">立即购买</button>
       <button class="button-good orange" @click="addToCar">加入购物车</button>
     </div>
   </div>
@@ -55,17 +55,29 @@
     },
     data: function () {
       return {
-        goodDetail: {}
+        goodDetail: {},
+        id: 'asdsad'
       }
     },
     methods: {
       getCommodity () {
-        this.$api.get('/Commodity/' + this.$route.query.id).then(res => {
+        if (!this.$route.query.id) {
+          this.id = JSON.parse(localStorage.getItem('storeDetail')).id
+        } else {
+          this.id = this.$route.query.id
+        }
+        let id = this.$route.query.id
+        this.$api.get('/Commodity/' + this.id).then(res => {
           this.goodDetail = res.data
         })
       },
+      payShop () {
+        this.addToCar().then(() => {
+          this.$router.push({path: '/shopping-cart'})
+        })
+      },
       addToCar () {
-        this.$api.post('/ShoppingCar/Add', {
+        return this.$api.post('/ShoppingCar/Add', {
           shopID: this.goodDetail.shopID,
           commodityID: this.goodDetail.id,
           amount: 1,
