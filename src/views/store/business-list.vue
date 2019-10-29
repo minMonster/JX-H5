@@ -8,16 +8,20 @@
 <!--    </div>-->
     <scroller :on-refresh="refresh" :on-infinite="infinite" noDataText="没有更多数据"
               :style="{height: contentHeight, top: contentTop}" style="width: 100%;">
-      <div class="entertainment-project" @click="$router.push({path: '/store-list', query: {id: item.id}})" v-for="(item, index) in lists" :key="index">
+      <div class="entertainment-project" @click="$router.push({path: '/store-list', query: {id: item.id,deliveryMinAmount: item.deliveryMinAmount}})" v-for="(item, index) in lists" :key="index">
         <img :src="item.pic" alt="" class="pic">
         <div class="info-container">
           <p class="name">{{item.name}}</p>
-          <div class="star">
-            <div class="star-single" v-for="(star, id) in 5" :key="id">
-              <img src="../../assets/entertainment/star_bright.png" alt="" class="star-thumb" v-if="true">
-              <img src="../../assets/entertainment/star_dark.png" alt="" class="star-thumb" v-else>
-            </div>
-          </div>
+<!--          <div class="star">-->
+<!--            <div class="star-single" v-for="(star, id) in 5" :key="id">-->
+<!--              <img src="../../assets/entertainment/star_bright.png" alt="" class="star-thumb" v-if="true">-->
+<!--              <img src="../../assets/entertainment/star_dark.png" alt="" class="star-thumb" v-else>-->
+<!--            </div>-->
+<!--          </div>-->
+          <p><label>起送价：</label>{{item.deliveryFreeAmount}}</p>
+          <div class="icon-text" v-if="item.deliveryType !== 3">{{item.deliveryType === 1? '商家配送': '自取'}}</div>
+          <div class="icon-text" style="width: 1.8rem" v-else>配送或自取</div>
+<!--          <p><label>销量：</label>{{item.deliveryFreeAmount}}</p>-->
           <div class="footer">
             <span class="address">{{item.address}}</span>
             <span class="distance">{{item.distance}}</span>
@@ -147,6 +151,7 @@
 
       .info-container {
         display: flex;
+        position: relative;
         flex: 1;
         flex-direction: column;
 
@@ -154,12 +159,26 @@
           font-size: .28rem;
           font-family: @FM;
           font-weight: 600;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          width: 3rem;
           color: @T1;
-          line-height: .28rem;
           margin-top: .11rem;
           margin-bottom: .18rem;
         }
-
+        .icon-text {
+          position: absolute;
+          right: 0;
+          top: 0;
+          border: 1px #6595F4 solid;
+          height: .4rem;
+          font-size: .24rem;
+          line-height: .4rem;
+          padding: 0 .1rem;
+          color: #6595F4;
+          text-align: center;
+          width: 1.4rem;
+        }
         .star {
           display: flex;
           flex: 1;

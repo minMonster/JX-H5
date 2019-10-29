@@ -4,8 +4,8 @@
         <li class="pay-card" v-for="(shop, shopIndex) in list" :key="shop.id">
           <div class="shop">
             <icon class="shop-icon" @click.native='selectShop(shopIndex)' :type="shop.active? 'success' : 'circle'"></icon>
-            <span class="shop-name" >{{shop.shopName}}</span>
-            <span class="to-shop"  @click="$router.push({path: '/store-list', query: {id: shop.shopID}})">进入店铺</span>
+            <span class="shop-name" >{{shop.shopName}} 起送价：{{shop.deliveryMinAmount}}</span>
+            <span class="to-shop"  @click="$router.push({path: '/store-list', query: {id: shop.shopId, deliveryMinAmount: shop.deliveryMinAmount}})">进入店铺</span>
           </div>
           <div class="flex-box" v-for="(item, itemIndex) in shop.shoppingItem" :key="item.id">
             <div class="icon-checkbox" @click="select(itemIndex, shopIndex)">
@@ -34,7 +34,7 @@
           <span>合计</span>
           <span class="pay">￥{{numMoney}}元</span>
         </div>
-        <div class="submit" @click="toCreatedOrder">结算</div>
+        <div class="submit" @click="toCreatedOrder" :class="{disable: numMoney < deliveryMinAmount}">结算</div>
       </footer>
     </div>
 </template>
@@ -49,13 +49,14 @@
     data: function () {
       return {
         selectShopIndex: null,
-        numberMoney: 1909,
+        numberMoney: 0,
         selectGood: {
           shop: null,
           goods: []
         },
         list: [],
-        numMoney: 0
+        numMoney: 0,
+        deliveryMinAmount: 10
       }
     },
     methods: {
@@ -76,11 +77,25 @@
         this.$api.get('/ShoppingCar/List').then(res => {
           this.list = res.data
           if (this.list) {
+            let promiseArr = []
+
             this.list.forEach(i => {
               i.active = false
               i.shoppingItem.forEach(k => {
                 k.active = false
               })
+              promiseArr.push(this.$api.get('/shop/getById?id=' + i.shopId))
+            })
+            Promise.all(promiseArr).then(res => {
+              console.log(res)
+              this.list.forEach(i => {
+                res.forEach(k => {
+                  if (i.id === k.data.shopId) {
+                    i.deliveryMinAmount = k.data.deliveryMinAmount
+                  }
+                })
+              })
+              this.list = JSON.parse(JSON.stringify(this.list))
             })
           }
         })
@@ -131,6 +146,7 @@
             amount: this.list[shopIndex].shoppingItem[itemIndex].amount
           }).then(() => {
             this.$vux.loading.hide()
+            this.computedMoney()
           })
         }
       },
@@ -142,9 +158,14 @@
           amount: this.list[shopIndex].shoppingItem[itemIndex].amount
         }).then(() => {
           this.$vux.loading.hide()
+          this.computedMoney()
         })
       },
       toCreatedOrder () {
+        if (this.numMoney < this.deliveryMinAmount) {
+          this.$vux.toast.text('未达到起送价格')
+          return
+        }
         let swReturn = null
         this.list.forEach(i => {
           if (i.active) {
@@ -174,6 +195,7 @@
         let num = 0
         this.list.forEach((i) => {
           if (i.active) {
+            this.deliveryMinAmount = i.deliveryMinAmount
             i.shoppingItem.forEach(e => {
               if (e.active) {
                 num += e.price * e.amount
@@ -182,6 +204,7 @@
           }
         })
         this.numMoney = num
+        this.numMoney = Number(this.numMoney.toFixed(2))
       }
     },
     created () {
@@ -326,6 +349,10 @@
         color: #fff;
         font-size: .36rem;
         line-height: 1rem;
+        &.disable {
+          background-color: #999999;
+          color: #fff;
+        }
       }
     }
     .empty-des {

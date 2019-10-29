@@ -16,6 +16,7 @@
           </div>
           <p class="good-name" @click="$router.push({path: 'store-detail', query: {id: item.id}})">{{item.name}}</p>
           <p class="good-des ell2" @click="$router.push({path: 'store-detail', query: {id: item.id}})">{{item.describe}}</p>
+          <p class="good-info">销量： {{item.saleAmount}}</p>
           <div class="good-operation">
             <div class="pay" @click="$router.push({path: 'store-detail', query: {id: item.id}})">
               <span>￥</span>{{item.price}}/{{item.standard}}
@@ -31,7 +32,7 @@
       <div class="money">
         <!--<svg-icon @click.native="$router.push({path: '/shopping-cart'})" icon-class="_ionicons_svg_md-cart" class="cart_ionicons_svg_md"></svg-icon>-->
         <!--<span class="pay">￥123元</span>-->
-        <span class="des">100元起送</span>
+        <span class="des">{{$route.query.deliveryMinAmount}}元起送</span>
       </div>
       <div class="submit" @click="$router.push({path: '/shopping-cart'})">
         <svg-icon icon-class="_ionicons_svg_md-cart" class="cart_ionicons_svg_md"></svg-icon>
@@ -54,6 +55,7 @@
         shops: [],
         contentHeight: 0,
         contentTop: 0,
+        totalCount: 0,
         commodityList: [],
         pageOptions: {
           pageIndex: 1,
@@ -123,6 +125,9 @@
     created () {
       this.pageOptions.shopId = this.$route.query.id
       this.getShopCategory()
+      this.$api.get('/shop/getById?id=' + this.$route.query.id).then(res => {
+        document.title = res.data.name
+      })
     }
   }
 </script>
@@ -203,6 +208,11 @@
           font-size: .18rem;
           color: #999999;
         }
+      }
+      .good-info {
+        padding-top: .1rem;
+        text-align: left;
+        width: 100%;
       }
       .good-operation {
         padding-top: .2rem;

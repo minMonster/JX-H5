@@ -31,7 +31,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 # 上传代码到服务器
 ````bash 
 $ scp -r /d/gz/JX-H5/dist/ root@47.112.201.72:/www/juxian
-scp -r /d/gz/JX-H5/dist/ root@47.112.201.72:/www/juxian
+scp -r /d/gz/JX/JX-H5/dist/ root@47.112.201.72:/www/juxian
 scp -r /Users/xuanli/gz/JX-H5/dist/ root@47.112.201.72:/www/juxian
 
 ````

@@ -22,11 +22,15 @@
       <div class="infos"><label>收货地址</label><span>{{orderDetail.address}}</span></div>
       <div class="infos"><label>联系人姓名</label><span>{{orderDetail.receiverName}}</span></div>
       <div class="infos"><label>联系人</label><span>{{orderDetail.receiverPhone}}</span></div>
-      <div class="infos"><label>订单总价</label><span>{{orderDetail.totalMoney}}</span></div>
+      <div class="infos"><label>商品总价</label><span>{{orderDetail.totalMoney}}元</span></div>
+      <div class="infos"><label>配送费</label><span>{{orderDetail.deliveryFee}}元</span></div>
+      <div class="infos"><label>订单总价</label><span>{{orderDetail.totalMoney + orderDetail.totalMoney}}元</span></div>
       <div class="infos"><label>订单总积分</label><span>{{orderDetail.totalScore}}</span></div>
+      <div class="infos"><label>配送方式</label><span>{{deliveryTypeTxt[orderDetail.deliveryType]}}</span></div>
     </div>
 
     <x-button class="confirm-btn" v-if="orderDetail.statusDescribe === '待付款'" @click.native="pay">去支付</x-button>
+    <x-button class="confirm-btn" v-if="orderDetail.statusDescribe === '配送中'" @click.native="Receive">待收货</x-button>
 
   </div>
 </template>
@@ -39,7 +43,12 @@
     data: function () {
       return {
         product: {},
-        orderDetail: {}
+        orderDetail: {},
+        deliveryTypeTxt: {
+          '1': '自取',
+          '2': '配送',
+          '3': '配送或自取'
+        }
       }
     },
     components: {XButton},
@@ -50,6 +59,12 @@
       })
     },
     methods: {
+      Receive () {
+        this.$api.get('/Order/Receive?orderId=' + this.product.orderId).then(res => {
+          this.$vux.toast.text('收货成功')
+          this.$router.go(0)
+        })
+      },
       pay () {
         let that = this
         that.$router.push({path: 'store-pay', query: {...that.product}})

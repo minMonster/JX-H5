@@ -353,7 +353,7 @@ const router = new Router({
     {
       path: '/business-list',
       name: 'business-list',
-      meta: { title: '超市' },
+      meta: { title: '超市列表' },
       component: resolve => require(['@/views/store/business-list.vue'], resolve)
     },
     {
@@ -395,7 +395,7 @@ const router = new Router({
     {
       path: '/store-list',
       name: 'store-list',
-      meta: { title: '超市列表' },
+      meta: { title: '' },
       component: resolve => require(['@/views/store/store-list'], resolve)
     },
     {
@@ -427,6 +427,12 @@ const router = new Router({
       name: 'store-order',
       meta: { title: '订单' },
       component: resolve => require(['@/views/store/order'], resolve)
+    },
+    {
+      path: '/my-collection',
+      name: 'my-collection',
+      meta: { title: '我的收藏' },
+      component: resolve => require(['@/views/my-collection/index'], resolve)
     },
     // native route
     {

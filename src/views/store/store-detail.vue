@@ -1,8 +1,10 @@
 <template>
   <div class="store-detail" v-if="goodDetail">
-    <div class="good-img">
-      <img :src="goodDetail.pic" alt="">
-    </div>
+    <swiper :show-dots="false" v-model="swiperItemIndex">
+      <swiper-item class="swiper-demo-img good-img" v-for="(item, index) in goodDetail.pics" :key="index">
+        <img :src="item">
+      </swiper-item>
+    </swiper>
     <div class="good-info">
       <div class="money">￥{{goodDetail.price}}/{{goodDetail.standard}}</div>
       <p class="good-name">{{goodDetail.name}}</p>
@@ -10,17 +12,37 @@
       <p class="good-amount">剩余 {{goodDetail.amount}}/{{goodDetail.standard}}</p>
       <p class="good-amount">已售 {{goodDetail.saleAmount}}/{{goodDetail.standard}}</p>
     </div>
-    <!--<div class="good-det">-->
-      <!--<div class="label">商品参数</div>-->
-      <!--<div class="params">-->
-        <!--<span class="label-params">大小</span>-->
-        <!--<span class="label-des">156mm*120mm</span>-->
-      <!--</div>-->
-      <!--<div class="params">-->
-        <!--<span class="label-params">大小</span>-->
-        <!--<span class="label-des">156mm*120mm</span>-->
-      <!--</div>-->
-    <!--</div>-->
+    <div class="good-det" v-if="goodDetail.code || goodDetail.brand || goodDetail.weight || goodDetail.productionPlace || goodDetail.productionCompany || goodDetail.material">
+      <div class="label">商品参数</div>
+      <div class="params" v-if="goodDetail.code">
+        <span class="label-params">编码</span>
+        <span class="label-des">{{goodDetail.code}}</span>
+      </div>
+      <div class="params" v-if="goodDetail.brand">
+        <span class="label-params">品牌</span>
+        <span class="label-des">{{goodDetail.brand}}</span>
+      </div>
+      <div class="params" v-if="goodDetail.weight">
+        <span class="label-params">重量</span>
+        <span class="label-des">{{goodDetail.weight}}</span>
+      </div>
+      <div class="params" v-if="goodDetail.wrapper">
+        <span class="label-params">包装</span>
+        <span class="label-des">{{goodDetail.wrapper}}</span>
+      </div>
+      <div class="params" v-if="goodDetail.productionPlace">
+        <span class="label-params">产地</span>
+        <span class="label-des">{{goodDetail.productionPlace}}</span>
+      </div>
+      <div class="params" v-if="goodDetail.productionCompany">
+        <span class="label-params">生产公司</span>
+        <span class="label-des">{{goodDetail.productionCompany}}</span>
+      </div>
+      <div class="params" v-if="goodDetail.material">
+        <span class="label-params">材质</span>
+        <span class="label-des">{{goodDetail.material}}</span>
+      </div>
+    </div>
     <div class="good-det">
       <div class="label">商品详情</div>
       <div class="good-html" v-html="goodDetail.describe">
@@ -34,8 +56,13 @@
       </div>
     </div>
     <div class="good-operation">
-      <div class="buttons" @click="$router.push({path: '/shopping-cart'})">
-        <div>
+      <div class="buttons">
+        <div @click="shoucang">
+          <svg-icon v-if="true" icon-class="shoucang" class="icon-close"></svg-icon>
+          <svg-icon v-else icon-class="shoucang1" class="icon-close"></svg-icon>
+          <p>收藏</p>
+        </div>
+        <div @click="$router.push({path: '/shopping-cart'})">
           <svg-icon icon-class="_ionicons_svg_md-cart" class="icon-close"></svg-icon>
           <p>购物车</p>
         </div>
@@ -47,16 +74,17 @@
 </template>
 
 <script>
-  import { XButton } from 'vux'
+  import { XButton, Swiper, SwiperItem } from 'vux'
   export default {
     name: 'store-detail',
     components: {
-      XButton
+      XButton, Swiper, SwiperItem
     },
     data: function () {
       return {
         goodDetail: {},
-        id: 'asdsad'
+        id: 'asdsad',
+        swiperItemIndex: 0
       }
     },
     methods: {
@@ -69,11 +97,25 @@
         let id = this.$route.query.id
         this.$api.get('/Commodity/' + this.id).then(res => {
           this.goodDetail = res.data
+          this.goodDetail.pics = JSON.parse(res.data.pics)
         })
       },
       payShop () {
         this.addToCar().then(() => {
           this.$router.push({path: '/shopping-cart'})
+        })
+      },
+      shoucang () {
+        this.$api.post('/UserFavorite/Add', {
+          type: 'commodity',
+          'foreignID': this.goodDetail.id,
+          'title': this.goodDetail.name,
+          'pic': this.goodDetail.pic,
+          'content': 'string'
+        }).then(() => {
+          this.$vux.toast.text('收藏成功')
+        }).catch(() => {
+          this.$vux.toast.text('收藏失敗')
         })
       },
       addToCar () {
@@ -93,8 +135,11 @@
         })
       }
     },
-    created () {
+    mounted () {
       this.getCommodity()
+    },
+    created () {
+      // this.getCommodity()
     }
   }
 </script>
@@ -105,9 +150,9 @@
     .good-img {
       background-color: #fff;
       width: 100vw;
+      height: 4rem;
       img {
         width: 100vw;
-        height: 5rem;
       }
     }
     .good-info {
@@ -129,7 +174,7 @@
       left: 0;
       width: 100vw;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       height: 1.2rem;
       background-color: #fff;
@@ -137,19 +182,19 @@
       .buttons {
         display: flex;
         height: 1rem;
+        width: 3rem;
         justify-content: center;
-        align-items: start;
-        flex-direction: column;
+        align-items: center;
         padding-left: .2rem;
-        flex: 1;
         div {
+          flex: 1;
           display: flex;
-          width: 3rem;
           flex-direction: column;
           align-items: center;
           justify-content: center;
           .svg-icon {
             font-size: .36rem;
+            fill: #F05A23;
             color: #F05A23;
           }
         }
@@ -162,6 +207,7 @@
         color: #fff;
         background: linear-gradient(to left, rgba(250, 199, 61, 1) , rgba(246, 151, 48, 1));
         &.yellow {
+          margin-left: .6rem;
           border-top-left-radius: .2rem;
           border-bottom-left-radius: .2rem;
           margin-right: 0;

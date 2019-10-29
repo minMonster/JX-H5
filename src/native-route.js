@@ -37,7 +37,8 @@ let staticRoute = {
   'orderList': 'integral-mall/order-list',
   'shoppingCart': 'shopping-cart',
   'businessList': 'business-list', // 商家列表页
-  'storeDetail': 'store-detail'
+  'storeDetail': 'store-detail',
+  'myCollection': 'my-collection'
 }
 
 // 动态路由，retern routeName

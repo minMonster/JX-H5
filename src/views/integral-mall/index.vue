@@ -108,7 +108,10 @@
       }
     },
     created () {
-      this.currentIntegral = JSON.parse(sessionStorage.getItem('userInfo')).totalScore
+      this.$api.get('/UserInfo/GetUserInfo').then(res => {
+        sessionStorage.setItem('userInfo', JSON.stringify(res.data))
+        this.currentIntegral = JSON.parse(sessionStorage.getItem('userInfo')).totalScore
+      })
       this.getCommodityList()
     }
   }
