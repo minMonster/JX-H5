@@ -4,12 +4,12 @@
               :style="{height: contentHeight, top: contentTop}" style="width: 100%;">
       <div class="product-container">
         <div @click="toDetail(product)" class="product" v-for="product in products" :key="product.id">
-          <img :src="product.pics" alt="" class="product-img">
+          <img :src="product.pic" alt="" class="product-img">
           <div class="desc">
-            <span class="product-name">{{product.name}}</span>
-            <span class="product-price">￥{{product.price}}</span>
+            <span class="product-name">{{product.title}}</span>
+<!--            <span class="product-price">￥{{product.price}}</span>-->
           </div>
-          <span class="sold-count">已售{{product.amount}}</span>
+<!--          <span class="sold-count">已售{{product.amount}}</span>-->
         </div>
       </div>
     </scroller>
@@ -77,17 +77,17 @@
     },
     methods: {
       toDetail (item) {
-        let that = this
+        // let that = this
         localStorage.setItem('storeDetail', JSON.stringify({
-          id: item.id
+          id: item.foreignID
         }))
         let url = 'native-route?data={"page": "storeDetail"}'
-        // this.$router.push({path: url})
-        setupWebViewJavascriptBridge((bridge) => {
-          bridge.callHandler('openH5', {
-            path: 'storeDetail'
-          }, function () {})
-        })
+        this.$router.push({path: url})
+        // setupWebViewJavascriptBridge((bridge) => {
+        //   bridge.callHandler('openH5', {
+        //     path: 'storeDetail'
+        //   }, function () {})
+        // })
       },
       getCommodityList (done) {
         this.$api.get('/UserFavorite/List?pageIndex=' + this.pageOptions.pageIndex + '&pageSize=' + this.pageOptions.pageSize).then(res => {
