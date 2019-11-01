@@ -114,7 +114,7 @@
       },
       shoucang () {
         this.$api.get('/UserFavorite/InFavorite?foreignID=' + this.goodDetail.id + '&type=commodity').then((res) => {
-          if (res.data) {
+          if (!res.data) {
             this.$api.post('/UserFavorite/Add', {
               type: 'commodity',
               'foreignID': this.goodDetail.id,
