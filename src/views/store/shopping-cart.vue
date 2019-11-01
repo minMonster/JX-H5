@@ -90,8 +90,10 @@
               console.log(res)
               this.list.forEach(i => {
                 res.forEach(k => {
-                  if (i.id === k.data.shopId) {
+                  if (i.shopId === k.data.id) {
                     i.deliveryMinAmount = k.data.deliveryMinAmount
+                    i.deliveryFreeAmount = k.data.deliveryFreeAmount
+                    i.deliveryFee = k.data.deliveryFee
                   }
                 })
               })
@@ -186,6 +188,9 @@
           })
           goods.totalMoney = this.numMoney
           goods.shopName = swReturn.shopName
+          goods.deliveryMinAmount = swReturn.deliveryMinAmount
+          goods.deliveryFreeAmount = swReturn.deliveryFreeAmount
+          goods.deliveryFee = swReturn.deliveryFee
           localStorage.setItem('goods', JSON.stringify(goods))
           console.log(goods)
           this.$router.replace({path: '/store-created-order'})

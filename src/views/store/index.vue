@@ -20,7 +20,7 @@
       </div>
       <div class="product-container">
         <div @click="toDetail(product)" class="product" v-for="product in products" :key="product.id">
-          <img :src="product.pics" alt="" class="product-img">
+          <img :src="product.pic" alt="" class="product-img">
           <div class="desc">
             <span class="product-name">{{product.name}}</span>
             <span class="product-price">￥{{product.price}}</span>

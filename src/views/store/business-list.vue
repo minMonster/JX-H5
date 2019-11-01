@@ -18,7 +18,7 @@
 <!--              <img src="../../assets/entertainment/star_dark.png" alt="" class="star-thumb" v-else>-->
 <!--            </div>-->
 <!--          </div>-->
-          <p><label>起送价：</label>{{item.deliveryFreeAmount}}</p>
+          <p><label>起送价：</label>{{item.deliveryMinAmount}}</p>
           <div class="icon-text" v-if="item.deliveryType !== 3">{{item.deliveryType === 1? '商家配送': '自取'}}</div>
           <div class="icon-text" style="width: 1.8rem" v-else>配送或自取</div>
 <!--          <p><label>销量：</label>{{item.deliveryFreeAmount}}</p>-->
@@ -156,7 +156,7 @@
         flex-direction: column;
 
         .name {
-          font-size: .28rem;
+          font-size: .30rem;
           font-family: @FM;
           font-weight: 600;
           text-overflow: ellipsis;

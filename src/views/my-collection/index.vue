@@ -9,7 +9,7 @@
             <span class="product-name">{{product.title}}</span>
 <!--            <span class="product-price">￥{{product.price}}</span>-->
           </div>
-<!--          <span class="sold-count">已售{{product.amount}}</span>-->
+          <span @click.stop="cancelShou(product)" class="sold-count">取消收藏</span>
         </div>
       </div>
     </scroller>
@@ -103,6 +103,12 @@
       infinite (done) {
         this.pageOptions.pageSize += 15
         this.getCommodityList(done)
+      },
+      cancelShou (item) {
+        this.$api.post('/UserFavorite/Delete?id=' + item.id, {id: item.id}).then(res => {
+          this.$vux.toast.text('取消收藏成功')
+          this.getCommodityList()
+        })
       }
     },
     created () {

@@ -31,7 +31,7 @@
       </div>
     </div>
     <group>
-      <popup-picker :title="'投诉类型'" :columns='1' show-name :data="dataList" v-model="value2" :placeholder="'选择'"
+      <popup-picker :title="'配送方式'" :columns='1' show-name :data="dataList" v-model="value2" :placeholder="'选择'"
                     @on-change="pickerChange2"></popup-picker>
 <!--      <sleep-x-input title="标题" v-model="titleInfo"></sleep-x-input>-->
     </group>
@@ -74,7 +74,7 @@
     },
     data: function () {
       return {
-        dataList: [{name: '自取', value: '1'}, {name: '配送', value: '2'}, {name: '配送或自取', value: '3'}],
+        dataList: [{name: '配送', value: '1'}, {name: '自取', value: '2'}],
         value2: ['1'],
         product: {
           // name: '山东烟台大苹果',
@@ -130,12 +130,23 @@
             let ids = that.product.shoppingItems.map(i => {
               return i.id
             })
+            let totalMoney = 0
+            if (that.value2[0] === '1') {
+              if (that.product > that.product.deliveryFreeAmount) {
+                totalMoney = that.product.totalMoney
+              } else {
+                totalMoney = Number(that.product.totalMoney) + Number(that.product.deliveryFee)
+              }
+            } else {
+              totalMoney = that.product.totalMoney
+            }
             that.$api.post('/Order/CreateShopOrder', {
               'shoppingCarId': ids,
               'shopId': that.product.shopId,
               'totalScore': 0,
-              'totalMoney': Number(that.product.totalMoney),
               'remark': '',
+              totalMoney: totalMoney,
+              deliveryFee: that.product > that.product.deliveryFreeAmount? 0: Number(that.product.deliveryFee),
               'address': that.receiveInfoList[that.selectAddress].address,
               'receiverName': that.receiveInfoList[that.selectAddress].name,
               'receiverPhone': that.receiveInfoList[that.selectAddress].phone,

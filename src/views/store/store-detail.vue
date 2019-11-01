@@ -62,9 +62,10 @@
           <svg-icon v-else icon-class="shoucang1" class="icon-close"></svg-icon>
           <p>收藏</p>
         </div>
-        <div @click="$router.push({path: '/shopping-cart'})">
+        <div class="car" @click="$router.push({path: '/shopping-cart'})">
           <svg-icon icon-class="_ionicons_svg_md-cart" class="icon-close"></svg-icon>
           <p>购物车</p>
+          <div class="carCount">{{carCount}}</div>
         </div>
       </div>
       <button class="button-good yellow" @click="payShop">立即购买</button>
@@ -84,7 +85,8 @@
       return {
         goodDetail: {},
         id: 'asdsad',
-        swiperItemIndex: 0
+        swiperItemIndex: 0,
+        carCount: 0
       }
     },
     methods: {
@@ -105,17 +107,28 @@
           this.$router.push({path: '/shopping-cart'})
         })
       },
+      getCarCount () {
+        this.$api.get('/ShoppingCar/Count').then(res => {
+          this.carCount = res.data
+        })
+      },
       shoucang () {
-        this.$api.post('/UserFavorite/Add', {
-          type: 'commodity',
-          'foreignID': this.goodDetail.id,
-          'title': this.goodDetail.name,
-          'pic': this.goodDetail.pic,
-          'content': 'string'
-        }).then(() => {
-          this.$vux.toast.text('收藏成功')
-        }).catch(() => {
-          this.$vux.toast.text('收藏失敗')
+        this.$api.get('/UserFavorite/InFavorite?foreignID=' + this.goodDetail.id + '&type=commodity').then((res) => {
+          if (res.data) {
+            this.$api.post('/UserFavorite/Add', {
+              type: 'commodity',
+              'foreignID': this.goodDetail.id,
+              'title': this.goodDetail.name,
+              'pic': this.goodDetail.pic,
+              'content': 'string'
+            }).then(() => {
+              this.$vux.toast.text('收藏成功')
+            }).catch(() => {
+              this.$vux.toast.text('收藏失敗')
+            })
+          } else {
+            this.$vux.toast.text('您已经收藏过该商品')
+          }
         })
       },
       addToCar () {
@@ -130,6 +143,7 @@
           versionID: this.goodDetail.versionID
         }).then(() => {
           this.$vux.toast.text('加入购物车成功')
+          this.getCarCount()
         }).catch(() => {
           this.$vux.toast.text('提交失败')
         })
@@ -140,11 +154,12 @@
     },
     created () {
       // this.getCommodity()
+      this.getCarCount()
     }
   }
 </script>
 
-<style rel="stylesheet/less" lang="less">
+<style rel="stylesheet/less" type="text/less" lang="less">
   .store-detail {
     background-color: #F3F5F6;
     .good-img {
@@ -195,6 +210,15 @@
           .svg-icon {
             font-size: .36rem;
             fill: #F05A23;
+            color: #F05A23;
+          }
+        }
+        .car {
+          position: relative;
+          .carCount {
+            position: absolute;
+            right: .3rem;
+            top: -.2rem;
             color: #F05A23;
           }
         }
