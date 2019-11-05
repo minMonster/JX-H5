@@ -1,4 +1,8 @@
-# my-project
+# jx-app h5 端
+
+## 环境
+node + npm
+默认使用最稳定版本 node 就可以
 
 > A Vue.js project
 
@@ -32,5 +36,4 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ````bash 
 scp -r /d/gz/JX/JX-H5/dist/ root@47.112.201.72:/www/juxian
 scp -r /Users/xuanli/gz/JX-H5/dist/ root@47.112.201.72:/www/juxian
-
 ````
