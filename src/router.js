@@ -383,7 +383,7 @@ const router = new Router({
     {
       path: '/integral-mall/order-list',
       name: 'integral-mall/order-list',
-      meta: { title: '我的订单' },
+      meta: { title: '' },
       component: resolve => require(['@/views/integral-mall/order-list'], resolve)
     },
     {

@@ -91,7 +91,7 @@
         this.getCommodityList(done)
       },
       getCommodityList (done) {
-        this.$api.get('/Commodity/ListByType', {
+        this.$api.get('/Commodity/List', {
           params: {
             ...this.pageOptions
           }

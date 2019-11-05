@@ -13,7 +13,7 @@
           </div>
           <p class="content">{{item.address}}</p>
           <p class="content">数量: {{item.count}}</p>
-          <p class="time">{{item.payDate}}</p>
+          <p class="time">{{item.createDate}}</p>
           <p class="status">{{item.statusDescribe}}</p>
           <div class="type" :style="{background: item.name === '积分商城'?'':'#067bf8'}">{{item.name === '积分商城'? '积分': '超市'}}</div>
         </div>
@@ -71,6 +71,15 @@
         }
         if (this.$route.query.status) {
           params.status = this.$route.query.status
+          let titles = {
+            UnPay: '待付款',
+            UnReceive: '待收货',
+            AfterSale: '售后',
+            Receive: '已收货'
+          }
+          document.title = titles[params.status]
+        } else {
+          document.title = '我的订单'
         }
         // status，待付款：UnPay,待发货：UnDelivery,待收货：UnReceive,售后：AfterSale；不传值表示全部。
         this.$api.get('/Order/List', {

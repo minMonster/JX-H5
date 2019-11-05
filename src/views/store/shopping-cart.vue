@@ -34,7 +34,9 @@
           <span>合计</span>
           <span class="pay">￥{{numMoney}}元</span>
         </div>
-        <div class="submit" @click="toCreatedOrder" :class="{disable: numMoney < deliveryMinAmount}">结算</div>
+<!--        <div class="submit" @click="toCreatedOrder" :class="{disable: numMoney < deliveryMinAmount}">结算</div>-->
+        <div class="submit" @click="toCreatedOrder" :class="{disable: numMoney === 0}">结算</div>
+<!--        <div class="submit" @click="toCreatedOrder">结算</div>-->
       </footer>
     </div>
 </template>
@@ -94,6 +96,7 @@
                     i.deliveryMinAmount = k.data.deliveryMinAmount
                     i.deliveryFreeAmount = k.data.deliveryFreeAmount
                     i.deliveryFee = k.data.deliveryFee
+                    i.deliveryType = k.data.deliveryType
                   }
                 })
               })
@@ -164,10 +167,10 @@
         })
       },
       toCreatedOrder () {
-        if (this.numMoney < this.deliveryMinAmount) {
-          this.$vux.toast.text('未达到起送价格')
-          return
-        }
+        // if (this.numMoney < this.deliveryMinAmount) {
+        //   this.$vux.toast.text('未达到起送价格')
+        //   return
+        // }
         let swReturn = null
         this.list.forEach(i => {
           if (i.active) {
@@ -191,6 +194,7 @@
           goods.deliveryMinAmount = swReturn.deliveryMinAmount
           goods.deliveryFreeAmount = swReturn.deliveryFreeAmount
           goods.deliveryFee = swReturn.deliveryFee
+          goods.deliveryType = swReturn.deliveryType
           localStorage.setItem('goods', JSON.stringify(goods))
           console.log(goods)
           this.$router.replace({path: '/store-created-order'})

@@ -1,7 +1,7 @@
 <template>
   <div class="created-order">
     <div style="margin: .2rem;padding-top: .2rem;margin-top: 0;">
-      <div class="stop-name">{{product.shopName}}</div>
+      <div class="stop-name">{{product.shopName}} <span v-if="product.deliveryType === 1 || product.deliveryType === 3">起送价：{{product.deliveryMinAmount}}</span></div>
       <div class="product-detail" v-for="item in product.shoppingItems" :key="item.id">
         <img :src="item.pic" alt="" class="pic">
         <div class="text">
@@ -74,8 +74,8 @@
     },
     data: function () {
       return {
-        dataList: [{name: '配送', value: '1'}, {name: '自取', value: '2'}],
-        value2: ['1'],
+        dataList: [],
+        value2: [],
         product: {
           // name: '山东烟台大苹果',
           // cost: 4000,
@@ -96,6 +96,19 @@
       },
       getCommodityInfo () {
         this.product = JSON.parse(localStorage.getItem('goods'))
+        if (this.product.deliveryType === 1) {
+          this.dataList = [{name: '配送', value: '1'}]
+        }
+        if (this.product.deliveryType === 2) {
+          this.dataList = [{name: '自取', value: '2'}]
+        }
+        if (this.product.deliveryType === 3) {
+          this.dataList = [{name: '配送', value: '1'}, {name: '自取', value: '2'}]
+        }
+        if (this.product.deliveryType === 0) {
+          this.dataList = [{name: '配送', value: '1'}, {name: '自取', value: '2'}]
+        }
+        this.value2 = [this.dataList[0].value]
       },
       pickerChange2 () {},
       getAddress () {
@@ -140,13 +153,17 @@
             } else {
               totalMoney = that.product.totalMoney
             }
+            let deliveryFee = that.product > that.product.deliveryFreeAmount? 0: Number(that.product.deliveryFee)
+            if (that.value2[0] === '2') {
+              deliveryFee = 0
+            }
             that.$api.post('/Order/CreateShopOrder', {
               'shoppingCarId': ids,
               'shopId': that.product.shopId,
               'totalScore': 0,
               'remark': '',
               totalMoney: totalMoney,
-              deliveryFee: that.product > that.product.deliveryFreeAmount? 0: Number(that.product.deliveryFee),
+              deliveryFee: deliveryFee,
               'address': that.receiveInfoList[that.selectAddress].address,
               'receiverName': that.receiveInfoList[that.selectAddress].name,
               'receiverPhone': that.receiveInfoList[that.selectAddress].phone,
@@ -155,7 +172,7 @@
               that.$router.replace({path: 'store-order',
 query: {
                           goodName: that.product.shopName,
-                          goodMoney: Number(that.product.totalMoney),
+                          goodMoney: totalMoney,
                           orderId: res.data.orderID
               }})
             }).catch(e => {
