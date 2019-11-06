@@ -42,7 +42,7 @@
           '16': '已完结',
           '32': '售后/退款',
           '64': '后台拒单',
-          '128': '客户删除',
+          '128': '客户删除'
         }
       }
     },
@@ -75,7 +75,8 @@
             UnPay: '待付款',
             UnReceive: '待收货',
             AfterSale: '售后',
-            Receive: '已收货'
+            Receive: '已收货',
+            UnDelivery: '代发货'
           }
           document.title = titles[params.status]
         } else {

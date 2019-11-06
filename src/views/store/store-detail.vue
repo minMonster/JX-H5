@@ -8,7 +8,7 @@
     <div class="good-info">
       <div class="money">￥{{goodDetail.price}}/{{goodDetail.standard}}</div>
       <p class="good-name">{{goodDetail.name}}</p>
-      <p class="good-des">{{goodDetail.describe}}</p>
+<!--      <p class="good-des">{{goodDetail.describe}}</p>-->
       <p class="good-amount">剩余 {{goodDetail.amount}}/{{goodDetail.standard}}</p>
       <p class="good-amount">已售 {{goodDetail.saleAmount}}/{{goodDetail.standard}}</p>
     </div>
