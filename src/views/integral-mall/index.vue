@@ -88,7 +88,11 @@
         this.getCommodityList(done)
       },
       getCommodityList (done) {
-        this.$api.get('/Commodity/List?pageIndex=' + this.pageOptions.pageIndex + '&pageSize=' + this.pageOptions.pageSize).then(res => {
+        this.$api.get('/Commodity/List?pageIndex=' + this.pageOptions.pageIndex + '&pageSize=' + this.pageOptions.pageSize, {
+          params: {
+            Status: 0
+          }
+        }).then(res => {
           this.products = res.data.list
           this.totalCount = res.data.totalCount
           // document.title = this.$route.query.title || '莒e通'

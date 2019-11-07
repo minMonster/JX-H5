@@ -93,7 +93,8 @@
       getCommodityList (done) {
         this.$api.get('/Commodity/List', {
           params: {
-            ...this.pageOptions
+            ...this.pageOptions,
+            Status: 0
           }
         }).then(res => {
           this.commodityList = res.data.list
