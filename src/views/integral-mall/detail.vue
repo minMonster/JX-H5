@@ -23,7 +23,7 @@
     </div>
     <div class="product-detail">
       <p class="title">商品介绍</p>
-      <div class="detail">{{detail}}</div>
+      <div class="detail" v-html="detail"></div>
     </div>
   </div>
 </template>
@@ -47,7 +47,7 @@
       this.getCommodity().then((res) => {
         this.product = res.data
         this.detail = res.data.describe
-        this.pics[0] = res.data.pic
+        this.pics = JSON.parse(res.data.pic)
         if (res.data.pics) {
           this.pics = JSON.parse(res.data.pics)
         } else {

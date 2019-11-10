@@ -170,7 +170,6 @@
           position: absolute;
           right: 0;
           top: 0;
-          border: 1px #6595F4 solid;
           height: .4rem;
           font-size: .24rem;
           line-height: .4rem;
