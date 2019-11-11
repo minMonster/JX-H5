@@ -15,7 +15,7 @@
             <img class="good-img" :src="item.pic" alt="">
           </div>
           <p class="good-name" @click="$router.push({path: 'store-detail', query: {id: item.id}})">{{item.name}}</p>
-          <p class="good-des ell2" @click="$router.push({path: 'store-detail', query: {id: item.id}})">{{item.describe}}</p>
+<!--          <p class="good-des ell2" @click="$router.push({path: 'store-detail', query: {id: item.id}})">{{item.describe}}</p>-->
           <p class="good-info">销量： {{item.saleAmount}}</p>
           <div class="good-operation">
             <div class="pay" @click="$router.push({path: 'store-detail', query: {id: item.id}})">
