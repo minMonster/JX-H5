@@ -21,7 +21,7 @@
       <div class="infos"><label>订单编号</label><span>{{orderDetail.orderNo}}</span></div>
       <div class="infos"><label>快递单号</label><span>{{orderDetail.waybillNo?orderDetail.waybillNo:'暂无快递信息'}}</span></div>
       <div class="infos"><label>收货地址</label><span>{{orderDetail.address}}</span></div>
-      <div class="infos"><label>联系人姓名</label><span>{{orderDetail.receiverName}}</span></div>
+      <div class="infos"><label>收货人</label><span>{{orderDetail.receiverName}}</span></div>
       <div class="infos"><label>联系电话</label><span>{{orderDetail.receiverPhone}}</span></div>
       <div class="infos"><label>订单总积分</label><span>{{orderDetail.totalScore}}</span></div>
       <template v-if="orderDetail.payType!=='JF'">
@@ -29,8 +29,7 @@
         <div class="infos"><label>商品总价</label><span>{{orderDetail.totalMoney - orderDetail.deliveryFee}}元</span></div>
         <div class="infos"><label>配送费</label><span>{{orderDetail.deliveryFee}}元</span></div>
         <div class="infos"><label>订单总价</label><span>{{orderDetail.totalMoney}}元</span></div>
-        <div class="infos"><label>订单总积分</label><span>{{orderDetail.totalScore}}</span></div>
-        <div class="infos"><label>配送方式</label><span>{{deliveryTypeTxt[orderDetail.deliveryType]}}</span></div>
+        <div class="infos"><label>配送方式</label><span>{{deliveryTypeTxt[orderDetail.deliveryType + '']}}</span></div>
       </template>
     </div>
 
@@ -50,8 +49,8 @@
         product: {},
         orderDetail: {},
         deliveryTypeTxt: {
-          '1': '自取',
-          '2': '配送',
+          '1': '配送',
+          '2': '自取',
           '3': '配送或自取'
         }
       }
