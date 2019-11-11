@@ -47,7 +47,6 @@
       this.getCommodity().then((res) => {
         this.product = res.data
         this.detail = res.data.describe
-        this.pics = JSON.parse(res.data.pic)
         if (res.data.pics) {
           this.pics = JSON.parse(res.data.pics)
         } else {
@@ -62,7 +61,7 @@
             nextButton: '.swiper-button-next',
             prevButton: '.swiper-button-prev',
             // 如果需要滚动条
-            scrollbar: '.swiper-scrollbar',
+            scrollbar: '.swiper-scrollbar'
           })
         })
       })

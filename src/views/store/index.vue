@@ -25,7 +25,7 @@
             <span class="product-name">{{product.name}}</span>
             <span class="product-price">￥{{product.price}}</span>
           </div>
-          <span class="sold-count">已售{{product.amount}}</span>
+          <span class="sold-count">已售{{product.saleAmount}}</span>
         </div>
       </div>
     </scroller>
