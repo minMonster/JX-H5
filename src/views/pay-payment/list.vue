@@ -2,9 +2,9 @@
 <template>
   <div class='pay-payment-list'>
     <div class="pay-card" @click="select(card, index)" v-for="(card, index) in lists" :key="card.id">
-      <div class="icon-checkbox">
-        <icon :type="card.active?'success':'circle'"></icon>
-      </div>
+<!--      <div class="icon-checkbox">-->
+<!--        <icon :type="card.active?'success':'circle'"></icon>-->
+<!--      </div>-->
       <div class="info">
         <div class="title">{{card.feeitemname}}</div>
         <div class="timer">开始日期：{{card.starttime}}</div>
@@ -13,9 +13,9 @@
       <div class="money">¥{{card.totalmoney}}</div>
     </div>
     <div class="buttons">
-      <div class="icon-checkbox" @click="checkAll">
-        <icon :type="isCheckAll?'success':'circle'"></icon><span style="color: #0d0d0d">全选</span>
-      </div>
+<!--      <div class="icon-checkbox" @click="checkAll">-->
+<!--        <icon :type="isCheckAll?'success':'circle'"></icon><span style="color: #0d0d0d">全选</span>-->
+<!--      </div>-->
       <div class="money-num-box">应付金额：<span class="num-money">¥{{numMoney}}</span></div>
       <div class="hyper-link" @click="pay">结算</div>
     </div>
@@ -64,34 +64,38 @@ export default {
     let query = this.$route.query
     this.$api.get('/HouseManage/AppGetFee?houseId=' + query.roomId + '&companyId=' + query.companyId).then(res => {
       this.lists = res.data
+      this.lists.forEach((i) => {
+        this.numMoney += Number(i.totalmoney)
+      })
     })
   },
   methods: {
-    checkAll () {
-      if (this.isCheckAll) {
-        this.isCheckAll = false
-        this.numMoney = 0
-        this.lists.forEach(i => {
-          i.active = false
-        })
-      } else {
-        this.isCheckAll = true
-        this.numMoney = 0
-        this.lists.forEach(i => {
-          this.numMoney += Number(i.totalmoney)
-          i.active = true
-        })
-      }
-    },
+    // checkAll () {
+    //   if (this.isCheckAll) {
+    //     this.isCheckAll = false
+    //     this.numMoney = 0
+    //     this.lists.forEach(i => {
+    //       i.active = false
+    //     })
+    //   } else {
+    //     this.isCheckAll = true
+    //     this.numMoney = 0
+    //     this.lists.forEach(i => {
+    //       this.numMoney += Number(i.totalmoney)
+    //       i.active = true
+    //     })
+    //   }
+    // },
     pay () {
       if (this.numMoney === 0) {
-        this.$vux.toast.text('请至少选择一份账单')
+        this.$vux.toast.text('您没有任何账单')
       } else {
         let generateDetailIds = []
         this.lists.map(i => {
-          if (i.active === true) {
+          // if (i.active === true) {
+          //   generateDetailIds.push(i.id)
+          // }
             generateDetailIds.push(i.id)
-          }
         })
         this.$api.get('/HouseManage/AppInsertOrder', {
           params: {
@@ -126,17 +130,17 @@ export default {
         // });
         // this.$vux.toast.text('支付功能暂未开放');
       }
-    },
-    select (card, index) {
-      if (card.active) {
-        this.isCheckAll = false
-        this.numMoney -= Number(this.lists[index].totalmoney)
-      } else {
-        this.numMoney += Number(this.lists[index].totalmoney)
-      }
-      this.numMoney = Number(this.numMoney.toFixed(2))
-      card.active = !card.active
     }
+    // select (card, index) {
+    //   if (card.active) {
+    //     this.isCheckAll = false
+    //     this.numMoney -= Number(this.lists[index].totalmoney)
+    //   } else {
+    //     this.numMoney += Number(this.lists[index].totalmoney)
+    //   }
+    //   this.numMoney = Number(this.numMoney.toFixed(2))
+    //   card.active = !card.active
+    // }
   }
 }
 </script>
