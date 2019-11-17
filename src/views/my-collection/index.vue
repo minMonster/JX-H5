@@ -140,7 +140,7 @@
 
           .product-img {
             width: 3.16rem;
-            height: 3rem;
+            height: 3.16rem;
             margin-bottom: .13rem;
             border-bottom: 1px solid @B7;
           }

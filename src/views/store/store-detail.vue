@@ -1,6 +1,6 @@
 <template>
   <div class="store-detail" v-if="goodDetail">
-    <swiper :show-dots="false" v-model="swiperItemIndex">
+    <swiper :height="swiperHeight" :show-dots="false" v-model="swiperItemIndex">
       <swiper-item class="swiper-demo-img good-img" v-for="(item, index) in goodDetail.pics" :key="index">
         <img :src="item">
       </swiper-item>
@@ -86,7 +86,8 @@
         goodDetail: {},
         id: 'asdsad',
         swiperItemIndex: 0,
-        carCount: 0
+        carCount: 0,
+        swiperHeight: ''
       }
     },
     methods: {
@@ -151,6 +152,8 @@
     },
     mounted () {
       this.getCommodity()
+      let swipeWidth = document.documentElement.clientWidth / 16 * 9
+      this.swiperHeight = swipeWidth + 'px'
     },
     created () {
       // this.getCommodity()
@@ -164,10 +167,9 @@
     background-color: #F3F5F6;
     .good-img {
       background-color: #fff;
-      width: 100vw;
-      height: 4rem;
       img {
-        width: 100vw;
+        height: 100%;
+        width: 100%;
       }
     }
     .good-info {

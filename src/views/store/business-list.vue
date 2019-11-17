@@ -143,7 +143,7 @@
       }
 
       .pic {
-        width: 2.88rem;
+        width: 1.61rem;
         height: 1.61rem;
         border-radius: .04rem;
         margin-right: .13rem;

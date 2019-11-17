@@ -1,15 +1,11 @@
 <template>
   <div class="integral-convert-detail">
     <div class="carousel">
-      <div class="swiper-container">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide" v-for="item in pics" :key="item.id"><img :src="item" alt=""></div>
-          <!--                <div class="swiper-slide"><img src="../../assets/happy-in-jx/fun-1.jpg" alt=""></div>-->
-          <!--                <div class="swiper-slide"><img src="../../assets/eat-in-jx/food-1.jpg" alt=""></div>-->
-        </div>
-        <!-- 如果需要分页器 -->
-        <div class="swiper-pagination"></div>
-      </div>
+      <swiper :height="swiperHeight" :show-dots="false" v-model="swiperItemIndex">
+        <swiper-item class="swiper-demo-img good-img" v-for="(item, index) in pics" :key="index">
+          <img :src="item">
+        </swiper-item>
+      </swiper>
     </div>
     <div class="product-info">
       <div class="left">
@@ -29,21 +25,26 @@
 </template>
 
 <script>
-  import Swiper from 'swiper'
-  import { XButton } from 'vux'
+  import { XButton, Swiper, SwiperItem } from 'vux'
   export default {
     name: 'integral-convert-detail',
     components: {
-      XButton
+      XButton,
+      Swiper,
+SwiperItem
     },
     data: function () {
       return {
         product: {},
         detail: '',
-        pics: []
+        swiperItemIndex: 0,
+        pics: [],
+        swiperHeight: ''
       }
     },
     mounted () {
+      let swipeWidth = document.documentElement.clientWidth / 16 * 9
+      this.swiperHeight = swipeWidth + 'px'
       this.getCommodity().then((res) => {
         this.product = res.data
         this.detail = res.data.describe
@@ -52,18 +53,6 @@
         } else {
           this.pics[0] = res.data.pic
         }
-        this.$nextTick(() => {
-          new Swiper('.swiper-container', {
-            loop: true,
-            // 如果需要分页器
-            pagination: '.swiper-pagination',
-            // 如果需要前进后退按钮
-            nextButton: '.swiper-button-next',
-            prevButton: '.swiper-button-prev',
-            // 如果需要滚动条
-            scrollbar: '.swiper-scrollbar'
-          })
-        })
       })
     },
     methods: {
@@ -88,24 +77,17 @@
 
   .integral-convert-detail {
     background-color: @B7;
-    .swiper-container {
-      width: 100vw;
-      height: 3rem;
-      .swiper-slide {
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-    }
     .carousel {
-      height: 3rem;
       background-color: #fff;
       margin-bottom: 2px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
 
     .product-info {
-      height: 1.4rem;
+      height: 1.8rem;
       background-color: #fff;
       padding: .2rem .24rem;
       margin-bottom: .24rem;
@@ -119,16 +101,23 @@
         justify-content: space-between;
 
         .name {
-          width: 4rem;
+          width: 5rem;
           font-size: .36rem;
           font-family: @FM;
           font-weight: 600;
           color: @T1;
-          display: -webkit-box;
+          text-overflow: -o-ellipsis-lastline;
           overflow: hidden;
           text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
           -webkit-box-orient: vertical;
-          -webkit-line-clamp: 1;
+          /*display: -webkit-box;*/
+          /*overflow: hidden;*/
+          /*text-overflow: ellipsis;*/
+          /*-webkit-box-orient: vertical;*/
+          /*-webkit-line-clamp: 1;*/
         }
 
         .more {
@@ -190,7 +179,7 @@
       .title {
         font-size: .28rem;
         font-family: @FR;
-        font-weight: 400;
+        font-weight: 600;
         color: @T1;
         margin-bottom: .36rem;
       }

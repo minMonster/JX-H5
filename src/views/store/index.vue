@@ -239,7 +239,7 @@
 
       .product {
         width: 3.4rem;
-        height: 4.12rem;
+        height: 5.16rem;
         background-color: @B2;
         padding: .12rem;
         border-radius: .12rem;
@@ -247,7 +247,7 @@
 
         .product-img {
           width: 3.16rem;
-          height: 3rem;
+          height: 3.16rem;
           margin-bottom: .13rem;
           border-bottom: 1px solid @B7;
         }
@@ -255,15 +255,22 @@
         .desc {
           display: flex;
           justify-content: space-between;
-          align-items: center;
           margin-bottom: .08rem;
+          flex-direction: column;
 
           .product-name {
             font-size: .28rem;
+            height: .85rem;
             font-family: @FR;
             font-weight: 400;
+            text-overflow: -o-ellipsis-lastline;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
             color: @T1;
-            line-height: .28rem;
           }
 
           .product-price {

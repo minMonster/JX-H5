@@ -143,7 +143,9 @@
     .tabs {
       height: 1.8rem;
       width: 100vw;
-      overflow-x: scroll;
+      /*overflow-x: scroll;*/
+      overflow-x: auto;
+      -webkit-overflow-scrolling:touch;
       display: flex;
       margin-bottom: .1rem;
       background-color: #fff;
@@ -203,6 +205,14 @@
           padding-top: .2rem;
           width: 3rem;
           font-size: .3rem;
+          text-overflow: -o-ellipsis-lastline;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          height: 1.05rem;
+          line-clamp: 2;
+          -webkit-box-orient: vertical;
         }
         p.good-des {
           width: 3rem;
