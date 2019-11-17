@@ -1,13 +1,19 @@
 <template>
   <div class="store-list">
+    <ul ref="tabs" class="tabs">
+      <li :class="{active: item.id === pageOptions.typeId}" @click="selectType(item.id)" v-for="item in shops" :key="item.id">
+        <img :src="item.pic" alt="">
+        <p>{{item.name}}</p>
+      </li>
+    </ul>
     <scroller :on-refresh="refresh" :on-infinite="infinite" noDataText="没有更多数据"
               :style="{height: contentHeight, top: contentTop}" style="width: 100%;">
-      <ul class="tabs">
-        <li :class="{active: item.id === pageOptions.typeId}" @click="selectType(item.id)" v-for="item in shops" :key="item.id">
-          <img :src="item.pic" alt="">
-          <p>{{item.name}}</p>
-        </li>
-      </ul>
+<!--      <ul class="tabs">-->
+<!--        <li :class="{active: item.id === pageOptions.typeId}" @click="selectType(item.id)" v-for="item in shops" :key="item.id">-->
+<!--          <img :src="item.pic" alt="">-->
+<!--          <p>{{item.name}}</p>-->
+<!--        </li>-->
+<!--      </ul>-->
       <ul class="goods">
         <!--<li @click="$router.push({path: 'store-detail', query: {id: item.id}})" v-for="(item, index) in commodityList" :key="index">-->
         <li v-for="(item, index) in commodityList" :key="index">
@@ -28,7 +34,7 @@
         </li>
       </ul>
     </scroller>
-    <footer>
+    <footer ref="footerB">
       <div class="money">
         <!--<svg-icon @click.native="$router.push({path: '/shopping-cart'})" icon-class="_ionicons_svg_md-cart" class="cart_ionicons_svg_md"></svg-icon>-->
         <!--<span class="pay">￥123元</span>-->
@@ -66,8 +72,8 @@
       }
     },
     mounted () {
-      this.contentHeight = document.documentElement.clientHeight + 'px'
-      this.contentTop = 0
+      this.contentHeight = document.documentElement.clientHeight - this.$refs.tabs.clientHeight - this.$refs.footerB.clientHeight + 'px'
+      this.contentTop = this.$refs.tabs.clientHeight + 'px'
       document.documentElement.scrollTop = document.body.scrollTop = 0
     },
     methods: {
@@ -142,7 +148,7 @@
     height: 100vh;
     .tabs {
       height: 1.8rem;
-      width: 100vw;
+      width: 7.5rem;
       /*overflow-x: scroll;*/
       overflow-x: auto;
       -webkit-overflow-scrolling:touch;
