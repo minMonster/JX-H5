@@ -1,7 +1,7 @@
 <!-- crated：2019-06-18  author：Monster  -->
 <template>
     <div class='walk-into-jx'>
-        <img src="../../assets/walk-into-jx/banner.jpg" alt="" class="banner">
+        <img :src="pic" alt="" class="banner">
         <div class="content">
             <div class="title-list">
                 <div class="title" @click="currentSelected=index" v-for="(item, index) in classifyList" :key="item.id">
@@ -31,18 +31,20 @@
       return {
         currentSelected: 0,
         classifyList: [],
-        briefContent: '' //莒县概况
-      };
+        pic: '',
+        briefContent: '' // 莒县概况
+      }
     },
     created () {
       this.$api.get('/Columns/Index?columnID=1').then(res => {
-        this.classifyList = res.data.classifyList;
+        this.classifyList = res.data.classifyList
+        this.pic = res.data.model.picture
         this.$api.get('/News/' + this.classifyList[0].news[0].id).then(data => {
-          this.briefContent = data.data.content;
+          this.briefContent = data.data.content
         })
-      });
+      })
     }
-  };
+  }
 </script>
 <style rel="stylesheet/less" lang="less">
 

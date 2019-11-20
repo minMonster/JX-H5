@@ -92,6 +92,10 @@
           return
         }
         let that = this
+        if (this.product.amount === 0) {
+          this.$vux.toast.text('库存数量不足，无法兑换')
+          return
+        }
         this.$vux.confirm.show({
           title: '本次兑换您需扣除' + this.product.score + '积分，是否继续兑换？',
           content: '',

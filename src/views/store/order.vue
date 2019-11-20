@@ -32,8 +32,9 @@
         <div class="infos"><label>配送方式</label><span>{{deliveryTypeTxt[orderDetail.deliveryType + '']}}</span></div>
       </template>
     </div>
-
+    <p class="tip" v-if="orderDetail.statusDescribe === '待发货'">您的宝贝正在打包中！</p>
     <x-button class="confirm-btn" v-if="orderDetail.statusDescribe === '待付款'" @click.native="pay">去支付</x-button>
+    <x-button class="cancel-btn" v-if="orderDetail.statusDescribe === '待付款'" @click.native="cancelOrder">取消订单</x-button>
     <x-button class="confirm-btn" v-if="orderDetail.statusDescribe === '配送中' || orderDetail.statusDescribe==='待收货'" @click.native="Receive">确认收货</x-button>
 
   </div>
@@ -79,6 +80,12 @@
       pay () {
         let that = this
         that.$router.push({path: 'store-pay', query: {...that.product}})
+      },
+      cancelOrder () {
+        this.$api.get('/Order/CustomerDelete?orderId=' + this.product.orderId).then(res => {
+          this.$vux.toast.text('取消成功')
+          this.$router.go(-1)
+        })
       }
     }
   }
@@ -91,7 +98,11 @@
   .order {
     background-color: @B7;
     padding-bottom: 10rem;
-
+    .tip {
+      text-align: center;
+      font-size: .36rem;
+      padding-top: .2rem;
+    }
     .infoBox {
       background-color: #fff;
       padding: .2rem;
@@ -173,7 +184,7 @@
 
     .confirm-btn {
       position: fixed;
-      bottom: 0;
+      bottom: 1rem;
       left: .2rem;
       font-size: .32rem;
       font-family: @FM;
@@ -181,6 +192,17 @@
       color: #FFFFFF !important;
       margin-bottom: .4rem;
       background-color: @C3 !important;
+    }
+    .cancel-btn {
+      position: fixed;
+      bottom: 0;
+      left: .2rem;
+      font-size: .32rem;
+      font-family: @FM;
+      font-weight: 600;
+      color: #FFFFFF !important;
+      margin-bottom: .4rem;
+      background-color: @L2 !important;
     }
   }
 </style>

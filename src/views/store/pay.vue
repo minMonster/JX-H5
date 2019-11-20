@@ -101,23 +101,31 @@
           })
         }
         if (this.current === 2) {
-          this.$api.post('/HouseManage/AppAccountTransfer?orderId=' +
-            this.$route.query.orderId +
-            '&dbName=' +
-            this.$route.query.dbName +
-            '&token=' + auth.getToken()).then(res => {
-            if (res === '') {
-              this.$vux.loading.hide()
-              this.$vux.toast.text('支付失败！')
-            } else {
-              this.jufubaoHtml = res
-              this.$nextTick(() => {
-                let ele = document.createElement('script')
-                ele.innerHTML = 'document.forms[0].submit();'
-                this.$refs.htstr.append(ele)
+          this.$api.get('/Icbc/AppGetOpenAccountStatus').then(res => {
+            if (res.success) {
+              this.$api.post('/HouseManage/AppAccountTransfer?orderId=' +
+                this.$route.query.orderId +
+                '&dbName=' +
+                this.$route.query.dbName +
+                '&token=' + auth.getToken()).then(res => {
+                if (res === '') {
+                  this.$vux.loading.hide()
+                  this.$vux.toast.text('支付失败！')
+                } else {
+                  this.jufubaoHtml = res
+                  this.$nextTick(() => {
+                    let ele = document.createElement('script')
+                    ele.innerHTML = 'document.forms[0].submit();'
+                    this.$refs.htstr.append(ele)
+                  })
+                  this.$vux.loading.hide()
+                }
               })
-              this.$vux.loading.hide()
+            } else {
+              this.$router.push('/wallet')
             }
+          }).catch(() => {
+            this.$router.push('/wallet')
           })
         }
       }

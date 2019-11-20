@@ -64,7 +64,7 @@
     methods: {
       delGoods (shopIndex, itemIndex) {
         this.$vux.loading.show()
-        if(this.selectGood.shop === shopIndex) {
+        if (this.selectGood.shop === shopIndex) {
           let goodsIndex = this.selectGood.goods.indexOf(itemIndex)
           this.selectGood.goods.splice(goodsIndex, 1)
         }
@@ -113,13 +113,13 @@
             i.shoppingItem.forEach(e => {
               e.active = i.active
             })
-            this.$set(this.list, listIndex, this.list[index]);
+            this.$set(this.list, listIndex, this.list[index])
           } else {
             i.active = false
             i.shoppingItem.forEach(e => {
               e.active = false
             })
-            this.$set(this.list, listIndex, i);
+            this.$set(this.list, listIndex, i)
           }
         })
         this.computedMoney()
@@ -136,7 +136,7 @@
           if (!swSelct) {
             this.list[shopIndex].active = false
           }
-          this.$set(this.list, shopIndex, this.list[shopIndex]);
+          this.$set(this.list, shopIndex, this.list[shopIndex])
         } else {
           this.$vux.toast.text('请选择超市')
         }
@@ -261,7 +261,6 @@
         display: flex;
         padding: .2rem;
 
-
         .icon-checkbox {
           padding-top: .6rem;
         }
@@ -281,7 +280,16 @@
 
           .title {
             color: #353535;
-            font-size: .36rem;
+            font-size: .32rem;
+            width: 2.6rem;
+            text-overflow: -o-ellipsis-lastline;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            height: 0.9rem;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
           }
 
           .timer {
