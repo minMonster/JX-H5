@@ -56,39 +56,49 @@
         this.getList(done)
       },
       toDetail (item) {
-        this.$router.push({path: '/store-order', query: {
+        this.$router.push({path: '/store-order',
+          query: {
             goodName: item.shopName,
             goodMoney: item.totalMoney,
             orderId: item.id
           }})
       },
       getList (done) {
-        done(true)
-        let params = {
-          UserId: JSON.parse(sessionStorage.getItem('userInfo')).id,
+        this.$api.get('/UserInfo/GetUserInfo').then(res => {
+          sessionStorage.setItem('userInfo', JSON.stringify(res.data))
+          let params = {
+            UserId: JSON.parse(sessionStorage.getItem('userInfo')).id,
             PageSize: this.pageSize,
             PageIndex: 1
-        }
-        if (this.$route.query.status) {
-          params.status = this.$route.query.status
-          let titles = {
-            UnPay: '待付款',
-            UnReceive: '待收货',
-            AfterSale: '售后',
-            Receive: '已收货',
-            UnDelivery: '代发货'
           }
-          document.title = titles[params.status]
-        } else {
-          document.title = '我的订单'
-        }
-        // status，待付款：UnPay,待发货：UnDelivery,待收货：UnReceive,售后：AfterSale；不传值表示全部。
-        this.$api.get('/Order/List', {
-          params: {
-           ...params
+          if (this.$route.query.status) {
+            params.status = this.$route.query.status
+            let titles = {
+              UnPay: '待付款',
+              UnReceive: '待收货',
+              AfterSale: '售后',
+              Receive: '已收货',
+              UnDelivery: '代发货'
+            }
+            document.title = titles[params.status]
+          } else {
+            document.title = '我的订单'
           }
-        }).then(res => {
-          this.lists = res.data.list
+          // status，待付款：UnPay,待发货：UnDelivery,待收货：UnReceive,售后：AfterSale；不传值表示全部。
+          this.$api.get('/Order/List', {
+            params: {
+              ...params
+            }
+          }).then(res => {
+            this.lists = res.data.list
+            if (done) {
+              done(true)
+            }
+          }).catch(() => {
+            if (done) {
+              done(true)
+            }
+          })
         })
       }
     },
@@ -96,6 +106,9 @@
       this.contentHeight = document.documentElement.clientHeight + 'px'
     },
     created () {
+      this.$api.get('/UserInfo/GetUserInfo').then(res => {
+        sessionStorage.setItem('userInfo', JSON.stringify(res.data))
+      })
     }
   }
 </script>
