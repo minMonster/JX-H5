@@ -90,10 +90,11 @@ export default {
           this.loading = false
         }
       }).catch(err => {
+        this.loading = false
         if (err.code) {
           this.$vux.toast(err.message)
         } else {
-          this.$vux.toast(err)
+          this.$vux.toast(err.message)
         }
       })
     }
