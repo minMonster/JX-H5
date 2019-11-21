@@ -79,6 +79,7 @@ export default {
     getList (done) {
       this.$api.get('/News/List?pageIndex=' + this.pageOptions.pageIndex + '&pageSize=' + this.pageOptions.pageSize + '&classifyId=' + this.pageOptions.id).then(res => {
         this.foods = res.data.list
+        // 注意 done 关闭的话必须传一个 true
         if (done) done(true)
         // document.title = res.data.model.name || '莒e通'
       })
