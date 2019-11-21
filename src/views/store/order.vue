@@ -7,8 +7,9 @@
         <img :src="item.pic" alt="" class="pic">
         <div class="text">
           <div class="name">{{item.name}}</div>
-          <div class="cost">单价：<span class="red">{{item.price}}</span>元</div>
-          <div class="cost">数量：<span class="red">{{item.amount}}</span></div>
+          <div class="cost" v-if="orderDetail.payType==='JF'">所需积分：<span class="red">{{item.score}}</span></div>
+          <div class="cost" v-if="orderDetail.payType!=='JF'">单价：<span class="red">{{item.price}}</span>元</div>
+          <div class="cost" v-if="orderDetail.payType!=='JF'">数量：<span class="red">{{item.amount}}</span></div>
         </div>
       </div>
     </div>
