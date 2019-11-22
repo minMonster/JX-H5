@@ -103,11 +103,11 @@
         if (this.current === 2) {
           this.$api.get('/Icbc/AppGetOpenAccountStatus').then(res => {
             if (res.success) {
-              this.$api.post('/HouseManage/AppAccountTransfer?orderId=' +
-                this.$route.query.orderId +
-                '&dbName=' +
-                this.$route.query.dbName +
-                '&token=' + auth.getToken()).then(res => {
+              this.$api.post('/Pay/Pay/JFB', {
+                'orderId': this.$route.query.orderId,
+                'feeName': this.$route.query.goodName,
+                'feeMoney': this.$route.query.goodMoney
+              }).then(res => {
                 if (res === '') {
                   this.$vux.loading.hide()
                   this.$vux.toast.text('支付失败！')

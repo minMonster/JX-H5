@@ -76,9 +76,9 @@
             let titles = {
               UnPay: '待付款',
               UnReceive: '待收货',
-              AfterSale: '售后',
+              AfterSale: '已收货',
               Receive: '已收货',
-              UnDelivery: '代发货'
+              UnDelivery: '待发货'
             }
             document.title = titles[params.status]
           } else {
