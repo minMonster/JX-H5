@@ -122,9 +122,11 @@
                 }
               })
             } else {
+              this.$vux.loading.hide()
               this.$router.push('/wallet')
             }
           }).catch(() => {
+            this.$vux.loading.hide()
             this.$router.push('/wallet')
           })
         }

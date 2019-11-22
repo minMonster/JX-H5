@@ -53,6 +53,8 @@ export default {
           this.loading = false
           this.getAccountBalance()
         }
+      }).catch(() => {
+        this.loading = false
       })
     },
     getAccountBalance () {
