@@ -1,5 +1,13 @@
 # jx-app h5 端
 
+* author：Monster
+
+* tel: 15075653544
+
+* QQ: 597080722
+
+有疑问可以随时找我
+
 ## 环境
 node + npm
 默认使用最稳定版本 node 就可以
@@ -32,8 +40,30 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-# 上传代码到服务器
-````bash 
-scp -r /d/gz/JX/JX-H5/dist/ root@47.112.201.72:/www/juxian
-scp -r /Users/xuanli/gz/JX-H5/dist/ root@47.112.201.72:/www/juxian
-````
+# 项目架构
+
+cli2.0 + VUX UI库 + axios
+
+# 本机开发
+
+本地开发需要在浏览器 BASE_URL 后面拼接 token
+token 是存在 sessionStorage 里面的
+
+```javascript
+// http://localhost:8081/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3VzZXJkYXRhIjoie1wiVXNlcklEXCI6MTAwMDI3OCxcIk90aGVyVXNlcklEXCI6Mjc4LFwiVXNlclR5cGVcIjpcIlVzZXJcIixcIk5hbWVcIjpcIuKclGVuc29uXCIsXCJsb2dpbk5hbWVcIjpcIjE3NzYzMzA4Mzc3XCJ9IiwibmJmIjoxNTcyOTY3MDM4LCJleHAiOjE1NzMwNTM0Mzh9.e5y1Mkb5gl57mIwBWP2X6BgmViDwFOSTvmxIUCNjZFw
+```
+
+# 与安卓交互操作是通过 jsbridge.js 来 进行交互的
+
+```javascript
+import { setupWebViewJavascriptBridge } from '@/common/jsbridge'
+
+setupWebViewJavascriptBridge((bridge) => {
+  bridge.callHandler('callPhone', {phone: this.detail.phone});
+});
+```
+
+# 安卓需要跳转的路由都注册在 native-route.js
+```javascript
+// src/native-route.js
+```
